@@ -49,15 +49,14 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             <td>
                 <span >
                     <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {item.balance>=0?"+":""}{item.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
+                        {item.balance>=0?"+":""}{item.balance}$
                     </text>
                             </span>
             </td>
             <td>
                 <span >
                     <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {item.totalbalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        }đ
+                        {item.totalbalance}$
                     </text>
                             </span>
             </td>

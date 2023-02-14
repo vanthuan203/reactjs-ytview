@@ -11,14 +11,17 @@ export function AsideMenuMain() {
   const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
   return (
     <>
-      <AsideMenuItem
-        to='/dashboard'
-        icon='/media/icons/duotune/general/gen032.svg'
-        title='Thống kê'
-        fontIcon='bi-app-indicator'
-      />
+        {
+            role === "ROLE_ADMIN" &&       <AsideMenuItem
+                to='/dashboard'
+                icon='/media/icons/duotune/general/gen032.svg'
+                title='Thống kê'
+                fontIcon='bi-app-indicator'
+            />
+        }
+
       {
-        role === "ROLE_ADMIN" && <AsideMenuItem
+        role === "ROLE_ADMIN11" && <AsideMenuItem
           to='/crafted/vps'
           title='Danh sách Vps'
           icon='/media/icons/duotune/ecommerce/ecm009.svg'
@@ -34,7 +37,7 @@ export function AsideMenuMain() {
           />
       }
       {
-          role === "ROLE_ADMIN" && <AsideMenuItem
+          role === "ROLE_ADMIN11" && <AsideMenuItem
               to='/crafted/proxy'
               title='Danh sách Proxy'
               icon='/media/icons/duotune/abstract/abs018.svg'

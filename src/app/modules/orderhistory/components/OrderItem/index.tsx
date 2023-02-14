@@ -46,37 +46,25 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{fontWeight:'bold',fontSize:11,fontFamily:'cursive'}} className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
             </td>
             <td>
+                <span style={{ color:'white',fontSize:11,backgroundColor:"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.orderid}</span>
+            </td>
+            <td>
 
                 <a target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5,color:"white",}} href={'https://www.youtube.com/watch?v=' + item.videoid} className='badge badge-danger'>
                     {item.videoid}
                 </a>
-                {role=="ROLE_ADMIN"&&<span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"red"}}>{format1(Math.round(Number(item.price==null?0:item.price)))}đ</span></span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{(item.optionbuff==10?'10min':item.optionbuff==30?'30':item.optionbuff==60?'60':item.optionbuff==0?'Auto':'120')+'|'+Math.round(Number(item.duration==null?0:item.duration)/60)+'min'}</span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#26695c",marginRight:5,marginBottom:5}} className='badge badge-warning'>{(Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600))+"/"+item.timebuff}</span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-dark'>{(item.viewtotal==null?0:item.viewtotal)}</span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success'>{Math.round((Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600)/item.timebuff*100))+'%'}</span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>{item.viewstart} | {item.viewend==null?'...':item.viewend}</span>
+                <span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"rgba(227,15,25,0.93)"}}>{item.price==null?0:item.price}</span>$</span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order | <span style={{color:"#ffffff"}}>{item.vieworder}</span></span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start | <span style={{color:"black"}}>{item.viewstart}</span></span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total | <span style={{color:"#000000"}}>{item.viewtotal==null?0:item.viewtotal}</span></span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>{Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))+'%'}</span>
+                    {item.viewend!=null&&<span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>End | {item.viewend}</span>}
                     <br/>
-                </span>}
-                {role=="ROLE_USER"&&<span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"red"}}>{format1(Math.round(Number(item.price==null?0:item.price)))}đ</span></span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order | <span style={{color:"#ffffff"}}>{item.timebuff+'h'}</span></span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Buff | <span style={{color:"#000000"}}>{Math.round(Number(item.duration==null?0:item.duration<3600?1800:item.duration<7200?3600:7200)/60)+'min'}</span></span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total | <span style={{color:"#000000"}}>{Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600)+'h'}</span></span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Percent | <span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600)/item.timebuff*100))+'%'}</span></span>
-                    {item.viewend!=null&&<span style={{ color:'white',fontSize:11,backgroundColor:"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Views | <span style={{color:"#fafafa"}}>{item.viewstart}-{item.viewend}</span></span>}
-                    <br/>
-                </span>}
+                </span>
             </td>
             <td >
-                {
-                    item.enabled === 1 ? <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>R</span> :item.enabled === 2 ?
-                        <span style={{color:'white',fontSize:11,backgroundColor:"#26695c"}} className='badge badge-warning'>T1</span>:item.enabled === 3 ?
-                            <span style={{color:'white',fontSize:11,backgroundColor:"#26695c"}} className='badge badge-primary'>T2</span>:
-                            <span style={{color:'white',fontSize:11,backgroundColor:"#26695c"}} className='badge badge-danger'>S</span>
-
-                }
+                <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>R | {item.service}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }

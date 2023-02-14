@@ -31,7 +31,7 @@ const Topbar: FC = () => {
             <div className="pl-2 text-left">
                 <div style={{color:"#26695c",fontWeight:"bold"}}>{user.username.substring(0,15)}...</div>
                 <span style={{color:"#b7080f",fontWeight:"bold"}}  className="font-weight-bold" >{user.role}</span>
-                <div style={{color:"#000000",fontWeight:"bold"}} className="font-weight-bold">{format1(user.balance)}đ</div>
+                <div style={{color:"#000000",fontWeight:"bold"}} className="font-weight-bold">{user.balance}$</div>
             </div>
         </div>
 

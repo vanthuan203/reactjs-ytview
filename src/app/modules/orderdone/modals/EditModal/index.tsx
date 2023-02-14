@@ -59,8 +59,8 @@ const EditModal: React.FC<Props> = ({ item}) => {
             alert("phần trăm xem video không đúng")
             return
         }
-        if (vieworder<parseInt((item.vieworder).toFixed(0))+100) {
-            alert("Số giờ thay đổi phải lớn hơn tổng giờ đã chạy ít nhất 100h! (>="+(item.viewtotal+500).toFixed(0)+"view)")
+        if (vieworder<parseInt((item.vieworder).toFixed(0))+500) {
+            alert("Số giờ thay đổi phải lớn hơn tổng giờ đã chạy ít nhất 100h! (>="+(item.vieworder+500).toFixed(0)+"view)")
             return
         }
 

@@ -26,6 +26,6 @@ export async function resetComputer(computer_name:string) {
 }
 
 export async function getStatics(user:string) {
-  const res:any = await getFunciton("historybuffh/gettimebuff7day?user="+user)
+  const res:any = await getFunciton("historyview/getviewbuff7day?user="+user)
   return res
 }

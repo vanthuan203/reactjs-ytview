@@ -32,9 +32,9 @@ const StaticList: React.FC<Props> = ({ className }) => {
   async function getcounttimeorder(){
     let requestUrl=""
     if(role.indexOf("ROLE_ADMIN")>=0){
-      requestUrl = API_URL+'videobuffh/getcounttimebufforder';
+      requestUrl = API_URL+'videoview/getcountviewbufforder';
     }else{
-      requestUrl = API_URL+'videobuffh/getcounttimebufforder?user='+user;
+      requestUrl = API_URL+'videoview/getcountviewbufforder?user='+user;
     }
 
     const response= await fetch(requestUrl,{
@@ -52,9 +52,9 @@ const StaticList: React.FC<Props> = ({ className }) => {
   async function getcounttimebuffedorder(){
     let requestUrl=""
     if(role.indexOf("ROLE_ADMIN")>=0){
-      requestUrl = API_URL+'videobuffh/getcounttimebuffedorder';
+      requestUrl = API_URL+'videoview/getcountviewbuffedorder';
     }else{
-      requestUrl = API_URL+'videobuffh/getcounttimebuffedorder?user='+user;
+      requestUrl = API_URL+'videoview/getcountviewbuffedorder?user='+user;
     }
     const response= await fetch(requestUrl,{
       method: 'get',
@@ -97,7 +97,7 @@ async function getbyday(){
             <div className="col-lg-8 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Thống kê</span>
               <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((totaltimeorder==null?0:totaltimeorder)*(1+bonus/100))}h | Đã chạy: {format1(totaltimebuffedorder==null?0:totaltimebuffedorder)}h | Còn tồn: {format1(totaltimeorder*(1+bonus/100)-totaltimebuffedorder)}h</span>
+                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((totaltimeorder==null?0:totaltimeorder))} | Đã chạy: {format1(totaltimebuffedorder==null?0:totaltimebuffedorder)} | Còn tồn: {format1(totaltimeorder-totaltimebuffedorder)}</span>
               </p>
             </div>
           </div>
@@ -115,7 +115,6 @@ async function getbyday(){
               <tr>
                 <th className='min-w-30px' style={{fontWeight:"bold",fontSize:12}}>#</th>
                 <th className='min-w-100px'  style={{fontWeight:"bold",fontSize:12}}>Date</th>
-                <th className='min-w-100px'  style={{fontWeight:"bold",fontSize:12}}>Time buff </th>
                 <th className='min-w-100px'  style={{fontWeight:"bold",fontSize:12}}>View buff </th>
 
               </tr>

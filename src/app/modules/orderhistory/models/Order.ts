@@ -1,4 +1,7 @@
 export interface OrderModel {
+  vieworder:number,
+  service:number,
+  orderid:number,
   videoid: string,
   videotitle: string,
   total: number,

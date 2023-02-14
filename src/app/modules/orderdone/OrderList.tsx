@@ -179,7 +179,7 @@ let videos=''
               <span  className='fw-bolder fs-3 mb-1'>Đơn đang chạy</span>
               <span  className='ml-2 fw-bold fs-7'>({totaldordershow} Video)</span>
               <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow)*(1+bonus/100))}h | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}h | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)*(1+bonus/100)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}h</span>
+                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow))} | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}</span>
               </p>
             </div>
 
@@ -368,15 +368,6 @@ let videos=''
         </div>
         <div className="page-header__content">
           <div className="align-items-center row" style={{marginLeft:10,marginRight:10}}>
-            <div style={{width:"100%"}}>
-              <p className="fw-bold c-order__list">
-                <span style={{fontSize:12}}>Giá dịch vụ buffh (tính theo đơn 4000h): <span style={{color:"red"}}>{format1(price*(1-discount/100)+(vip!=1?40000:0))}đ</span> với video dưới 1h | <span style={{color:"red"}}>{format1(price*(1-discount/100)+(vip!=1?20000:0))}đ</span> với video dưới 2h | <span style={{color:"red"}}>{format1(price*(1-discount/100)*1)}đ</span> với video trên 2h |
-                  <span style={{color:"blueviolet"}}> Lưu ý: </span>
-                  Không nhận video có time nhỏ hơn
-                  <span style={{color:"red"}}> 30 phút</span>
-                </span>
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -433,11 +424,11 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -457,11 +448,11 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -477,15 +468,15 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if(Math.round((Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)/order.vieworder*100))>=keyrate&&keyratetrue==1&&keyusertrue==0&&keytrue==0){
+                  }else if(Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate&&keyratetrue==1&&keyusertrue==0&&keytrue==0){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -501,15 +492,15 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 )&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -525,15 +516,15 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0) && Math.round((Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
+                  }else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -549,15 +540,15 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if((order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)/order.vieworder*100))>=keyrate) &&keytrue==0&&keyusertrue==1&&keyratetrue==1){
+                  }else if((order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==0&&keyusertrue==1&&keyratetrue==1){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -574,15 +565,15 @@ let videos=''
                         />
                     )
                   }
-                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
+                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -598,15 +589,15 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
+                  }else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totaltimeorder=order.vieworder+totaltimeorder
-                      totaltimebuffedorder=Math.round(Number(order.vieworder==null?0:order.vieworder)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
                     let orderitem = {
                       id: totaldorder,

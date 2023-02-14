@@ -5,7 +5,7 @@ import {OrderForm, OrderFormManual, OrderModel, OrderPost} from '../models/Order
 
 
 export async function getListOrder(user:string) {
-  const res:any = await getFunciton("videobuffh/getorderbuffhhistory?user="+user)
+  const res:any = await getFunciton("videoview/getorderviewhhistory?user="+user)
   return res
 }
 
