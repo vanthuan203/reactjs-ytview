@@ -1,4 +1,5 @@
 export interface OrderModel {
+  orderid:number,
   videoid: string,
   videotitle: string,
   total: number,
@@ -6,26 +7,16 @@ export interface OrderModel {
   channelid:string,
   viewstart:number,
   viewend:number,
-  enabled: number,
   insertdate: number,
   enddate: number,
-  homerate: number ,
   note: string,
-  directrate:number,
-  timebuff:number,
-  timebuffh24h:number,
   view24h:number,
   viewtotal:number,
-  timebuffhtotal: number,
-  commentrate:number,
-  mobilerate:number,
-  searchrate:number,
-  likerate:number,
-  suggestrate:number,
   duration:number,
-  optionbuff:number
   user:string,
   price:number,
+  service:number,
+  vieworder:number,
   checked?:boolean
 }
 
@@ -35,6 +26,7 @@ export interface OrderModelChecked {
 }
 
 export interface OrderUpdateForm {
+  orderid:number,
   videoid: string,
   videotitle: string,
   total: number,
@@ -42,50 +34,28 @@ export interface OrderUpdateForm {
   channelid:string,
   viewstart:number,
   viewend:number,
-  enabled: number,
   insertdate: number,
   enddate: number,
-  homerate: number ,
   note: string,
-  directrate:number,
-  timebuff:number,
-  timebuffh24h:number,
   view24h:number,
   viewtotal:number,
-  timebuffhtotal: number,
-  commentrate:number,
-  mobilerate:number,
-  searchrate:number,
-  likerate:number,
-  suggestrate:number,
-  optionbuff:number,
+  service:number,
+  vieworder:number,
   user:string
 }
 
 export interface OrderForm {
   videoid:string,
-  homerate: number,
   note: string,
-  directrate: number,
-  //view_need: number,
-  //list_video:string,
-  commentrate: number,
-  mobilerate: number,
-  searchrate: number,
-  enabled: number,
   maxthreads: number,
   viewstart:number,
-  //group_id: number,
-  likerate: number,
-  //comment_list: string,
-  suggestrate: number,
-  //premium_rate: number,
-  //keyword: string
   timebuff:number,
-  optionbuff:number,
+  service:number,
+  vieworder:number,
   user:string
 }
 export interface OrderFormManual {
+  orderid:number,
   videoid:string,
   homerate: number,
   note: string,
@@ -106,6 +76,8 @@ export interface OrderFormManual {
   //keyword: string
   timebuff:number,
   optionbuff:number,
+  service:number,
+  vieworder:number,
   user:string
 }
 

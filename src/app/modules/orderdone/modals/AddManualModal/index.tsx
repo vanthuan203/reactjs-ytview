@@ -35,21 +35,9 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
     const dispatch = useDispatch()
     const [maxthreads, setMaxthreads] = useState(50)
     const [videoid, setVideoid] = useState("")
-    const [homerate,setHome_rate]=useState(0)
-    //
-    const [searchrate,setSearch_rate]=useState(80)
-    const [suggestrate,setSuggest_rate]=useState(0)
-    const [directrate,setDirect_rate]=useState(20)
-    //
-    const [likerate,setLike_rate]=useState(25)
-    const [commentrate,setComment_rate]=useState(25)
-    const [mobilerate,setMobile_rate]=useState(0)
-    //
+    const [service, setService] = useState(50)
     const [note, setNote] = useState("")
-    const [viewstart, setViewstart] = useState(0)
-    const [timebuff, setTimebuff] = useState(4000)
-    const [optionbuff, setOptionbuff] = useState(0)
-    const [enabled,setEnabled]=useState(1)
+    const [vieworder, setVieworder] = useState(1000)
     const [user,setUser]=useState(username)
     const [showorder,setShowOrder]=useState(true)
     const [orderdonenum,setOrderDoneNum]=useState(0)
@@ -86,9 +74,9 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
         setOrderDoneNum(0)
     }
     async function order_video_ver2(video: string) {
-            await addorderv2(video, homerate, note, directrate, commentrate, mobilerate, searchrate, enabled, maxthreads, viewstart, likerate, suggestrate, timebuff, optionbuff, user)
+            await addorderv2(video,note,maxthreads,vieworder,service,user)
                 .then((data: any) => {
-                    if (data.data.videobuffh == "true") {
+                    if (data.data.videoview == "true") {
                         setOrderDoneNum(orderdonenum + 1)
                         let orderitem = {
                             id: randomString(10),
@@ -100,7 +88,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
 
                         sumprice = sumprice + data.data.price
                         setSumPrice(sumprice)
-                        sumtime = sumtime + timebuff;
+                        sumtime = sumtime + vieworder;
                         setSumTime(sumtime)
                         sumorder = sumorder + 1
                         setSumOrder(sumorder)
@@ -112,7 +100,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                             id: randomString(10),
                             videoid: video,
                             time: 0,
-                            state: data.data.videobuffh,
+                            state: data.data.videoview,
                             price: 0
                         }
                         setList_Todo([...list_order, orderitem])
@@ -141,15 +129,11 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
             return
         }
 
-        if (timebuff < 100) {
+        if (vieworder < 100) {
             alert("Số giờ phải lớn hơn 100!")
             return
         }
 
-        if (homerate + searchrate + suggestrate + directrate != 100) {
-            alert("Tổng nguồn view không đúng!")
-            return
-        }
         setShowOrder(false)
         const videoidlist = videoid.split('\n')
         for (var i = 0; i < videoidlist.length; i++) {
@@ -170,7 +154,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header" style={{display: showorder == true ? "true" : "true"}}>
-                    <h5 className="modal-title">{showorder==true?'Thêm nhiệm vụ với danh sách VideoId':'Thành công: '+sumorder+' | Giờ: '+format1(sumtime)+'h | Giá: '+format1(sumprice)+'đ'}</h5>
+                    <h5 className="modal-title">{showorder==true?'Thêm nhiệm vụ với danh sách VideoId':'Thành công: '+sumorder+' | view: '+format1(sumtime)+' | Giá: '+format1(sumprice)+'$'}</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>
@@ -185,131 +169,24 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                 id="list_id"
                                 name="list_id"
                                 className="form-control form-control-solid"
-                                placeholder={"1 VideoId một dòng!"}
+                                placeholder={"Link video cần buff"}
                                 value={videoid}
                                 type={"textarea"}
                                 onChange={(e) => setVideoid(e.target.value)}
                             />
                         </FormGroup>
-
-                        {role==="Ver2"&&<p>Nguồn view tổng = 100%</p>}
-                        {role==="Ver2"&&<div className='flex flex-row justify-between space-x-3'>
-                            <FormGroup >
-                                <Label for="exampleEmail" className="required form-label">
-                                    Home 
-                                </Label>
-                                <Input
-                                    id="home_rate"
-                                    name="home_rate"
-                                    value={homerate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setHome_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Search
-                                </Label>
-                                <Input //disabled={role === "ROLE_ADMIN" ? false : true}
-                                    id="search_rate"
-                                    name="search_rate"
-                                    value={searchrate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setSearch_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Suggest
-                                </Label>
-                                <Input
-                                    id="suggest_rate"
-                                    name="suggest_rate"
-                                    value={suggestrate}
-                                    onChange={(e) => setSuggest_rate(parseInt(e.target.value))}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Direct
-                                </Label>
-                                <Input
-                                    id="direct_rate"
-                                    name="direct_rate"
-                                    value={directrate}
-                                    //disabled={role === "ROLE_ADMIN" ? false : true}
-                                    onChange={(e) => setDirect_rate(parseInt(e.target.value))}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    type="number"
-                                />
-                            </FormGroup>
-                        </div>}
-                        {role==="Ver2"&&<p>Cài đặt tương tác</p>}
-                        {role==="Ver2"&&<div className='flex flex-row justify-between space-x-3'>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Like
-                                </Label>
-                                <Input
-                                    id="like_rate"
-                                    name="like_rate"
-                                    value={likerate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setLike_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Comment
-                                </Label>
-                                <Input //disabled={role === "ROLE_ADMIN" ? false : true}
-                                    id="comment_rate"
-                                    name="comment_rate"
-                                    value={commentrate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setComment_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Mobile
-                                </Label>
-                                <Input //disabled={role === "ROLE_ADMIN" ? false : true}
-                                    id="mobilerate"
-                                    name="mobilerate"
-                                    value={mobilerate}
-                                    className="form-control form-control-solid"
-                                    onChange={(e) => setMobile_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-
-
-                        </div>}
                         <div>
                             <FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
-                                    Time(h)
+                                    Views Order
                                 </Label>
                                 <Input
-                                    id="timebuffh"
-                                    name="timebuffh"
-                                    value={timebuff}
+                                    id="vieworder"
+                                    name="vieworder"
+                                    value={vieworder}
                                     className="form-control form-control-solid"
                                     placeholder="ví dụ : 100"
-                                    onChange={(e) => setTimebuff(parseInt(e.target.value))}
+                                    onChange={(e) => setVieworder(parseInt(e.target.value))}
                                     type="number"
                                 />
                             </FormGroup>
@@ -327,6 +204,20 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                     type="text"
                                 />
                             </FormGroup>
+                            <FormGroup>
+                                <Label for="exampleEmail" >
+                                    Dịch vụ
+                                </Label>
+                                <Input
+                                    id="service"
+                                    name="service"
+                                    value={service}
+                                    className="form-control form-control-solid"
+                                    placeholder="..."
+                                    onChange={(e) => setService(parseInt(e.target.value))}
+                                    type="number"
+                                />
+                            </FormGroup>
                             {role === "ROLE_ADMIN" &&<FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
                                     Luồng
@@ -342,91 +233,6 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                 />
                             </FormGroup>}
                         </div>
-                        {role==="Ver2"&&<FormGroup>
-                            <Label for="exampleEmail" className="required form-label">
-                                Chế độ buff
-                            </Label>
-                            <Input //disabled={role === "ROLE_ADMIN" ? false : true}
-                                onChange={(e) => setOptionbuff(parseInt(e.target.value))}
-                                className="form-control form-control-solid"
-                                type="select"
-                                value={optionbuff}
-                            >
-                                <option key={10} value={10}>
-                                    {"10 phút"}
-                                </option>
-                                <option key={30} value={30}>
-                                    {"30 phút"}
-                                </option>
-                                <option key={60} value={60}>
-                                    {"60 phút"}
-                                </option>
-                                <option key={120} value={120}>
-                                    {"120 phút"}
-                                </option>
-                                <option key={0} value={0}>
-                                    {"Auto"}
-                                </option>
-                            </Input>
-
-                        </FormGroup>}
-                        {role==="ROLE_ADMIN"&&<FormGroup>
-                            <Label for="exampleEmail" className="required form-label">
-                                Trạng thái
-                            </Label>
-                            <Input disabled={role === "ROLE_ADMIN" ? false : true}
-                                onChange={(e) => setEnabled(parseInt(e.target.value))}
-                                className="form-control form-control-solid"
-                                type="select"
-                                value={enabled}
-                            >
-                                <option key={1} value={1}>
-                                    {"Chạy"}
-                                </option>
-                                <option key={2} value={2}>
-                                    {"Test1-Vt-Off-Seach"}
-                                </option>
-                                <option key={3} value={3}>
-                                    {"Test2-Vt-Off-Direct"}
-                                </option>
-                                <option key={4} value={4}>
-                                    {"Test3-Vt-On-Seach"}
-                                </option>
-                                <option key={5} value={5}>
-                                    {"Test4-Vt-On-Direct"}
-                                </option>
-                                <option key={6} value={6}>
-                                    {"Test5-Hc-Off-Seach"}
-                                </option>
-                                <option key={7} value={7}>
-                                    {"Test6-Hc-Off-Direct"}
-                                </option>
-                                <option key={8} value={8}>
-                                    {"Test7-Hc-On-5p"}
-                                </option>
-                                <option key={9} value={9}>
-                                    {"Test8-Vt-Gmail6-Off-Bas2"}
-                                </option>
-                                <option key={10} value={10}>
-                                    {"Test9-Vt-Gmail6-Off-Bas1"}
-                                </option>
-                                <option key={11} value={11}>
-                                    {"Test10-Vt-Gmail2-On-Bas2"}
-                                </option>
-                                <option key={12} value={12}>
-                                    {"Test11-Vt-Gmail2-On-Bas1"}
-                                </option>
-                                <option key={13} value={13}>
-                                    {"Test12-Vt-Domain2-On-Bas2"}
-                                </option>
-                                <option key={14} value={14}>
-                                    {"Test13-Vt-Domain2-On-Bas1"}
-                                </option>
-                                <option key={0} value={0}>
-                                    {"Ngừng"}
-                                </option>
-                            </Input>
-                        </FormGroup>}
                     </Form>
                 </div>
                 <div className="modal-body">
@@ -454,7 +260,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                                 <div style={{color:item.state.indexOf('OK')>=0?'green':'red'}} className="col-3 d-flex align-items-center">{item.state}</div>
                                                 <div className="col-1 d-flex align-items-center">{item.time}m</div>
                                                 <div className="col-2 d-flex justify-content-end align-items-center">
-                                                    {format1(item.price)}đ
+                                                    {item.price}$
                                                 </div>
                                             </div>
                                         </li>

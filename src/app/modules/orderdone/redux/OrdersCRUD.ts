@@ -5,67 +5,49 @@ import {OrderForm, OrderFormManual, OrderModel, OrderPost,} from '../models/Orde
 
 
 export async function getListOrder(user:string) {
-  const res:any = await getFunciton("videobuffh/getorderbuffh?user="+user)
+  const res:any = await getFunciton("videoview/getorderview?user="+user)
   return res
 }
 
 export async function getOrderFilter(key:string,user:string) {
-  const res:any = await getFunciton("videobuffh/getorderfilterbuffh?key="+key+'&user='+user)
+  const res:any = await getFunciton("videoview/getorderfilterbuffh?key="+key+'&user='+user)
   return res
 }
 
 export async function getOrderPercentFilter(key:number,user:string) {
-  const res:any = await getFunciton("videobuffh/getorderbypercentbuffh?key="+key+"&user="+user)
+  const res:any = await getFunciton("videoview/getorderbypercentbuffh?key="+key+"&user="+user)
   return res
 }
 export async function addorderv2( videoid:string,
-                                  homerate:number,
                                   note:string,
-                                  directrate:number,
-                                  commentrate:number,
-                                  mobilerate:number,
-                                  searchrate:number,
-                                  enabled:number,
                                   maxthreads:number,
-                                  viewstart:number,
-                                  likerate:number,
-                                  suggestrate:number,
-                                  timebuff:number,
-                                  optionbuff:number,
+                                  vieworder:number,
+                                  service:number,
                                   user:string) {
-  const res = await postWithoutTokenFunciton("videobuffh/orderbuffh", {
+  const res = await postWithoutTokenFunciton("videoview/orderview", {
     videoid:videoid,
-    homerate:homerate,
-    note:note,
-    directrate:directrate,
-    commentrate:commentrate,
-    mobilerate:mobilerate,
-    searchrate:searchrate,
-    enabled:enabled,
     maxthreads:maxthreads,
-    viewstart:viewstart,
-    likerate:likerate,
-    suggestrate:suggestrate,
-    timebuff:timebuff,
-    optionbuff:optionbuff,
-    user:user
+    vieworder:vieworder,
+    note:note,
+    user:user,
+    service:service
   })
   return res
 }
 
 export async function bhorderv2( videoid:string) {
-  const res = await postWithoutTokenFunciton("videobuffh/bhbuffh", {
+  const res = await postWithoutTokenFunciton("videoview/bhbuffh", {
     videoid:videoid
   })
   return res
 }
 
 export async function updateOrder(order:OrderModel) {
-  const res:any = await postWithoutTokenFunciton("videobuffh/update",order)
+  const res:any = await postWithoutTokenFunciton("videoview/update",order)
   return res
 }
 export async function updateThread(order:OrderModel) {
-  const res:any = await postWithoutTokenFunciton("videobuffh/updatethread",order)
+  const res:any = await postWithoutTokenFunciton("videoview/updatethread",order)
   return res
 }
 
@@ -74,7 +56,7 @@ export async function addOrder(order:OrderForm) {
   return res
 }
 export async function addOrderManual(order:OrderFormManual) {
-  const res:any = await postWithoutTokenFunciton("videobuffh/orderbuffh",order)
+  const res:any = await postWithoutTokenFunciton("videoview/orderbuffh",order)
   return res
 }
 
@@ -87,6 +69,6 @@ export async function addOrderMulti(order:OrderPost) {
 
 
 export async function deleteChannel(videoid:string,cancel:number) {
-  const res:any = await deleteFunciton("/videobuffh/delete?videoid="+videoid+'&cancel='+cancel)
+  const res:any = await deleteFunciton("/videoview/delete?videoid="+videoid+'&cancel='+cancel)
   return res
 }

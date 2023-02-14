@@ -179,8 +179,8 @@ export const reducer = persistReducer(
       }
       case actionTypes.UpdateSuccess: {
         const remaporders = state.orders.map((item: OrderModel) => {
-          if (item.videoid === action.payload?.videobuff?.videoid) {
-            return action.payload?.videobuff
+          if (item.videoid === action.payload?.videoview?.videoid) {
+            return action.payload?.videoview
           } else {
             return item
           }
@@ -194,7 +194,7 @@ export const reducer = persistReducer(
       }
       case actionTypes.UpdateMultiSuccess: {
         const remaporders = state.orders.map((item: OrderModel) => {
-          const findItem = action.payload?.videobuff.find((_item:OrderModel)=>{
+          const findItem = action.payload?.videoview.find((_item:OrderModel)=>{
             if(_item.videoid===item.videoid){
               return true
             }
@@ -318,10 +318,10 @@ export const actions = {
   addOrderSuccess: (order: OrderModel) => ({ type: actionTypes.AddOrderSuccess, payload: { order } }),
   addOrdersSuccess: (orders: OrderModel[]) => ({ type: actionTypes.AddOrdersSuccess, payload: { orders } }),
   addOrderFail: (message: string) => ({ type: actionTypes.AddOrderFail, payload: { message } }),
-  requestUpdate: (videobuff: OrderUpdateForm) => ({ type: actionTypes.RequestUpdate, payload: { videobuff } }),
-  requestUpdateThread: (videobuff: OrderUpdateForm) => ({ type: actionTypes.RequestUpdateThread, payload: { videobuff } }),
-  updateSuccess: (videobuff: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videobuff } }),
-  updateMultiSuccess: (videobuff: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videobuff } }),
+  requestUpdate: (videoview: OrderUpdateForm) => ({ type: actionTypes.RequestUpdate, payload: { videoview } }),
+  requestUpdateThread: (videoview: OrderUpdateForm) => ({ type: actionTypes.RequestUpdateThread, payload: { videoview } }),
+  updateSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videoview } }),
+  updateMultiSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videoview } }),
   updateFail: (message: string) => ({ type: actionTypes.UpdateFail, payload: { message } }),
   showcurrentOrder: (currentOrder: OrderModel) => ({ type: actionTypes.ShowcurrentOrder, payload: { currentOrder } }),
   clearcurrentOrder: () => ({ type: actionTypes.ClearSelected }),
@@ -342,18 +342,18 @@ export function* saga() {
   yield takeLatest(actionTypes.RequestOrders, function* userRequested(param: any) {
     const payload = param.payload.user
     const { data: orders } = yield getListOrder(payload)
-    yield put(actions.fulfillorders(orders.videobuff))
+    yield put(actions.fulfillorders(orders.videoview))
   })
   yield takeLatest(actionTypes.ShowOrdersFilter, function* userRequestedd(param: any) {
     const payload = param.payload
     const { data: orders } = yield getOrderFilter(payload.key,payload.user)
-    yield put(actions.fulfillorders(orders.videobuff))
+    yield put(actions.fulfillorders(orders.videoview))
   })
 
   yield takeLatest(actionTypes.ShowOrdersPercentFilter, function* userRequestedd(param: any) {
     const payload = param.payload
     const { data: orders } = yield getOrderPercentFilter(payload.key,payload.user)
-    yield put(actions.fulfillorders(orders.videobuff))
+    yield put(actions.fulfillorders(orders.videoview))
   })
 
 
@@ -365,9 +365,9 @@ export function* saga() {
 
 
   yield takeLatest(actionTypes.RequestUpdate, function* updateUserRequested(param: any) {
-    const { data: result } = yield updateOrder(param.payload.videobuff)
-    if (result && result.videobuff) {
-      yield put(actions.updateMultiSuccess(result.videobuff))
+    const { data: result } = yield updateOrder(param.payload.videoview)
+    if (result && result.videoview) {
+      yield put(actions.updateMultiSuccess(result.videoview))
     } else {
       alert(result.message)
       yield put(actions.addOrderFail(result.message))
@@ -376,9 +376,9 @@ export function* saga() {
   })
 
   yield takeLatest(actionTypes.RequestUpdateThread, function* updateUserRequested(param: any) {
-    const { data: result } = yield updateThread(param.payload.videobuff)
-    if (result && result.videobuff) {
-      yield put(actions.updateMultiSuccess(result.videobuff))
+    const { data: result } = yield updateThread(param.payload.videoview)
+    if (result && result.videoview) {
+      yield put(actions.updateMultiSuccess(result.videoview))
     } else {
       alert(result.message)
       yield put(actions.addOrderFail(result.message))
@@ -390,8 +390,8 @@ export function* saga() {
     const payload = param.payload.data
     try {
         const { data: result } = yield addOrderManual(payload)
-        if (result && (result.videobuff)) {
-            yield put(actions.addOrderSuccess(result.videobuff))
+        if (result && (result.videoview)) {
+            yield put(actions.addOrderSuccess(result.videoview))
         } else {
           yield put(actions.addOrderFail(result.message))
         }
@@ -424,8 +424,8 @@ export function* saga() {
     const payload = param.payload.data
     try {
         const { data: result } = yield updateOrder(payload)
-        if (result && result.videobuff) {
-          yield put(actions.updateMultiSuccess(result.videobuff))
+        if (result && result.videoview) {
+          yield put(actions.updateMultiSuccess(result.videoview))
         } else {
           yield put(actions.addOrderFail(result.message))
         } 
@@ -438,8 +438,8 @@ export function* saga() {
     const payload = param.payload.data
     try {
       const { data: result } = yield updateThread(payload)
-      if (result && result.videobuff) {
-        yield put(actions.updateMultiSuccess(result.videobuff))
+      if (result && result.videoview) {
+        yield put(actions.updateMultiSuccess(result.videoview))
       } else {
         yield put(actions.addOrderFail(result.message))
       }
@@ -452,7 +452,7 @@ export function* saga() {
     try {
       const payload = param.payload
       const { data: result } = yield deleteChannel(payload.videoid,payload.cancel)
-      if (result&&result.videobuffh!==null) {
+      if (result&&result.videoview!==null) {
         yield put(actions.deleteOrderSuccess(payload.videoid,payload.cancel))
       } else {
 

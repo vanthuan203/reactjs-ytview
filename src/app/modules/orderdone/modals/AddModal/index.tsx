@@ -37,9 +37,9 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
   const [suggestrate,setSuggest_rate]=useState(0)
   const [directrate,setDirect_rate]=useState(20)
   //
-  const [likerate,setLike_rate]=useState(25)
+  const [vieworder,setvieworder]=useState(1000)
   const [commentrate,setComment_rate]=useState(25)
-  const [mobilerate,setMobile_rate]=useState(0)
+  const [service,setservice]=useState(0)
   const [optionbuff, setOptionbuff] = useState(10)
   const [note, setNote] = useState("")
   const [viewstart, setViewstart] = useState(0)
@@ -69,20 +69,13 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
       return
     }
     dispatch(actions.addOrderRequest({
+      vieworder,
+      service,
       videoid,
-      homerate,
       note,
-      directrate,
-      commentrate,
-      mobilerate,
-      searchrate,
-      enabled,
       maxthreads,
       viewstart,
-      likerate,
-      suggestrate,
       timebuff,
-      optionbuff,
       user
     }))
 
@@ -184,20 +177,6 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
               </div>
               <p>Cài đặt tương tác</p>
               <div className='flex flex-row justify-between space-x-3'>
-                <FormGroup>
-                  <Label for="exampleEmail" className="required form-label">
-                    Tỉ lệ Like
-                  </Label>
-                  <Input
-                      id="like_rate"
-                      name="like_rate"
-                      value={likerate}
-                      className="form-control form-control-solid"
-                      placeholder="ví dụ : 1000"
-                      onChange={(e) => setLike_rate(parseInt(e.target.value))}
-                      type="number"
-                  />
-                </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail" className="required form-label">
                     Tỉ lệ comment

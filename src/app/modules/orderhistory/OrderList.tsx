@@ -88,7 +88,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumtimedone=0;
   let sumorder=0;
   orders.forEach(item=>{
-    sumtimedone=sumtimedone+Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600)
+    sumtimedone=sumtimedone+Math.round(Number(item.viewtotal==null?0:item.viewtotal))
     sumorder=sumorder+1;
   })
   const [list_user,setList_User]=useState([{
