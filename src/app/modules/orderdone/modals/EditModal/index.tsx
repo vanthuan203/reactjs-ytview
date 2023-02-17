@@ -55,20 +55,15 @@ const EditModal: React.FC<Props> = ({ item}) => {
     let [timebuff_old,setTimebuff_Old]=useState(0);
     const submit = () => {
 
-        if(view_percent>1000000||view_percent<0){
-            alert("phần trăm xem video không đúng")
+        if (vieworder<parseInt((item.viewtotal).toFixed(0))+100) {
+            alert("Số giờ thay đổi phải lớn hơn tổng giờ đã chạy ít nhất 100h! (>="+(item.vieworder+100).toFixed(0)+"view)")
             return
         }
-        if (vieworder<parseInt((item.vieworder).toFixed(0))+500) {
-            alert("Số giờ thay đổi phải lớn hơn tổng giờ đã chạy ít nhất 100h! (>="+(item.vieworder+500).toFixed(0)+"view)")
-            return
-        }
-
         dispatch(actions.requestUpdate({
             ...item,
             note,
             maxthreads,
-            viewstart,
+            vieworder,
             user
         }))
      
@@ -79,18 +74,18 @@ const EditModal: React.FC<Props> = ({ item}) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title">Update {item.videoid} | Đã chạy {format1((item.viewtotal==null?0:item.viewtotal)/3600)}h</h5>
+                    <h5 className="modal-title">Update {item.videoid} | Đã chạy {format1((item.viewtotal==null?0:item.viewtotal))}</h5>
                 </div>
                 <div className="modal-body">
                     <Form>
                         <div>
                             <FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
-                                    Time(h)
+                                    View order
                                 </Label>
                                 <Input
-                                    id="mobile_rate"
-                                    name="mobile_rate"
+                                    id="vieworder"
+                                    name="vieworder"
                                     value={vieworder}
                                     className="form-control form-control-solid"
                                     onChange={(e) => setvieworder(parseInt(e.target.value)
@@ -128,6 +123,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
                         </div>
                     </Form>
                 </div>
+                {role=="adc"&&
                 <div className="modal-body">
                     <div className="card-body" style={{width: "100%"}}>
                         {/* begin::Table container */}
@@ -136,7 +132,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
                             <br/>
                         {/* end::Table container */}
                     </div>
-                </div>
+                </div>}
                 <div className="modal-footer">
                     <button type="button" onClick={dismissModal} className="btn btn-light" >Thoát</button>
                     <button  type="button"  onClick={submit} style={{backgroundColor:"#26695c",color:"white"}} className="btn">Lưu</button>

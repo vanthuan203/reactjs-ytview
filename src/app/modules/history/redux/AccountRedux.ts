@@ -155,7 +155,7 @@ export function* saga() {
     const payload = param.payload.user
     const {data: resutl} = yield getStatics(payload)
     console.log(resutl)
-    yield put(actions.fulfillStatics(resutl.time7day))
+    yield put(actions.fulfillStatics(resutl.view7day))
   })
   yield takeLatest(actionTypes.DeleteIpv4Request, function* DeleteIpv4Request(param: any) {
     try {

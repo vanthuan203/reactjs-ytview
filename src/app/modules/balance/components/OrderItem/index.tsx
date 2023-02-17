@@ -49,14 +49,14 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             <td>
                 <span >
                     <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {item.balance>=0?"+":""}{item.balance}$
+                        {item.balance>=0?"+":""}{item.balance.toFixed(3)}$
                     </text>
                             </span>
             </td>
             <td>
                 <span >
                     <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {item.totalbalance}$
+                        {item.totalbalance.toFixed(3)}$
                     </text>
                             </span>
             </td>

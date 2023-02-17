@@ -62,6 +62,12 @@ export function AsideMenuMain() {
             icon='/media/icons/duotune/finance/fin002.svg'
             fontIcon='bi-app-indicator'
         />
+        <AsideMenuItem
+            to='/crafted/service'
+            title='Danh sách dịch vụ'
+            icon='/media/icons/duotune/general/gen025.svg'
+            fontIcon='bi-app-indicator'
+        />
         {
             role === "ROLE_ADMIN" && <AsideMenuItem
                 to='/crafted/setting'

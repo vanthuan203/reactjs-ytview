@@ -21,24 +21,12 @@ const HistoryItem: React.FC<Props> = ({ item, index }) => {
                 </div>
             </td>
             <td>
-
-                <div   className='progress h-20px w-300px'>
+                <div   className='progress h-20px w-500px'>
                     <div
 
                         className='progress-bar bg-active-warning'
                         role='progressbar'
-                        style={{width:(item.time/item.maxtime)*300,fontWeight:"bold",color:"yellow",backgroundColor:"#26695c"}}
-                    >{item.time}</div>
-                </div>
-
-            </td>
-            <td>
-                <div   className='progress h-20px w-300px'>
-                    <div
-
-                        className='progress-bar bg-active-warning'
-                        role='progressbar'
-                        style={{width:(item.view/item.maxview)*300,fontWeight:"bold",color:"white",backgroundColor:"#a83939"}}
+                        style={{width:(item.view/item.maxview)*500,fontWeight:"bold",color:"white",backgroundColor:"#a83939"}}
                     >{item.view}</div>
                 </div>
 

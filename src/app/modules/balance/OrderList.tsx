@@ -177,8 +177,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               <span  className='ml-2 fw-bold fs-7'>({useEff<=1?sumorder:totaldordershow} giao dịch)</span>
               <p className="fw-bold c-order__list">
                 <span style={{fontSize:12,marginTop:5}}>
-                  Tiền vào: <span style={{color:"red"}}> {totaladdshow}</span>$ | Tiền chi: <span style={{color:"red"}}>{(-totalsubshow)}</span>$
-                  | {totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} <span style={{color:"red"}}>{totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)):(-totalsubshow-totaladdshow)}</span>$
+                  Tiền vào: <span style={{color:"red"}}> {totaladdshow.toFixed(3)}</span>$ | Tiền chi: <span style={{color:"red"}}>{(-totalsubshow.toFixed(3))}</span>$
+                  | {totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} <span style={{color:"red"}}>{totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}</span>$
                 </span>
 
               </p>

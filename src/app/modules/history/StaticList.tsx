@@ -45,8 +45,8 @@ const StaticList: React.FC<Props> = ({ className }) => {
       })
     });
     const responseJson= await  response.json();
-    const {totaltimeorder}=responseJson;
-    setTotalTimeOrder(totaltimeorder);
+    const {totalvieworder}=responseJson;
+    setTotalTimeOrder(totalvieworder);
   }
 
   async function getcounttimebuffedorder(){
@@ -64,8 +64,8 @@ const StaticList: React.FC<Props> = ({ className }) => {
       })
     });
     const responseJson= await  response.json();
-    const {totaltimebuffedorder}=responseJson;
-    setTotalTimeBuffedOrder(totaltimebuffedorder);
+    const {totalviewbuffedorder}=responseJson;
+    setTotalTimeBuffedOrder(totalviewbuffedorder);
   }
 async function getbyday(){
   if(role.indexOf("ROLE_ADMIN")>=0){
@@ -97,6 +97,7 @@ async function getbyday(){
             <div className="col-lg-8 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Thống kê</span>
               <p className="fw-bold c-order__list">
+                {console.log(totaltimeorder)}
                 <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((totaltimeorder==null?0:totaltimeorder))} | Đã chạy: {format1(totaltimebuffedorder==null?0:totaltimebuffedorder)} | Còn tồn: {format1(totaltimeorder-totaltimebuffedorder)}</span>
               </p>
             </div>

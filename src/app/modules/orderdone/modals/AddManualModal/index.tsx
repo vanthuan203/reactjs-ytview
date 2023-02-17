@@ -25,7 +25,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
     const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
     const groups: Group[] = useSelector<RootState>(({ orderdone }) => orderdone.groups, shallowEqual) as Group[] || []
-
+    const API_URL = process.env.REACT_APP_API_URL
     function format1(n:number) {
         return n.toFixed(0).replace(/./g, function(c, i, a) {
             return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
@@ -35,7 +35,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
     const dispatch = useDispatch()
     const [maxthreads, setMaxthreads] = useState(50)
     const [videoid, setVideoid] = useState("")
-    const [service, setService] = useState(50)
+    const [service, setService] = useState(666)
     const [note, setNote] = useState("")
     const [vieworder, setVieworder] = useState(1000)
     const [user,setUser]=useState(username)
@@ -49,6 +49,33 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
         price:0
 
     },])
+    const [list_service,setList_Service]=useState([{
+        id:"000",
+        user:"All Service"
+    },])
+
+
+    async function getcounttimeorder() {
+        let  requestUrl = API_URL+'servive/getallservice';
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {user} = responseJson;
+        let arrlist =user.split(',');
+        for(var i=0;i<arrlist.length;i++){
+            let orderitem = {
+                id: arrlist[i].split('|')[0],
+                user: arrlist[i]
+            }
+            setList_Service([...list_service, orderitem])
+            list_service.push(orderitem)
+        }
+    }
     let [sumprice,setSumPrice]=useState(0)
     let [sumtime,setSumTime]=useState(0)
     let [sumorder,setSumOrder]=useState(0)
@@ -144,6 +171,8 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
     }
 
     useEffect(() => {
+        getcounttimeorder()
+        console.log(list_service)
         if (!adding) {
             close()
         }
@@ -180,7 +209,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                 <Label for="exampleEmail" className="required form-label">
                                     Views Order
                                 </Label>
-                                <Input
+                                <Input style={{fontWeight:"bold"}}
                                     id="vieworder"
                                     name="vieworder"
                                     value={vieworder}
@@ -190,6 +219,40 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                     type="number"
                                 />
                             </FormGroup>
+                            <FormGroup>
+                                <Label for="exampleEmail"  className="required form-label">
+                                    Dịch vụ
+                                </Label>
+                                <Input style={{fontWeight:"bold"}}
+                                    onChange={(e) => setService(parseInt(e.target.value))}
+                                    className="form-control form-control-solid"
+                                    type="select"
+                                    value={service}
+                                >
+                                    {
+                                        list_service.map((item, index) => {
+                                            if(item.id!='000')
+                                            return(
+                                                <option key={item.id} value={item.id}>
+                                                    {item.user}</option>)
+                                        })
+                                    }
+                                </Input>
+                            </FormGroup>
+                            {role === "ROLE_ADMIN" &&<FormGroup>
+                                <Label for="exampleEmail" className="required form-label">
+                                    Luồng
+                                </Label>
+                                <Input style={{fontWeight:"bold"}}
+                                    id="max_thread"
+                                    name="max_thread"
+                                    value={maxthreads}
+                                    className="form-control form-control-solid"
+                                    placeholder="ví dụ : 1000"
+                                    onChange={(e) => setMaxthreads(parseInt(e.target.value))}
+                                    type="number"
+                                />
+                            </FormGroup>}
                             <FormGroup>
                                 <Label for="exampleEmail" >
                                     Ghi chú
@@ -204,34 +267,6 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                     type="text"
                                 />
                             </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" >
-                                    Dịch vụ
-                                </Label>
-                                <Input
-                                    id="service"
-                                    name="service"
-                                    value={service}
-                                    className="form-control form-control-solid"
-                                    placeholder="..."
-                                    onChange={(e) => setService(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            {role === "ROLE_ADMIN" &&<FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Luồng
-                                </Label>
-                                <Input
-                                    id="max_thread"
-                                    name="max_thread"
-                                    value={maxthreads}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setMaxthreads(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>}
                         </div>
                     </Form>
                 </div>
@@ -260,7 +295,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                                 <div style={{color:item.state.indexOf('OK')>=0?'green':'red'}} className="col-3 d-flex align-items-center">{item.state}</div>
                                                 <div className="col-1 d-flex align-items-center">{item.time}m</div>
                                                 <div className="col-2 d-flex justify-content-end align-items-center">
-                                                    {item.price}$
+                                                    {item.price.toFixed(3)}$
                                                 </div>
                                             </div>
                                         </li>
