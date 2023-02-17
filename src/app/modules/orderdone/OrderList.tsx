@@ -506,7 +506,7 @@ let videos=''
                             item={order}
                         />
                     )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key) >=0 || order.service.toString().indexOf(key.indexOf('s')>=0?key.replace('s',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder

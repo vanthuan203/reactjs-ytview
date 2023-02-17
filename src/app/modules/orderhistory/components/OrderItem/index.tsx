@@ -72,6 +72,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             <td>
                 {
                     item.cancel === 0 ? <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>D</span> :
+                        item.cancel === 2 ? <span style={{color:'white',fontSize:11,backgroundColor:"#dc7a30"}} className='badge badge-success'>P</span> :
                         <span style={{color:'white',fontSize:11,backgroundColor:"#b7080f"}} className='badge badge-danger'>C</span>
 
                 }
