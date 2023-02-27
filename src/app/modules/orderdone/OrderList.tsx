@@ -48,6 +48,12 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
+
+  let [totalthreadset, setTotalThreadSet] = useState(0)
+  let [totalthreadsetshow, setTotalThreadSetShow] = useState(0)
+  let [totalthread, setTotalThread] = useState(0)
+  let [totalthreadshow, setTotalThreadShow] = useState(0)
+
   let [useEff, setuseEff] = useState(0)
   const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
   const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
@@ -65,6 +71,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumtime=0;
   let sumorder=0;
   let summoney=0;
+  let sumthreadset=0;
+  let sumthread=0;
   const arr:string[]=[]
   const [list_user,setList_User]=useState([{
     id:"0000000000",
@@ -75,6 +83,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     videoid:"",
   },])
   orders.forEach(item=>{
+    sumthreadset=sumthreadset +item.maxthreads;
+    sumthread=sumthread+item.total;
     sumtime=sumtime+item.viewtotal;
     sumorder=sumorder+1;
     summoney=summoney+item.price
@@ -126,6 +136,14 @@ let videos=''
     totalmoneyshow=totalmoney
     setTotalMoneyShow(totalmoneyshow)
     setTotalMoney(0)
+
+    totalthreadsetshow=totalthreadset
+    setTotalThreadSetShow(totalthreadsetshow)
+    setTotalThreadSet(0)
+
+    totalthreadshow=totalthread
+    setTotalThreadShow(totalthreadshow)
+    setTotalThread(0)
 
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
@@ -185,7 +203,7 @@ let videos=''
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-7 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Đơn đang chạy</span>
-              <span  className='ml-2 fw-bold fs-7'>({totaldordershow} Video)</span>
+              <span  className='ml-2 fw-bold fs-7'>({totaldordershow} Video | Luồng cấp: {format1((useEff<=1?sumthreadset:totalthreadsetshow))} | Luồng chạy: {format1((useEff<=1?sumthread:totalthreadshow))})</span>
               <p className="fw-bold c-order__list">
                 <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow))} | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$</span>
               </p>
@@ -432,11 +450,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -458,11 +480,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -484,11 +510,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -510,11 +540,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -536,11 +570,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -562,11 +600,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -589,11 +631,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }
@@ -615,11 +661,15 @@ let videos=''
                     if(index===0){
                       totaldorder=1
                       totaltimeorder=order.vieworder
+                      totalthreadset=order.maxthreads
+                      totalthread=order.total
                       totalmoney=order.price
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
+                      totalthreadset=totalthreadset+order.maxthreads
+                      totalthread=totalthread+order.total
                       totaltimeorder=order.vieworder+totaltimeorder
                       totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
                     }

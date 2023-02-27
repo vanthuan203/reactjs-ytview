@@ -51,7 +51,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {format1(item.balance)}đ
+                                        {format1(item.balance)}$
                                 </text>
                     </span>
             </td>
