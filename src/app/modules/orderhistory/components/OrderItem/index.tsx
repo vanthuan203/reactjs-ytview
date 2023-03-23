@@ -54,7 +54,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     {item.videoid}
                 </a>
                 <span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"rgba(227,15,25,0.93)"}}>{item.price==null?0:item.price.toFixed(3)}</span>$</span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"rgba(227,15,25,0.93)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order | <span style={{color:"#ffffff"}}>{item.vieworder}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start | <span style={{color:"black"}}>{item.viewstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total | <span style={{color:"#000000"}}>{item.viewtotal==null?0:item.viewtotal}</span></span>
@@ -64,7 +64,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 </span>
             </td>
             <td >
-                <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>R | {item.service}</span>
+                {item.service<600?<img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                    <img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
+                <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>
+                    {item.service}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }

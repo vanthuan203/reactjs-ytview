@@ -16,7 +16,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = process.env.REACT_APP_API_URL
+  const API_URL = 'http://125.212.231.69/'
   const [ipv4, setipv4] = useState("")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
@@ -99,7 +99,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-6 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Danh sách Proxy</span>
-              <span  className='ml-2 fw-bold fs-7'>(Tổng: {proxies.length}, Die: {sum_die})</span>
+              <span  className='ml-2 fw-bold fs-7'>(Tổng: {proxies.length} | Die: {sum_die} | Live: {proxies.length-sum_die})</span>
             </div>
             {keytrue==0&&<div className="col-lg-6 col-sm-12 text-right">
               <button
@@ -211,7 +211,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
           <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
             {/* begin::Table head */}
             <thead>
-              <tr>
+              <tr className='fw-bolder text-muted'>
                 <th className='min-w-10px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>STT</span>
                 </th>

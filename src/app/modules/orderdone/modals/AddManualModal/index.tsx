@@ -183,7 +183,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header" style={{display: showorder == true ? "true" : "true"}}>
-                    <h5 className="modal-title">{showorder==true?'Thêm nhiệm vụ với danh sách VideoId':'Thành công: '+sumorder+' | view: '+format1(sumtime)+' | Giá: '+format1(sumprice)+'$'}</h5>
+                    <h5 className="modal-title">{showorder==true?'Thêm nhiệm vụ với danh sách link video':'Thành công: '+sumorder+' | view: '+format1(sumtime)+' | Giá: '+sumprice.toPrecision()+'$'}</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>
@@ -192,13 +192,13 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                     <Form>
                         <FormGroup>
                             <Label for="exampleEmail" className="required form-label">
-                                Danh sách VideoId
+                                Danh sách link video
                             </Label>
                             <Input style={{minHeight:250}}
                                 id="list_id"
                                 name="list_id"
                                 className="form-control form-control-solid"
-                                placeholder={"Link video cần buff"}
+                                placeholder={"1 link video một dòng..."}
                                 value={videoid}
                                 type={"textarea"}
                                 onChange={(e) => setVideoid(e.target.value)}
@@ -295,7 +295,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                                 <div style={{color:item.state.indexOf('OK')>=0?'green':'red'}} className="col-3 d-flex align-items-center">{item.state}</div>
                                                 <div className="col-1 d-flex align-items-center">{item.time}m</div>
                                                 <div className="col-2 d-flex justify-content-end align-items-center">
-                                                    {item.price.toFixed(3)}$
+                                                    {item.price.toPrecision()}$
                                                 </div>
                                             </div>
                                         </li>

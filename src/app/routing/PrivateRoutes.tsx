@@ -7,6 +7,7 @@ export function PrivateRoutes() {
   const AccountPage1 = lazy(() => import('../modules/users/AccountPage'))
   const AccountPage2 = lazy(() => import('../modules/setting/AccountPage'))
   const AccountPage3 = lazy(() => import('../modules/services/AccountPage'))
+  const AccountPage4 = lazy(() => import('../modules/history/VpsThreadList'))
   //const WidgetsPage = lazy(() => import('../modules/orders/OrdersPage'))
   const WidgetsPage1 = lazy(() => import('../modules/orderdone/OrdersPage'))
   const WidgetsPageHis = lazy(() => import('../modules/orderhistory/OrdersPage'))
@@ -21,6 +22,7 @@ export function PrivateRoutes() {
         <Route path='/crafted/orderhistory' component={WidgetsPageHis} />
         <Route path='/crafted/vps' component={AccountPage} />
         <Route path='/crafted/user' component={AccountPage1} />
+        <Route path='/crafted/threads' component={AccountPage4} />
         <Route path='/crafted/proxy' component={ComputerList} />
         <Route path='/crafted/setting' component={AccountPage2} />
         <Route path='/crafted/service' component={AccountPage3} />

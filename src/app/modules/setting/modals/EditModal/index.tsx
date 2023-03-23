@@ -25,7 +25,8 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const API_URL = process.env.REACT_APP_API_URL
     const [pricerate, setpricerate] = useState(item.pricerate)
     const [bonus, setbonus] = useState(item.bonus)
-    const [maxorder, setmaxorder] = useState(item.maxorder)
+    const [maxordervn, setmaxordervn] = useState(item.maxordervn)
+    const [maxorderus, setmaxorderus] = useState(item.maxorderus)
 
     const dismissModal = () => {
         dispatch(actions.clearCurrentAccount())
@@ -39,7 +40,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
             alert("Giá trị bonus không hợp lệ!")
             return
         }
-        if(maxorder<0){
+        if(maxordervn<0 || maxorderus <0){
             alert("Giá trị số đơn max không hợp lệ!")
             return
         }
@@ -47,7 +48,8 @@ const EditModal: React.FC<Props> = ({ item }) => {
             ...item,
             pricerate,
             bonus,
-            maxorder,
+            maxordervn,
+            maxorderus
         }))
     }
 
@@ -62,13 +64,6 @@ const EditModal: React.FC<Props> = ({ item }) => {
                     </div>
                 </div>
                 <div className="modal-body">
-                    <p style={{fontWeight:'bold'}}>Price</p>
-                    <div className="input-group mb-5">
-                        <input style={{fontWeight:'bold'}} value={pricerate} type="number" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
-                               onChange={(e) => setpricerate(parseInt(e.target.value))}
-                        />
-                        <span className="input-group-text" id="basic-addon2">đ</span>
-                    </div>
                     <p style={{fontWeight:'bold'}}>Bonus</p>
                     <div className="input-group mb-5">
                         <input style={{fontWeight:'bold'}} value={bonus} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
@@ -76,10 +71,17 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         />
                         <span className="input-group-text" id="basic-addon2">%</span>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Số đơn max</p>
+                    <p style={{fontWeight:'bold'}}>Số đơn max(VN)</p>
                     <div className="input-group mb-5">
-                        <input style={{fontWeight:'bold'}} value={maxorder} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
-                               onChange={(e) => setmaxorder(parseInt(e.target.value))}
+                        <input style={{fontWeight:'bold'}} value={maxordervn} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxordervn(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">đơn</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Số đơn max(US)</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={maxorderus} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxorderus(parseInt(e.target.value))}
                         />
                         <span className="input-group-text" id="basic-addon2">đơn</span>
                     </div>

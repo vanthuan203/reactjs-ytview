@@ -21,13 +21,21 @@ export function AsideMenuMain() {
         }
 
       {
-        role === "ROLE_ADMIN11" && <AsideMenuItem
+        role === "ROLE_ADMIN" && <AsideMenuItem
           to='/crafted/vps'
-          title='Danh sách Vps'
+          title='Danh sách VPS'
           icon='/media/icons/duotune/ecommerce/ecm009.svg'
           fontIcon='bi-person'
         />
       }
+        {
+            role === "ROLE_ADMIN111" && <AsideMenuItem
+                to='/crafted/threads'
+                title='Danh sách luồng'
+                icon='/media/icons/duotune/ecommerce/ecm009.svg'
+                fontIcon='bi-person'
+            />
+        }
       {
           role === "ROLE_ADMIN" && <AsideMenuItem
               to='/crafted/user'
@@ -37,7 +45,7 @@ export function AsideMenuMain() {
           />
       }
       {
-          role === "ROLE_ADMIN11" && <AsideMenuItem
+          role === "ROLE_ADMIN" && <AsideMenuItem
               to='/crafted/proxy'
               title='Danh sách Proxy'
               icon='/media/icons/duotune/abstract/abs018.svg'

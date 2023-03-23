@@ -12,6 +12,7 @@ import EditMulti from "./modals/EditMulti";
 import RestartMulti from "./modals/RestartMulti";
 import {Input} from "reactstrap";
 import {round} from "@popperjs/core/lib/utils/math";
+import {randomInt} from "crypto";
 type Props = {
   className: string,
   accounts: AccountModel[]
@@ -72,7 +73,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     total_view24h=total_view24h+accounts[i].view24h;
   }
   async function getcounts(){
-    const requestUrl = API_URL+'buffh/countgmails';
+    const requestUrl = API_URL+'accview/countgmails';
     const response= await fetch(requestUrl,{
       method: 'get',
       headers: new Headers({
@@ -86,7 +87,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     settotal_user(counts);
   }
   async function getcountsbyendtrial(){
-    const requestUrl = API_URL+'buffh/countgmailsbyendtrial';
+    const requestUrl = API_URL+'accview/countgmailsbyendtrial';
     const response= await fetch(requestUrl,{
       method: 'get',
       headers: new Headers({
@@ -104,6 +105,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     if(accounts.length!=0){
       setLoading(false)
     }
+    console.log(list_vps)
     setList_VPS([])
     useEff=useEff+1
     setuseEff(useEff)
@@ -259,6 +261,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             <tbody>
               {
                   accounts&&accounts?.map((item: AccountModel,index:number) => {
+                    console.log(keystatustrue,keytrue)
                     if (keystatustrue==0&&keytrue==0) {
                       if(index===0){
                         totalvps=1
@@ -271,7 +274,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                       }
                       //setList_User([...list_user, orderitem])
                       list_vps.push(orderitem)
-                      return <UserItem key={item.id+index} item={item} index={index} />
+                      return <UserItem key={item.id} item={item} index={index} />
                     }else if((item.vps.indexOf(key)>=0 || item.vpsoption.indexOf(key)>=0 || item.threads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keystatustrue==0&&keytrue==1){
                       if(index===0){
                         totalvps=1
@@ -284,7 +287,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                       }
                       //setList_User([...list_user, orderitem])
                       list_vps.push(orderitem)
-                      return <UserItem key={item.id+index} item={item} index={index} />
+                      return <UserItem key={item.id} item={item} index={index} />
                     }else if(keystatustrue==1&&keytrue==0){
                         if(keystatus.indexOf("all")>=0){
                           if(index===0){
@@ -298,7 +301,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                           }
                           //setList_User([...list_user, orderitem])
                           list_vps.push(orderitem)
-                          return <UserItem key={item.id+index} item={item} index={index} />
+                          return <UserItem key={item.id} item={item} index={index} />
                         }else if(keystatus.indexOf('live')>=0&&(round((Date.now()-item.timecheck)/1000/60)<=5)){
                           if(index===0){
                             totalvps=1
@@ -311,7 +314,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                           }
                           //setList_User([...list_user, orderitem])
                           list_vps.push(orderitem)
-                          return <UserItem key={item.id+index} item={item} index={index} />
+                          return <UserItem key={item.id} item={item} index={index} />
                         }else if(keystatus.indexOf('die')>=0&&round((Date.now()-item.timecheck)/1000/60)>=5){
                           if(index===0){
                             totalvps=1
@@ -324,7 +327,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                           }
                           //setList_User([...list_user, orderitem])
                           list_vps.push(orderitem)
-                          return <UserItem key={item.id+index} item={item} index={index} />
+                          return <UserItem key={item.id} item={item} index={index} />
                         }
                     }else if(keystatustrue==1&&keytrue==1){
                       if(keystatus.indexOf("all")>=0&&(item.vps.indexOf(key)>=0 || item.vpsoption.indexOf(key)>=0 || item.threads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)){
@@ -339,7 +342,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                         }
                         //setList_User([...list_user, orderitem])
                         list_vps.push(orderitem)
-                        return <UserItem key={item.id+index} item={item} index={index} />
+                        return <UserItem key={item.id} item={item} index={index} />
                       }else if((item.vps.indexOf(key)>=0 || item.vpsoption.indexOf(key)>=0 || item.threads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keystatus.indexOf('live')>=0&&(round((Date.now()-item.timecheck)/1000/60)<=5)){
                         if(index===0){
                           totalvps=1
@@ -352,7 +355,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                         }
                         //setList_User([...list_user, orderitem])
                         list_vps.push(orderitem)
-                        return <UserItem key={item.id+index} item={item} index={index} />
+                        return <UserItem key={item.id} item={item} index={index} />
                       }else if((item.vps.indexOf(key)>=0 || item.vpsoption.indexOf(key)>=0 || item.threads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keystatus.indexOf('die')>=0&&round((Date.now()-item.timecheck)/1000/60)>=5){
                         if(index===0){
                           totalvps=1
@@ -365,7 +368,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                         }
                         //setList_User([...list_user, orderitem])
                         list_vps.push(orderitem)
-                        return <UserItem key={item.id+index} item={item} index={index} />
+                        return <UserItem key={item.id} item={item} index={index} />
                       }
                     }
                   })

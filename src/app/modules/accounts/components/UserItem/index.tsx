@@ -72,9 +72,9 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                 </div>
             </td>
             <td>
-                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='Buffh'?'#50CD89':item.vpsoption=='Pending'?'#9ca1a0':item.vpsoption=='Test1'?'#435e57':'#396977'}}>
+                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='vn'?'#50CD89':item.vpsoption=='us'?'#d32627':'#9ca1a0'}}>
                     <text >
-                    {item.vpsoption==''?'Pending':item.vpsoption}
+                    {item.vpsoption==''?'Pending':item.vpsoption=='Pending'?item.vpsoption:item.vpsoption.toUpperCase()}
                     </text>
                 </span>
                 <span style={{fontWeight:'bold',fontSize:11,backgroundColor:"#c0e1ce",color:"black"}} className='badge badge-dark'>
@@ -83,6 +83,11 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                               {item.threads==0?'0':+item.threads}|{item.acccount==0?'0':+item.acccount}
                         </text>
 
+                </span>
+                <span className='badge badge-dark' style={{fontSize:11,marginLeft:2, backgroundColor:item.ext==1?'#50CD89':'#9ca1a0'}}>
+                    <text >
+                    EXT
+                    </text>
                 </span>
             </td>
             <td style={{width:'250px'}} className='text-end'>

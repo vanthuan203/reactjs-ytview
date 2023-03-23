@@ -27,7 +27,10 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
                 </div>
             </td>
             <td>
-                <span style={{fontSize:11,backgroundColor:"#03d96e",color:"white",}} className='badge badge-danger'>
+                <span style={{fontSize:11,marginRight:5,backgroundColor:"#435e57",color:"white",}} className='badge badge-danger'>
+                    {item.geo}
+                </span>
+                <span style={{fontSize:11,backgroundColor:item.state==1?"#03d96e":"#e57624",color:"white",}} className='badge badge-danger'>
                     {item.ipv4}
                 </span>
             </td>
@@ -45,14 +48,16 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
                 <span style={{fontSize:11,backgroundColor:item.state==1?"#03d96e":"#e57624",color:"white",}} className='badge badge-danger'>
                     {item.state==0?'Die':'Live'}
                 </span>
+                <span style={{fontSize:11,margin:5,backgroundColor:"#9ca1a0",color:"white",}} className='badge badge-danger'>
+                    {item.numcheck==0?'':item.numcheck}{item.numcheck==0?'':'m'}
+                </span>
             </td>
             <td>
-                <span style={{fontSize:11,backgroundColor:"#b92e23",margin:5,color:"white",}} className='badge badge-danger'>
-                    {item.geo.indexOf('us')>=0?'US':'VN'}
+                <span >
+                    {item.geo.indexOf('us')>=0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                        <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 </span>
-                <span style={{fontSize:11,backgroundColor:"#c0e1ce",color:"black",}} className='badge badge-danger'>
-                    {item.geo}
-                </span>
+
             </td>
         </tr>
     )

@@ -7,12 +7,12 @@ export async function getList() {
 }
 
 export async function getComputer() {
-  const res:any = await getFunciton("history/vpsrunning")
+  const res:any = await getFunciton("historyview/vpsrunning")
   return res
 }
 
 export async function getProxy() {
-  const res:any = await getFunciton("proxy/list_v4")
+  const res:any = await getFunciton("http://125.212.231.69/proxy/list_v4")
   return res
 }
 export async function deleteProxy(ipv4:string) {

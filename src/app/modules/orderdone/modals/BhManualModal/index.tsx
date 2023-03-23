@@ -88,7 +88,7 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
     async function order_video_ver2(video: string) {
             await bhorderv2(video)
                 .then((data: any) => {
-                    if (data.data.videobuffh == "true") {
+                    if (data.data.videoview == "true") {
                         setOrderDoneNum(orderdonenum + 1)
                         let orderitem = {
                             id: randomString(10),
@@ -104,7 +104,6 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
                         setSumTime(sumtime)
                         sumorder = sumorder + 1
                         setSumOrder(sumorder)
-                        console.log(sumprice, sumtime, sumorder)
                         setList_Todo([...list_order, orderitem])
                         list_order.push(orderitem)
                     } else {
@@ -112,7 +111,7 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
                             id: randomString(10),
                             videoid: video,
                             time: 0,
-                            state: data.data.videobuffh,
+                            state: data.data.videoview,
                             price: 0
                         }
                         setList_Todo([...list_order, orderitem])
@@ -170,7 +169,7 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header" style={{display: showorder == true ? "true" : "true"}}>
-                    <h5 className="modal-title">{showorder==true?'Check bảo hành với danh sách VideoId':'Bảo hành thành công: '+sumorder+' | Giờ: '+format1(sumtime)+'h | Giá: '+format1(sumprice)+'đ'}</h5>
+                    <h5 className="modal-title">{showorder==true?'Check bảo hành với DS VideoId hoặc Orderid':'Bảo hành thành công: '+sumorder+' | Giờ: '+sumtime.toPrecision()+'view | Giá: '+sumprice.toPrecision()+'$'}</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>
@@ -179,13 +178,13 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
                     <Form>
                         <FormGroup>
                             <Label for="exampleEmail" className="required form-label">
-                                Danh sách VideoId cần bảo hành
+                                Danh sách VideoId hoặc Orderid
                             </Label>
                             <Input style={{minHeight:250}}
                                 id="list_id"
                                 name="list_id"
                                 className="form-control form-control-solid"
-                                placeholder={"1 VideoId một dòng!"}
+                                placeholder={"1 VideoId hoặc Orderid một dòng..."}
                                 value={videoid}
                                 type={"textarea"}
                                 onChange={(e) => setVideoid(e.target.value)}
@@ -216,9 +215,9 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
                                                 </div>
                                                 <div className="col-3 d-flex align-items-center">{item.videoid}</div>
                                                 <div style={{color:item.state.indexOf('OK')>=0?'green':'red'}} className="col-3 d-flex align-items-center">{item.state}</div>
-                                                <div className="col-1 d-flex align-items-center">{item.time}h</div>
+                                                <div className="col-1 d-flex align-items-center">{item.time} view</div>
                                                 <div className="col-2 d-flex justify-content-end align-items-center">
-                                                    {format1(item.price)}đ
+                                                    {item.price.toPrecision()}$
                                                 </div>
                                             </div>
                                         </li>

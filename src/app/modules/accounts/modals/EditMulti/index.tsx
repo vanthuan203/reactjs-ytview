@@ -30,6 +30,7 @@ const EditMulti: React.FC<Props> = ({list_vps, show,close }) => {
     const [threads, setthreads] = useState(0)
     const [vpsreset, setvpsreset] = useState(0)
     const [changefinger, setchangefinger] = useState(0)
+    const [ext, setext] = useState(1)
     const dismissModal = () => {
         dispatch(actions.clearCurrentAccount())
     }
@@ -66,7 +67,8 @@ const EditMulti: React.FC<Props> = ({list_vps, show,close }) => {
             vpsoption,
             vpsreset,
             threads,
-            changefinger
+            changefinger,
+            ext
         }))
 
     }
@@ -107,47 +109,11 @@ const EditMulti: React.FC<Props> = ({list_vps, show,close }) => {
                             type="select"
                             value={vpsoption}
                         >
-                            <option key={1} value={'Buffh'}>
-                                {"Buffh"}
+                            <option key={1} value={'vn'}>
+                                {"VN"}
                             </option>
-                            <option key={2} value={'Test1'}>
-                                {"Test1-Vt-Off-Seach"}
-                            </option>
-                            <option key={3} value={'Test2'}>
-                                {"Test2-Vt-Off-Direct"}
-                            </option>
-                            <option key={4} value={'Test3'}>
-                                {"Test3-Vt-On-Seach"}
-                            </option>
-                            <option key={5} value={'Test4'}>
-                                {"Test4-Vt-On-Direct"}
-                            </option>
-                            <option key={6} value={'Test5'}>
-                                {"Test5-Hc-Off-Seach"}
-                            </option>
-                            <option key={7} value={'Test6'}>
-                                {"Test6-Hc-Off-Direct"}
-                            </option>
-                            <option key={8} value={'Test7'}>
-                                {"Test7-Hc-On-5p"}
-                            </option>
-                            <option key={9} value={'Test8'}>
-                                {"Test8-Vt-Gmail6-Off-Bas2"}
-                            </option>
-                            <option key={10} value={'Test9'}>
-                                {"Test9-Vt-Gmail6-Off-Bas1"}
-                            </option>
-                            <option key={11} value={'Test10'}>
-                                {"Test10-Vt-Gmail2-On-Bas2"}
-                            </option>
-                            <option key={12} value={'Test11'}>
-                                {"Test11-Vt-Gmail2-On-Bas1"}
-                            </option>
-                            <option key={13} value={'Test12'}>
-                                {"Test12-Vt-Domain2-On-Bas2"}
-                            </option>
-                            <option key={14} value={'Test13'}>
-                                {"Test13-Vt-Domain2-On-Bas1"}
+                            <option key={2} value={'us'}>
+                                {"US"}
                             </option>
                             <option key={0} value={'Pending'}>
                                 {"Pending"}
@@ -182,6 +148,23 @@ const EditMulti: React.FC<Props> = ({list_vps, show,close }) => {
                             type="select"
                             style={{fontWeight:'bold'}}
                             value={changefinger}
+                        >
+                            <option key={0} value={0}>
+                                {"Không"}
+                            </option>
+                            <option key={1} value={1}>
+                                {"Có"}
+                            </option>
+                        </Input>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Có bật EXT?</p>
+                    <div className="input-group mb-5">
+                        <Input
+                            onChange={(e) => setext(parseInt(e.target.value))}
+                            className="form-control form-control-solid"
+                            type="select"
+                            style={{fontWeight:'bold'}}
+                            value={ext}
                         >
                             <option key={0} value={0}>
                                 {"Không"}

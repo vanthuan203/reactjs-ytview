@@ -3,6 +3,8 @@ export interface AccountModel {
   pricerate:number,
   bonus:number,
   maxorder:number,
+  maxordervn:number,
+  maxorderus:number,
   checked?:boolean
 }
 export interface OrderModelChecked {
@@ -14,4 +16,6 @@ export interface AccountForm {
   pricerate:number,
   bonus:number,
   maxorder:number,
+  maxordervn:number,
+  maxorderus:number,
 }

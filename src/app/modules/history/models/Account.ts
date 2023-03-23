@@ -4,7 +4,7 @@ export interface HistoryModel {
 export interface ComputerModel {
   vps: string,
   total: number,
-  time: string
+  time: number
 }
 
 export interface ProxyModel {
@@ -13,6 +13,7 @@ export interface ProxyModel {
   timecheck: number,
   state:number,
   geo:string,
+  numcheck:number,
   checked?:boolean
 }
 

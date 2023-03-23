@@ -44,80 +44,80 @@ export interface IAccountState {
 }
 
 export const reducer = persistReducer(
-  { storage, key: 'v1-histories', whitelist: [] },
-  (state: IAccountState = initialAccountState, action: ActionWithPayload<IAccountState>) => {
-    switch (action.type) {
-      case actionTypes.RequestHistories: {
-        return {
-          ...state,
-          histories: [],
-          loading: true
+    { storage, key: 'v1-histories', whitelist: [] },
+    (state: IAccountState = initialAccountState, action: ActionWithPayload<IAccountState>) => {
+      switch (action.type) {
+        case actionTypes.RequestHistories: {
+          return {
+            ...state,
+            histories: [],
+            loading: true
+          }
         }
-      }
-      case actionTypes.RequestProxy: {
-        return {
-          ...state,
-          proxies: [],
-          loading: true
+        case actionTypes.RequestProxy: {
+          return {
+            ...state,
+            proxies: [],
+            loading: true
+          }
         }
-      }
-      case actionTypes.RequestComputers: {
-        return {
-          ...state,
-          computers: []
+        case actionTypes.RequestComputers: {
+          return {
+            ...state,
+            computers: []
+          }
         }
-      }
-      case actionTypes.ComputersLoadedSuccess: {
-        return {
-          ...state,
-          computers: action.payload?.computers || [],
+        case actionTypes.ComputersLoadedSuccess: {
+          return {
+            ...state,
+            computers: action.payload?.computers || [],
+          }
         }
-      }
-      case actionTypes.RequestStatic: {
-        return {
-          ...state,
-          statics: []
+        case actionTypes.RequestStatic: {
+          return {
+            ...state,
+            statics: []
+          }
         }
-      }
-      case actionTypes.StaticLoadedSuccess: {
-        return {
-          ...state,
-          statics: action.payload?.statics || [],
+        case actionTypes.StaticLoadedSuccess: {
+          return {
+            ...state,
+            statics: action.payload?.statics || [],
+          }
         }
-      }
-      case actionTypes.ProxyLoadedSuccess: {
-        return {
-          ...state,
-          proxies: action.payload?.proxies || [],
+        case actionTypes.ProxyLoadedSuccess: {
+          return {
+            ...state,
+            proxies: action.payload?.proxies || [],
+          }
         }
-      }
 
-      case actionTypes.HistoryLoadedSuccess: {
-        return {
-          ...state,
-          histories: action.payload?.histories || [],
-          loading: false
+        case actionTypes.HistoryLoadedSuccess: {
+          return {
+            ...state,
+            histories: action.payload?.histories || [],
+            loading: false
+          }
         }
-      }
-      case actionTypes.HistoryLoadedFail: {
-        return {
-          ...state,
-          histories: [],
-          loading: false
+        case actionTypes.HistoryLoadedFail: {
+          return {
+            ...state,
+            histories: [],
+            loading: false
+          }
         }
-      }
-      case actionTypes.ProxyLoadedFail: {
-        return {
-          ...state,
-          proxies: [],
-          loading: false
+        case actionTypes.ProxyLoadedFail: {
+          return {
+            ...state,
+            proxies: [],
+            loading: false
+          }
         }
-      }
 
-      default:
-        return state
+        default:
+          return state
+      }
     }
-  }
 )
 
 export const actions = {

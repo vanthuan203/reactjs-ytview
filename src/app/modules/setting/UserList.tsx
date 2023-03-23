@@ -65,9 +65,9 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             {/* begin::Table head */}
             <thead>
               <tr className='fw-bolder text-muted'>
-                <th className='min-w-100px '>Price</th>
                 <th className='min-w-100px'>Bonus</th>
-                <th className='min-w-100px'>Maxorder</th>
+                <th className='min-w-100px'>MaxorderVN</th>
+                <th className='min-w-100px'>MaxorderUS</th>
               </tr>
             </thead>
             {/* end::Table head */}

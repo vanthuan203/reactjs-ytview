@@ -32,8 +32,8 @@ const EditModal: React.FC<Props> = ({ item }) => {
         dispatch(actions.clearCurrentAccount())
     }
     const updateUser = () => {
-        if(balance<100000 && balance!=0){
-            alert("Số tiền nhỏ nhất là 100,000đ!")
+        if(balance<100 && balance!=0){
+            alert("Số tiền nhỏ nhất là 100$")
             return
         }
         if(discount>100 || discount<0){
@@ -70,7 +70,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         <input style={{fontWeight:'bold'}} value={balance} type="number" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
                                onChange={(e) => setbalance(parseInt(e.target.value))}
                         />
-                        <span className="input-group-text" id="basic-addon2">đ</span>
+                        <span className="input-group-text" id="basic-addon2">$</span>
                     </div>
                     <p style={{fontWeight:'bold'}}>Giảm giá</p>
                     <div className="input-group mb-5">

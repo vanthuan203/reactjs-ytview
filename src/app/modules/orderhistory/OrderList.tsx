@@ -79,6 +79,12 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
+
+  let [totalvn, setTotalVn] = useState(0)
+  let [totalVnshow, setTotalVnShow] = useState(0)
+  let [totalUs, setTotalUs] = useState(0)
+  let [totalUsshow, setTotalUsShow] = useState(0)
+
   const role: string =
     (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
   const user: string =
@@ -90,10 +96,18 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumtimedone=0;
   let sumorder=0;
   let summoney=0;
+  let sumvn=0;
+  let sumus=0;
+
   orders.forEach(item=>{
     sumtimedone=sumtimedone+Math.round(Number(item.viewtotal==null?0:item.viewtotal))
     sumorder=sumorder+1;
     summoney=summoney+item.price
+    if(item.service>600){
+      sumvn=sumvn+1;
+    }else{
+      sumus=sumus+1;
+    }
   })
   const [list_user,setList_User]=useState([{
     id:"0000000000",
@@ -157,9 +171,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalOrderShow(totaldordershow)
     setTotalOrder(0)
 
+    totalVnshow=totalvn
+    setTotalVnShow(totalVnshow)
+    setTotalVn(0)
+
+    totalUsshow=totalUs
+    setTotalUsShow(totalUsshow)
+    setTotalUs(0)
+
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
-    totaltimebuffedorder=0
     setTotalTimeBuffedOrder(0)
     if(useEff<=1){
       getcounttimeorder();
@@ -205,7 +226,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-5 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Đơn đã xong</span>
-              <span  className='ml-2 fw-bold fs-7'>({useEff<=1?sumorder:totaldordershow} Video)</span>
+              <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ]</span>
               <p className="fw-bold c-order__list">
                 <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$</span>
               </p>
@@ -323,11 +344,21 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -358,11 +389,21 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -389,16 +430,26 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                             item={order}
                         />
                     )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('s')>=0?key.replace('s',''):'done')>=0)
+                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
                       &&keytrue==1&&keyusertrue==0&&keydate==0){
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -429,11 +480,21 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -467,11 +528,21 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -498,18 +569,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                             item={order}
                         />
                     )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('s')>=0?key.replace('s',''):'done')>=0)
+                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
                       &&keytrue==1&&keyusertrue==0&&keydate==1&&
                       (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
                   ){
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -537,16 +618,26 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         />
                     )
                   }
-                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('s')>=0?key.replace('s',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )
+                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )
                       &&keytrue==1&&keyusertrue==1&&keydate==0) {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,
@@ -573,17 +664,27 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         />
                     )
                   }
-                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('s')>=0?key.replace('s',''):'done')>=0) && order.user.indexOf(keyuser)>=0)
+                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0)
                       &&keytrue==1&&keyusertrue==1&&keydate==1&&
                       (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)) {
                     if(index===0){
                       totaldorder=1
                       totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                      if(order.service>600){
+                        totalvn=1
+                      }else{
+                        totalUs=1
+                      }
                     }else{
                       totaldorder=totaldorder+1
                       totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600)+totaltimebuffedorder
+                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                      if(order.service>600){
+                        totalvn=1+totalvn
+                      }else{
+                        totalUs=1+totalUs
+                      }
                     }
                     let orderitem = {
                       id: totaldorder,

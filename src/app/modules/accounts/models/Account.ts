@@ -14,6 +14,7 @@ export interface AccountModel {
   view24h:number,
   timegettask:string,
   changefinger:number
+  ext:number
 }
 export interface OrderModelChecked {
   vps: string,
@@ -25,5 +26,6 @@ export interface AccountForm {
   vpsoption:string,
   threads:number,
   vpsreset:number,
-  changefinger:number
+  changefinger:number,
+  ext:number
 }

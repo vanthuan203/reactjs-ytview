@@ -1,10 +1,11 @@
 import React from 'react'
 import { KTSVG, toAbsoluteUrl } from '_metronic/helpers'
-import {ChannelStaticModel, HistoryModel} from 'app/modules/history/models/Account'
+import {ComputerModel} from 'app/modules/history/models/Account'
 import {resetComputer} from 'app/modules/history/redux/AccountCRUD'
 import moment from 'moment'
+import {round} from "@popperjs/core/lib/utils/math";
 type Props = {
-    item: HistoryModel,
+    item: ComputerModel,
     index: number
 }
 
@@ -12,18 +13,35 @@ const ChannelStaticItem: React.FC<Props> = ({ item, index }) => {
 
     return (
         <tr>
+            <td className='w-25px'>
+                <span className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
+            </td>
             <td>
-                <div className='d-flex flex-stack mb-2'>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce"}} className='badge badge-success 1'>{index + 1}</span>
+                <div className='d-flex align-items-center'>
+                    <div className='d-flex justify-content-start flex-column'>
+                        <div  className='text-dark fw-bolder text-hover-primary fs-6'>
+                            {item.vps.substring(item.vps.lastIndexOf('-')+1,item.vps.length).length!=0&&<span style={{marginRight:2,backgroundColor:"#26695c"}} className='badge badge-dark'>
+                                <text style={{fontSize:11}}>
+                                {item.vps.substring(item.vps.lastIndexOf('-')+1,item.vps.length)}
+                                </text>
+                            </span>}
+                            <span style={{marginRight:2,backgroundColor:"#c0e1ce"}} className='badge badge-danger'>
+                                <text style={{fontSize:11,color:"black"}}>
+                                {item.vps.substring(0,item.vps.lastIndexOf('-'))}
+                                </text>
+                            </span>
+                            <span style={{marginRight:2,backgroundColor:item.time<5?"#50CD89":"#e57624"}} className='badge badge-danger'>
+                                <text style={{fontSize:11,color:"white"}}>
+                                    {item.time}{'m'}
+                                </text>
+                            </span>
+                        </div>
+
+                    </div>
                 </div>
             </td>
             <td>
-                <a href='#' className='text-sm text-dark fw-bolder text-hover-primary d-block mb-1 '>
-                    {item.date}
-                </a>
-            </td>
-            <td>
-                <span className='text-muted fw-bold text-muted d-block text-sm'>{item.date}</span>
+                <span className='text-muted fw-bold text-muted d-block text-sm'>{item.total}</span>
             </td>
         </tr>
     )

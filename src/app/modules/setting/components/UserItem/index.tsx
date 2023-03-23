@@ -25,13 +25,6 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
 
         <tr>
             <td>
-                <span >
-                    <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {format1(item.pricerate)}đ
-                    </text>
-                            </span>
-            </td>
-            <td>
                 <span>
                     <text style={{fontSize:12,fontWeight:"bold"}} >
                     {item.bonus}%
@@ -42,7 +35,14 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxorder}
+                                        {item.maxordervn}
+                                </text>
+                    </span>
+            </td>
+            <td >
+                    <span style={{fontSize:11}} >
+                                <text style={{fontWeight:"bold"}} >
+                                        {item.maxorderus}
                                 </text>
                     </span>
             </td>

@@ -36,7 +36,7 @@ export async function addorderv2( videoid:string,
 }
 
 export async function bhorderv2( videoid:string) {
-  const res = await postWithoutTokenFunciton("videoview/bhbuffh", {
+  const res = await postWithoutTokenFunciton("videoview/bhview", {
     videoid:videoid
   })
   return res

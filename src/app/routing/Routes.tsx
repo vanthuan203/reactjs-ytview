@@ -31,8 +31,8 @@ const Routes: FC = () => {
           <Redirect from='/auth' to='/' />
         )}
 
-        <Route path='/error' component={ErrorsPage} />
-        <Route path='/logout' component={Logout} />
+        <Route path='/error' component={ErrorsPage} exact={true}/>
+        <Route path='/logout' component={Logout} exact={true}/>
 
         {!isAuthorized ? (
           /*Redirect to `/auth` when user is not authorized*/
