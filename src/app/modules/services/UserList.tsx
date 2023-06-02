@@ -2,7 +2,6 @@
 import React, {useEffect, useState} from 'react'
 import { KTSVG, toAbsoluteUrl } from '../../../_metronic/helpers'
 import { AccountModel } from 'app/modules/services/models/Account'
-
 import UserItem from './components/UserItem'
 import {actions} from "./redux/AccountRedux";
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
@@ -52,6 +51,16 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             <div className="col-lg-12 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Danh sách dịch sụ</span>
               <span  className='ml-2 fw-bold fs-7'>({accounts.length})</span>
+              <div style={{float:"right"}} className="col-lg-5 col-sm-12 text-right">
+                <button
+                    onClick={() => {
+                      setShowAddManual(true)
+                    }}
+                    className='btn btn-success'
+                >
+                  Thêm dịch vụ
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -68,13 +77,17 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
               <tr className='fw-bolder text-muted'>
 
                 <th className='w-5px'>STT</th>
-                <th className='min-w-100px '>Service</th>
-                <th className='min-w-100px'>Category</th>
-                <th className='min-w-100px'>Name</th>
-                <th className='min-w-100px'>Rate</th>
-                <th className='min-w-100px'>MinOrder</th>
+                <th className='min-w-50px '>Service</th>
+                <th className='min-w-100px'>Option</th>
+                <th className='min-w-100px'>Rate($)</th>
+                <th className='min-w-100px'>Quantity</th>
                 <th className='min-w-100px'>MaxOrder</th>
-                <th className='min-w-100px'>Note</th>
+                <th className='min-w-100px'>Threads</th>
+                <th className='min-w-100px'>Live-Pre</th>
+                <th className='min-w-100px'>Geo</th>
+                <th className='min-w-100px'>Enabled</th>
+                <th className='min-w-100px'>Guarantee</th>
+                <th className='min-w-100px'>Check Time</th>
               </tr>
             </thead>
             {/* end::Table head */}
@@ -95,6 +108,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
       </div>
       {/* begin::Body */}
     </div>
+
   )
 }
 export  { UserList }

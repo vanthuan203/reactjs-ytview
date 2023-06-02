@@ -230,6 +230,9 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Geo</span>
                 </th>
+                <th className='min-w-50px'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>TypeProxy</span>
+                </th>
               </tr>
             </thead>
             {/* end::Table head */}

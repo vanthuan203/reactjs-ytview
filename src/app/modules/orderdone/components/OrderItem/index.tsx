@@ -40,9 +40,9 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100}}>
+        <tr style={{margin:100,backgroundColor:item.service<600?"rgba(252,226,207,0.62)":"#ffffff"}}>
             <td  className='w-25px'>
-                <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                         onChange={(evt)=>{
                             dispatch(actions.checkedChange({
@@ -60,7 +60,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 </div>
             </td>
             <td>
-                <span style={{fontWeight:'bold',fontSize:11,fontFamily:'cursive'}} className='text-muted fw-bold text-muted d-block text-sm'>{index}</span>
+                <span className='text-muted fw-bold text-muted d-block text-sm'>{index}</span>
             </td>
             <td>
                 <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"#b7080f",marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
@@ -86,7 +86,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {loading ? <span className='text-muted fw-bold text-muted d-block text-sm'>
                     {"Đang lấy dữ liệu"}
                 </span> :
-                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=1?"#c0e1ce":"#dc7a30"}} className='badge badge-dark'>{item.total==1?0:item.total}</span>
+                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=1?"#c0e1ce":"#dc7a30"}} className='badge badge-dark'>{item.total==1?0:item.total}/{item.maxthreads}</span>
                 }
             </td>}
             <td>

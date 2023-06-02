@@ -78,6 +78,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
+  let [totalmoneyUS, setTotalMoneyUS] = useState(0)
+  let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
 
   let [totalvn, setTotalVn] = useState(0)
@@ -96,6 +98,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumtimedone=0;
   let sumorder=0;
   let summoney=0;
+  let summoneyUS=0;
   let sumvn=0;
   let sumus=0;
 
@@ -106,6 +109,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if(item.service>600){
       sumvn=sumvn+1;
     }else{
+      summoneyUS=summoneyUS+item.price
       sumus=sumus+1;
     }
   })
@@ -179,6 +183,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalUsShow(totalUsshow)
     setTotalUs(0)
 
+    totalmoneyUSshow=totalmoneyUS
+    setTotalMoneyUSShow(totalmoneyUSshow)
+    setTotalMoneyUS(0)
+
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
     setTotalTimeBuffedOrder(0)
@@ -228,7 +236,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               <span  className='fw-bolder fs-3 mb-1'>Đơn đã xong</span>
               <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ]</span>
               <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$</span>
+                <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
               </p>
             </div>
             <div className="col-lg-7 col-sm-12 c-order__header">
@@ -303,6 +311,27 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             </div>
           </div>
         </div>
+        <div className="page-header__content">
+          <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
+            {role==="TEST"&&<div style={{width:"100%"}}>
+              <button style={{height:40,margin:10,float:"right"}}
+                      onClick={() => {Export(list_orderhistory,nameExport)
+                      }}
+                      className='btn btn-google'
+              >
+                Đối soát
+              </button>
+              <button style={{height:40,margin:10,float:"right"}}
+                      onClick={() => {
+                        setShowAddManual(true)
+                      }}
+                      className='btn btn-success'
+              >
+                Tra cứu nhanh
+              </button>
+            </div>}
+          </div>
+        </div>
       </div>
       <div className='card-body py-3'>
         <div className='table-responsive'>
@@ -312,7 +341,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             <thead>
               <tr className='fw-bolder text-muted'>
                 <th className='min-w-10px text-sm'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>STT</span>
+                  <span style={{fontSize:12,color:"black",marginLeft:5}} className='text-sm'>STT</span>
                 </th>
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>OrderId</span>
@@ -348,6 +377,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -358,6 +388,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -393,6 +424,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -403,6 +435,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -439,6 +472,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -449,6 +483,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -484,6 +519,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -494,6 +530,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -532,6 +569,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -542,6 +580,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -580,6 +619,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -590,6 +630,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -627,6 +668,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -637,6 +679,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {
@@ -674,6 +717,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -684,6 +728,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalvn=1+totalvn
                       }else{
                         totalUs=1+totalUs
+                        totalmoneyUS=totalmoneyUS+order.price
                       }
                     }
                     let orderitem = {

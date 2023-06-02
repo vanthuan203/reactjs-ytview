@@ -236,7 +236,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
               <tr className='fw-bolder text-muted'>
 
                 <th className='w-25px'>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                  <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                         onChange={(evt) => {
                           dispatch(actions.checkedAllChange(evt.target.checked))

@@ -14,6 +14,7 @@ export interface ProxyModel {
   state:number,
   geo:string,
   numcheck:number,
+  typeproxy:string
   checked?:boolean
 }
 

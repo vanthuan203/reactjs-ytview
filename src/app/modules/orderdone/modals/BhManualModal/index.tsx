@@ -169,7 +169,7 @@ const BhManualModal: React.FC<Props> = ({ show, close }) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header" style={{display: showorder == true ? "true" : "true"}}>
-                    <h5 className="modal-title">{showorder==true?'Check bảo hành với DS VideoId hoặc Orderid':'Bảo hành thành công: '+sumorder+' | Giờ: '+sumtime.toPrecision()+'view | Giá: '+sumprice.toPrecision()+'$'}</h5>
+                    <h5 className="modal-title">{showorder==true?'Bảo hành với DS VideoId hoặc OrderId':'Bảo hành thành công: '+sumorder+' | Giờ: '+sumtime.toPrecision()+'view | Giá: '+sumprice.toPrecision()+'$'}</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>

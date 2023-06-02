@@ -48,6 +48,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
+  let [totalmoneyUS, setTotalMoneyUS] = useState(0)
+  let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
 
   let [totalthreadset, setTotalThreadSet] = useState(0)
   let [totalthreadsetshow, setTotalThreadSetShow] = useState(0)
@@ -75,6 +77,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumtime=0;
   let sumorder=0;
   let summoney=0;
+  let summoneyUS=0;
   let sumthreadset=0;
   let sumthread=0;
   let sumvn=0;
@@ -99,6 +102,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if(item.service>600){
       sumvn=sumvn+1;
     }else{
+      summoneyUS=summoneyUS+item.price
       sumus=sumus+1;
     }
   })
@@ -163,6 +167,10 @@ let videos=''
     setTotalUsShow(totalUsshow)
     setTotalUs(0)
 
+    totalmoneyUSshow=totalmoneyUS
+    setTotalMoneyUSShow(totalmoneyUSshow)
+    setTotalMoneyUS(0)
+
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
     totaltimebuffedorder=0
@@ -188,7 +196,7 @@ let videos=''
       }
     })
     const orderarr=arr.join(',')
-    if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" đơn!") == true) {
+    if (window.confirm("Bạn chắc chắn muốn hủy "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,1))
     }
   }
@@ -223,7 +231,7 @@ let videos=''
               <span  className='fw-bolder fs-3 mb-1'>Đơn đang chạy</span>
               <span  className='ml-2 fw-bold fs-7'>{totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ] | Luồng cấp: {format1((useEff<=1?sumthreadset:totalthreadsetshow))} | Luồng chạy: {format1((useEff<=1?sumthread:totalthreadshow))}</span>
               <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow))} | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$</span>
+                <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow))} | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
               </p>
             </div>
 
@@ -233,9 +241,9 @@ let videos=''
                           onClick={() => {
                             clickDeleteHandler()
                           }}
-                          className='btn btn-light'
+                          className='btn btn-google'
                   >
-                    Xóa
+                    Hủy
                   </button>
               )}
               {isShowFixMulti&& role === "ROLE_ADMIN"&& (
@@ -259,7 +267,7 @@ let videos=''
                     Hoàn thành
                   </button>
               )}
-              {role === "ROLE_ADMIN"&&<button style={{marginRight:5,color:"white"}}
+              {role === "ROLE_ADMIN111"&&<button style={{marginRight:5,color:"white"}}
                   onClick={() => {
                     setShowBhManual(true)
                   }}
@@ -423,7 +431,7 @@ let videos=''
             <thead>
               <tr className='fw-bolder text-muted'>
                 <th className='w-25px'>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                  <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                       onChange={(evt) => {
                         dispatch(actions.checkedAllChange(evt.target.checked))
@@ -475,6 +483,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -487,6 +496,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -515,6 +525,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -527,6 +538,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -555,6 +567,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -567,6 +580,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -595,6 +609,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -607,6 +622,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -635,6 +651,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -647,6 +664,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -675,6 +693,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -687,6 +706,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -716,6 +736,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -728,6 +749,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }
@@ -756,6 +778,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1
                       }else{
+                        totalmoneyUS=order.price
                         totalUs=1
                       }
                     }else{
@@ -768,6 +791,7 @@ let videos=''
                       if(order.service>600){
                         totalvn=1+totalvn
                       }else{
+                        totalmoneyUS=totalmoneyUS+order.price
                         totalUs=1+totalUs
                       }
                     }

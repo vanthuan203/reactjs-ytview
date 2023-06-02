@@ -10,6 +10,9 @@ import {
 import { useSelector, shallowEqual } from 'react-redux'
 import { RootState } from 'setup'
 import { Group } from '../../models/Order'
+import {findorder} from "../../../orderhistory/redux/OrdersCRUD";
+import {randomString} from "react-inlinesvg/lib/helpers";
+import {getUserByToken} from "../../../auth/redux/AuthCRUD";
 type Props = {
     show: boolean
     close: () => void
@@ -18,88 +21,138 @@ type Props = {
 const AddManualModal: React.FC<Props> = ({ show, close }) => {
     const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
-    const adding: boolean = useSelector<RootState>(({ orderhistory }) => orderhistory.adding, shallowEqual) as boolean || false
-    const groups: Group[] = useSelector<RootState>(({ orderhistory }) => orderhistory.groups, shallowEqual) as Group[] || []
+    const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
+    const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
+    const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
+    const groups: Group[] = useSelector<RootState>(({ orderdone }) => orderdone.groups, shallowEqual) as Group[] || []
+    const API_URL = process.env.REACT_APP_API_URL
+    function format1(n:number) {
+        return n.toFixed(0).replace(/./g, function(c, i, a) {
+            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+        });
+    }
 
     const dispatch = useDispatch()
-    const [maxthreads, setMaxthreads] = useState(100)
+    const [maxthreads, setMaxthreads] = useState(50)
     const [videoid, setVideoid] = useState("")
-    const [homerate,setHome_rate]=useState(0)
-    //
-    const [searchrate,setSearch_rate]=useState(80)
-    const [suggestrate,setSuggest_rate]=useState(0)
-    const [directrate,setDirect_rate]=useState(20)
-    //
-    const [likerate,setLike_rate]=useState(25)
-    const [commentrate,setComment_rate]=useState(25)
-    const [mobilerate,setMobile_rate]=useState(0)
-    const [user,setUser]=useState(username)
+    const [service, setService] = useState(666)
     const [note, setNote] = useState("")
-    const [viewstart, setViewstart] = useState(0)
-    const [timebuff, setTimebuff] = useState(4000)
-    const [optionbuff, setOptionbuff] = useState(0)
-    const [enabled,setEnabled]=useState(1)
+    const [vieworder, setVieworder] = useState(1000)
+    const [user,setUser]=useState(username)
+    const [showorder,setShowOrder]=useState(true)
+    const [orderdonenum,setOrderDoneNum]=useState(0)
+    const [list_order,setList_Todo]=useState([{
+        id:"0000000000",
+        videoid:"",
+        state:"",
+        time:0,
+        price:0
+
+    },])
+    const [list_service,setList_Service]=useState([{
+        id:"000",
+        user:"All Service"
+    },])
 
 
-    const dismissModal = () => {
-        dispatch(actions.clearcurrentOrder())
+    async function getcounttimeorder() {
+        let  requestUrl = API_URL+'servive/getallservice';
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {user} = responseJson;
+        let arrlist =user.split(',');
+        for(var i=0;i<arrlist.length;i++){
+            let orderitem = {
+                id: arrlist[i].split('|')[0],
+                user: arrlist[i]
+            }
+            setList_Service([...list_service, orderitem])
+            list_service.push(orderitem)
+        }
     }
-    
-    const submit = () => {
+    let [sumprice,setSumPrice]=useState(0)
+    let [sumtime,setSumTime]=useState(0)
+    let [sumorder,setSumOrder]=useState(0)
+    const dismissModal = () => {
+        close()
+        setShowOrder(true)
+        setVideoid("")
+        let or={
+            id:"0000000000",
+            videoid:"",
+            state:"",
+            time:0,
+            price:0
+        }
+        setList_Todo([or])
+        if(orderdonenum>0){
+            if(role.indexOf("ROLE_ADMIN")>=0){
+                dispatch(actions.requestOrders(''))
+            }else{
+                dispatch(actions.requestOrders(user))
+            }
+        }
+        setOrderDoneNum(0)
+    }
+    async function order_video_ver2(video: string) {
+        await findorder(video)
+            .then((data: any) => {
+                if (data.data.videoview != "") {
 
-
+                    setOrderDoneNum(orderdonenum + 1)
+                    let orderitem = {
+                        id: data.data.time.orderid,
+                        videoid: video,
+                        state: "OK",
+                        time: data.data.time,
+                        price: data.data.price
+                    }
+                    sumprice = sumprice + data.data.price
+                    setSumPrice(sumprice)
+                    sumtime = sumtime + vieworder;
+                    setSumTime(sumtime)
+                    sumorder = sumorder + 1
+                    setSumOrder(sumorder)
+                    console.log(sumprice, sumtime, sumorder)
+                    setList_Todo([...list_order, orderitem])
+                    list_order.push(orderitem)
+                }
+            })
+            .catch(() => {
+            })
+    }
+    const  submit = async () => {
+        setSumOrder(0)
+        setSumTime(0)
+        setSumPrice(0)
         if (videoid.trim() === "") {
             alert("VideoId không để trống!")
             return
         }
-        if(homerate+searchrate+suggestrate+directrate !=100){
-            alert("Tổng nguồn view không đúng!")
+
+        if (vieworder < 100) {
+            alert("Số giờ phải lớn hơn 100!")
             return
         }
 
-        async function getcounts(){
-            let videoidlist=videoid.split('\n')
-            for (var i = 0; i < videoidlist.length; i++) {
-                const requestUrl = 'http://localhost:8000/videobuffh/checkduration?listvideo='+videoidlist[i];
-                const response= await fetch(requestUrl,{
-                    method: 'get',
-                    headers: new Headers({
-                        'Authorization': '1',
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    })
-                });
-                const responseJson= await  response.json();
-                const {duration}=responseJson;
-                if(duration<optionbuff){
-                    alert("VideoId không để trống!"+duration.toString())
-                }
-
-            }
-
-
+        setShowOrder(false)
+        const videoidlist = videoid.split('\n')
+        for (var i = 0; i < videoidlist.length; i++) {
+            let video = videoidlist[i]
+            await order_video_ver2(video)
+            await getUserByToken()
         }
-        //getcounts()
-        dispatch(actions.addOrderManualRequest({
-            videoid,
-            homerate,
-            note,
-            directrate,
-            commentrate,
-            mobilerate,
-            searchrate,
-            enabled,
-            maxthreads,
-            viewstart,
-            likerate,
-            suggestrate,
-            timebuff,
-            optionbuff,
-            user
-        }))
-     
     }
 
     useEffect(() => {
+        getcounttimeorder()
+        console.log(list_service)
         if (!adding) {
             close()
         }
@@ -107,165 +160,79 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
 
     return (
         <Modal isOpen={show}
-            modalTransition={{ timeout: 500 }}>
+               modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title">Thêm nhiệm vụ với danh sách VideoId</h5>
+                <div className="modal-header" style={{display: showorder == true ? "true" : "true"}}>
+                    <h5 className="modal-title">{showorder==true?'Thêm nhiệm vụ với danh sách link video':'Thành công: '+sumorder+' | view: '+format1(sumtime)+' | Giá: '+sumprice.toPrecision()+'$'}</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>
                 </div>
-                <div className="modal-body">
+                <div className="modal-body" style={{display: showorder == true ? "true" : "none"}}>
                     <Form>
                         <FormGroup>
                             <Label for="exampleEmail" className="required form-label">
-                                Danh sách VideoId
+                                Danh sách link video
                             </Label>
-                            <Input style={{height:200}}
-                                id="list_id"
-                                name="list_id"
-                                className="form-control form-control-solid"
-                                placeholder={"1 VideoId một dòng!"}
-                                value={videoid}
-                                type={"textarea"}
-                                onChange={(e) => setVideoid(e.target.value)}
+                            <Input style={{minHeight:250}}
+                                   id="list_id"
+                                   name="list_id"
+                                   className="form-control form-control-solid"
+                                   placeholder={"1 link video một dòng..."}
+                                   value={videoid}
+                                   type={"textarea"}
+                                   onChange={(e) => setVideoid(e.target.value)}
                             />
                         </FormGroup>
-
-                        <p>Nguồn view tổng = 100%</p>
-                        <div className='flex flex-row justify-between space-x-3'>
+                        <div>
                             <FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
-                                    Home 
+                                    Views Order
                                 </Label>
-                                <Input
-                                    id="home_rate"
-                                    name="home_rate"
-                                    value={homerate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setHome_rate(parseInt(e.target.value))}
-                                    type="number"
+                                <Input style={{fontWeight:"bold"}}
+                                       id="vieworder"
+                                       name="vieworder"
+                                       value={vieworder}
+                                       className="form-control form-control-solid"
+                                       placeholder="ví dụ : 100"
+                                       onChange={(e) => setVieworder(parseInt(e.target.value))}
+                                       type="number"
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Search
+                                <Label for="exampleEmail"  className="required form-label">
+                                    Dịch vụ
                                 </Label>
-                                <Input
-                                    id="search_rate"
-                                    name="search_rate"
-                                    value={searchrate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setSearch_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
+                                <Input style={{fontWeight:"bold"}}
+                                       onChange={(e) => setService(parseInt(e.target.value))}
+                                       className="form-control form-control-solid"
+                                       type="select"
+                                       value={service}
+                                >
+                                    {
+                                        list_service.map((item, index) => {
+                                            if(item.id!='000')
+                                                return(
+                                                    <option key={item.id} value={item.id}>
+                                                        {item.user}</option>)
+                                        })
+                                    }
+                                </Input>
                             </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Suggest
-                                </Label>
-                                <Input
-                                    id="suggest_rate"
-                                    name="suggest_rate"
-                                    value={suggestrate}
-                                    disabled={role === "ROLE_ADMIN" ? false : true}
-                                    onChange={(e) => setSuggest_rate(parseInt(e.target.value))}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Direct
-                                </Label>
-                                <Input
-                                    id="direct_rate"
-                                    name="direct_rate"
-                                    value={directrate}
-                                    disabled={role === "ROLE_ADMIN" ? false : true}
-                                    onChange={(e) => setDirect_rate(parseInt(e.target.value))}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    type="number"
-                                />
-                            </FormGroup>
-                        </div>
-                        <p>Cài đặt tương tác</p>
-                        <div className='flex flex-row justify-between space-x-3'>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Like
-                                </Label>
-                                <Input
-                                    id="like_rate"
-                                    name="like_rate"
-                                    value={likerate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setLike_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Comment
-                                </Label>
-                                <Input
-                                    id="comment_rate"
-                                    name="comment_rate"
-                                    value={commentrate}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setComment_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    % Mobile
-                                </Label>
-                                <Input
-                                    id="mobilerate"
-                                    name="mobilerate"
-                                    value={mobilerate}
-                                    className="form-control form-control-solid"
-                                    onChange={(e) => setMobile_rate(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                            <FormGroup>
+                            {role === "ROLE_ADMIN" &&<FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
                                     Luồng
                                 </Label>
-                                <Input
-                                    id="max_thread"
-                                    name="max_thread"
-                                    value={maxthreads}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 1000"
-                                    onChange={(e) => setMaxthreads(parseInt(e.target.value))}
-                                    type="number"
+                                <Input style={{fontWeight:"bold"}}
+                                       id="max_thread"
+                                       name="max_thread"
+                                       value={maxthreads}
+                                       className="form-control form-control-solid"
+                                       placeholder="ví dụ : 1000"
+                                       onChange={(e) => setMaxthreads(parseInt(e.target.value))}
+                                       type="number"
                                 />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleEmail" className="required form-label">
-                                    Time(h)
-                                </Label>
-                                <Input
-                                    id="timebuffh"
-                                    name="timebuffh"
-                                    value={timebuff}
-                                    className="form-control form-control-solid"
-                                    placeholder="ví dụ : 100"
-                                    onChange={(e) => setTimebuff(parseInt(e.target.value))}
-                                    type="number"
-                                />
-                            </FormGroup>
-                        </div>
-                        <div>
+                            </FormGroup>}
                             <FormGroup>
                                 <Label for="exampleEmail" >
                                     Ghi chú
@@ -281,63 +248,47 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
                                 />
                             </FormGroup>
                         </div>
-                        <FormGroup>
-                            <Label for="exampleEmail" className="required form-label">
-                                Chế độ buff
-                            </Label>
-                            <Input
-                                onChange={(e) => setOptionbuff(parseInt(e.target.value))}
-                                className="form-control form-control-solid"
-                                type="select"
-                                value={optionbuff}
-                            >
-                                <option key={10} value={10}>
-                                    {"10 phút"}
-                                </option>
-                                <option key={30} value={30}>
-                                    {"30 phút"}
-                                </option>
-                                <option key={60} value={60}>
-                                    {"60 phút"}
-                                </option>
-                                <option key={120} value={120}>
-                                    {"120 phút"}
-                                </option>
-                                <option key={0} value={0}>
-                                    {"Auto"}
-                                </option>
-                            </Input>
-
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="exampleEmail" className="required form-label">
-                                Trạng thái
-                            </Label>
-                            <Input
-                                onChange={(e) => setEnabled(parseInt(e.target.value))}
-                                className="form-control form-control-solid"
-                                type="select"
-                                value={enabled}
-                            >
-                                <option key={1} value={1}>
-                                    {"Chạy"}
-                                </option>
-                                <option key={2} value={2}>
-                                    {"Test1"}
-                                </option>
-                                <option key={3} value={3}>
-                                    {"Test2"}
-                                </option>
-                                <option key={0} value={0}>
-                                    {"Ngừng"}
-                                </option>
-                            </Input>
-                        </FormGroup>
                     </Form>
                 </div>
+                <div className="modal-body">
+                    <div className="card-body" style={{width: "100%"}}>
+                        {/* begin::Table container */}
+
+                        {
+                            list_order.map((item, index) => {
+                                if (item.videoid.length >0) return (
+                                    <ul className="list-group list-group-flush" id={item.videoid} key={item.videoid}>
+                                        <li className="list-group-item" style={{minHeight: 10}}>
+                                            <div className="row">
+                                                <div className="col-1 d-flex align-items-center">{index}.</div>
+                                                <div className="col-1 d-flex align-items-center">
+                                                            <span className='symbol-label'>
+                                                              <img
+
+                                                                  src={toAbsoluteUrl(item.state.indexOf('OK')>=0?'/media/icons/duotune/general/gen048.svg':'/media/icons/duotune/general/gen050.svg')}
+                                                                  className='svg-icon-1'
+                                                                  alt=''
+                                                              />
+                                                            </span>
+                                                </div>
+                                                <div className="col-3 d-flex align-items-center">{item.videoid}</div>
+                                                <div style={{color:item.state.indexOf('OK')>=0?'green':'red'}} className="col-3 d-flex align-items-center">{item.state}</div>
+                                                <div className="col-1 d-flex align-items-center">{item.time}m</div>
+                                                <div className="col-2 d-flex justify-content-end align-items-center">
+                                                    {item.price.toPrecision()}$
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                )
+                            })
+                        }
+                        {/* end::Table container */}
+                    </div>
+                </div>
                 <div className="modal-footer">
-                    <button type="button" onClick={close} className="btn btn-light" >Thoát</button>
-                    <button disabled={adding} style={{color:'white',backgroundColor:"#26695c"}}  type="button" onClick={submit} className="btn btn-primary">{adding ? "Chờ" : "Thêm đơn"}</button>
+                    <button type="button" onClick={dismissModal} className="btn btn-light" >Thoát</button>
+                    <button disabled={adding} type="button" onClick={submit} style={{backgroundColor:"#26695c",color:"white",display: showorder == true ? "true" : "none"}}  className="btn">{adding ? "Chờ" : "Thêm đơn"}</button>
                 </div>
             </div>
         </Modal>

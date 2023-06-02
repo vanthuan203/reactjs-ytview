@@ -27,16 +27,16 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
                 </div>
             </td>
             <td>
-                <span style={{fontSize:11,marginRight:5,backgroundColor:"#435e57",color:"white",}} className='badge badge-danger'>
-                    {item.geo}
-                </span>
+                {item.geo.indexOf("null")<0&&<span style={{fontSize:11,marginRight:5,backgroundColor:(item.geo.indexOf("vn")>=0 ||item.geo.indexOf("sub")>=0 )?"#dc272c":"#2ea6da",color:"white",}} className='badge badge-danger'>
+                    {item.geo.toUpperCase()}
+                </span>}
                 <span style={{fontSize:11,backgroundColor:item.state==1?"#03d96e":"#e57624",color:"white",}} className='badge badge-danger'>
                     {item.ipv4}
                 </span>
             </td>
             <td>
                 <span style={{fontSize:11,backgroundColor:"#c0e1ce",color:"black",}} className='badge badge-danger'>
-                    {item.totalport}
+                    {item.totalport==1?0:item.totalport}
                 </span>
             </td>
             <td>
@@ -54,11 +54,17 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
             </td>
             <td>
                 <span >
-                    {item.geo.indexOf('us')>=0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                    {item.ipv4.indexOf('net')<0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
                         <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 </span>
 
             </td>
+            <td>
+                {item.typeproxy.indexOf("null")<0&&<span style={{fontSize:11,backgroundColor:"#6d7773",color:"white",}} className='badge badge-danger'>
+                    {item.typeproxy.toUpperCase()}
+                </span>}
+            </td>
+
         </tr>
     )
 }

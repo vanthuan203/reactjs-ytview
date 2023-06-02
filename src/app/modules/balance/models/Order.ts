@@ -4,6 +4,7 @@ export interface OrderModel {
   time:number,
   totalbalance:number,
   user:string,
+  service:number,
   note:string
 }
 export interface OrderModelChecked {

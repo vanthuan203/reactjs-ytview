@@ -39,7 +39,19 @@ export async function addOrderMulti(order:OrderPost) {
   const res:any = await postWithoutTokenFunciton("",order)
   return res
 }
+export async function bhorderv2( videoid:string) {
+  const res = await postWithoutTokenFunciton("videoview/findorder", {
+    videoid:videoid
+  })
+  return res
+}
 
+export async function findorder( videoid:string) {
+  const res = await postWithoutTokenFunciton("videoview/findorder", {
+    videoid:videoid
+  })
+  return res
+}
 
 
 

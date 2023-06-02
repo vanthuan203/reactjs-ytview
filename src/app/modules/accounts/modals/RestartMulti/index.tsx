@@ -29,7 +29,7 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
 
     const [vpsoption, setvpsoption] = useState('Pending')
     const [threads, setthreads] = useState(0)
-    const [changefinger, setchangefinger] = useState(0)
+    const [get_account, setget_account] = useState(0)
     const [vpsreset, setvpsreset] = useState(0)
     const [ext, setext] = useState(1)
     const dismissModal = () => {
@@ -68,7 +68,7 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
             vpsoption,
             vpsreset,
             threads,
-            changefinger,
+            get_account,
             ext
         }))
 
@@ -125,19 +125,22 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                             <option key={2} value={'us'}>
                                 {"US"}
                             </option>
+                            <option key={2} value={'live'}>
+                                {"Live"}
+                            </option>
                             <option key={0} value={'Pending'}>
                                 {"Pending"}
                             </option>
                         </Input>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Có đổi finger?</p>
+                    <p style={{fontWeight:'bold'}}>Get Account?</p>
                     <div className="input-group mb-5">
                         <Input
-                            onChange={(e) => setchangefinger(parseInt(e.target.value))}
+                            onChange={(e) => setget_account(parseInt(e.target.value))}
                             className="form-control form-control-solid"
                             type="select"
                             style={{fontWeight:'bold'}}
-                            value={changefinger}
+                            value={get_account}
                         >
                             <option key={0} value={0}>
                                 {"Không"}

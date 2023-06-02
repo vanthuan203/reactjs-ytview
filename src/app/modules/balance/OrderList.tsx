@@ -36,6 +36,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totalbalance:0,
     user:"",
     note:"",
+    service:0
   }])
 
   const dispatch = useDispatch()
@@ -62,8 +63,12 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaltimebuffedordershow, setTotalTimeBuffedOrderShow] = useState(0)
   let [totaldorder, setTotalOrder] = useState(0)
   let [totaldordershow, setTotalOrderShow] = useState(0)
+  let [totaldordervn, setTotalOrderVN] = useState(0)
+  let [totaldorderVnshow, setTotalOrderVNShow] = useState(0)
   let [totaladd, setTotalAdd] = useState(0)
   let [totaladdshow, setTotalAddShow] = useState(0)
+  let [totaladdvn, setTotalAddVN] = useState(0)
+  let [totaladdvnshow, setTotalAddVNShow] = useState(0)
   let [totalsub, setTotalSub] = useState(0)
   let [totalsubshow, setTotalSubShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
@@ -125,6 +130,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaldordershow=totaldorder
     setTotalOrderShow(totaldordershow)
     setTotalOrder(0)
+
+    totaladdvnshow=totaladdvn
+    setTotalAddVNShow(totaladdvnshow)
+    setTotalAddVN(0)
+
     if(startDate==null || endDate==null){
       setKeyDateStartTrue(0)
       setKeyDateEndTrue(0)
@@ -141,6 +151,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaldordershow=totaldorder
     setTotalOrderShow(totaldordershow)
     totaldorder=0
+    totaldorderVnshow=totaldordervn
+    setTotalOrderVNShow(totaldorderVnshow)
+    totaldordervn=0
     totaladdshow=totaladd
     setTotalAddShow(totaladdshow)
     totaladd=0
@@ -174,10 +187,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-5 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>Biến động số dư</span>
-              <span  className='ml-2 fw-bold fs-7'>({useEff<=1?sumorder:totaldordershow} giao dịch)</span>
+              <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} giao dịch [ <span style={{color:"#000000"}}>VN{-totaldorderVnshow} </span> <span style={{color:"#831013"}}>US-{(totaldordershow-totaldorderVnshow)}</span> ]</span>
               <p className="fw-bold c-order__list">
                 <span style={{fontSize:12,marginTop:5}}>
-                  Tiền vào: <span style={{color:"red"}}> {totaladdshow.toFixed(3)}</span>$ | Tiền chi: <span style={{color:"red"}}>{(-totalsubshow.toFixed(3))}</span>$
+                  Tiền vào: <span style={{color:"red"}}> {totaladdshow.toFixed(3)}</span>$ | Tiền chi: <span style={{color:"red"}}>{(-totalsubshow.toFixed(3))}</span>$ [ <span style={{color:"#000000"}}>VN-{-totaladdvnshow.toFixed(3)} </span> <span style={{color:"#831013"}}>US-{(-totalsubshow+totaladdvnshow).toFixed(3)}</span> ]
                   | {totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} <span style={{color:"red"}}>{totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}</span>$
                 </span>
 
@@ -245,7 +258,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             <thead>
               <tr className='fw-bolder text-muted'>
                 <th className='min-w-10px text-sm'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>STT</span>
+                  <span style={{fontSize:12,color:"black",marginLeft:5}} className='text-sm'>STT</span>
                 </th>
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
@@ -255,6 +268,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 </th>
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Balance</span>
+                </th>
+                <th className='min-w-10px text-sm'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Service</span>
                 </th>
                 {role!="ROLE_USER"&&<th   className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>User</span>
@@ -276,6 +292,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
+                        if(order.service>=600){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }
                       }
                     }else{
                       totaldorder=totaldorder+1
@@ -283,6 +303,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
+                        if(order.service>=600){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }
                       }
                     }
                     let orderitem = {
@@ -291,7 +315,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totalbalance:order.totalbalance,
                       time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
                       user:order.user,
-                      note:order.note
+                      note:order.note,
+                      service:order.service
 
                     }
                     list_orderhistory.push(orderitem)
@@ -310,6 +335,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
+                        if(order.service>=600){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }
                       }
                     }else{
                       totaldorder=totaldorder+1
@@ -317,6 +346,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
+                        if(order.service>=600){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }
                       }
                     }
                     let orderitem = {
@@ -325,7 +358,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totalbalance:order.totalbalance,
                       time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
                       user:order.user,
-                      note:order.note
+                      note:order.note,
+                      service:order.service
+
                     }
                     list_orderhistory.push(orderitem)
                     return (
@@ -343,6 +378,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
+                        if(order.service>=600){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }
                       }
                     }else{
                       totaldorder=totaldorder+1
@@ -350,6 +389,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
+                        if(order.service>=600){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }
                       }
                     }
                     let orderitem = {
@@ -358,7 +401,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totalbalance:order.totalbalance,
                       time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
                       user:order.user,
-                      note:order.note
+                      note:order.note,
+                      service:order.service
 
                     }
                     list_orderhistory.push(orderitem)
@@ -380,6 +424,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
+                        if(order.service>=600){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }
                       }
                     }else{
                       totaldorder=totaldorder+1
@@ -387,6 +435,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
+                        if(order.service>=600){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }
                       }
                     }
                     let orderitem = {
@@ -395,7 +447,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totalbalance:order.totalbalance,
                       time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
                       user:order.user,
-                      note:order.note
+                      note:order.note,
+                      service:order.service
 
                     }
                     list_orderhistory.push(orderitem)

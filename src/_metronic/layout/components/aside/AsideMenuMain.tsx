@@ -11,6 +11,12 @@ export function AsideMenuMain() {
   const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
   return (
     <>
+        <AsideMenuItem
+            to='/crafted/orderfindhistory'
+            title='Tìm kiếm nhanh'
+            icon='/media/icons/duotune/general/gen004.svg'
+            fontIcon='bi-app-indicator'
+        />
         {
             role === "ROLE_ADMIN" &&       <AsideMenuItem
                 to='/dashboard'
@@ -53,17 +59,49 @@ export function AsideMenuMain() {
           />
       }
       <AsideMenuItem
+            children={AsideMenuMain}
             to='/crafted/orders'
-            title='Đơn chạy & Thêm đơn'
-            icon='/media/icons/duotune/graphs/gra008.svg'
+            title='Đơn Views'
+            icon='/media/icons/duotune/social/soc007.svg'
             fontIcon='bi-app-indicator'
       />
+        {
+            role === "ROLE_ADMIN" &&  <AsideMenuItem
+            to='/crafted/ordercheck'
+            title='Đơn Views duyệt hủy'
+            icon='/media/icons/duotune/general/gen042.svg'
+            fontIcon='bi-app-indicator'
+        />
+        }
+
+        {
+            role === "ROLE_ADMIN" &&  <AsideMenuItem
+                to='/crafted/orderbaohanh'
+                title='Bảo hành & Hoàn Tiền'
+                icon='/media/icons/duotune/general/gen026.svg'
+                fontIcon='bi-app-indicator'
+            />
+        }
       <AsideMenuItem
             to='/crafted/orderhistory'
-            title='Lịch sử đơn'
+            title='Lịch sử Views'
             icon='/media/icons/duotune/graphs/gra011.svg'
             fontIcon='bi-app-indicator'
       />
+
+        <AsideMenuItem
+            to='/crafted/ordercomments'
+            title='Đơn Comments'
+            icon='/media/icons/duotune/communication/com003.svg'
+            fontIcon='bi-app-indicator'
+        />
+        <AsideMenuItem
+            to='/crafted/ordercommenthistory'
+            title='Lịch sử Comments'
+            icon='/media/icons/duotune/graphs/gra011.svg'
+            fontIcon='bi-app-indicator'
+        />
+
         <AsideMenuItem
             to='/crafted/balance'
             title='Biến động số dư'

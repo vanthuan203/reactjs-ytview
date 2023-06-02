@@ -40,10 +40,9 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100}}>
-
+        <tr style={{margin:100,backgroundColor:item.service<600?"rgba(252,226,207,0.62)":"#ffffff"}}>
             <td>
-                <span style={{fontWeight:'bold',fontSize:11,fontFamily:'cursive'}} className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
+                <span style={{marginLeft:5}} className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
             </td>
             <td>
                 <span style={{ color:'white',fontSize:11,backgroundColor:"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.orderid}</span>

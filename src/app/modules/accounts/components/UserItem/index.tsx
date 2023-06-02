@@ -24,9 +24,9 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
     }
     return (
 
-        <tr>
+        <tr style={{margin:100}}>
             <td className='w-25px'>
-                <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                         onChange={(evt)=>{
                             dispatch(actions.checkedChange({
@@ -72,7 +72,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                 </div>
             </td>
             <td>
-                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='vn'?'#50CD89':item.vpsoption=='us'?'#d32627':'#9ca1a0'}}>
+                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='vn'?'#50CD89':item.vpsoption=='us'?'#d32627':item.vpsoption=='live'?'#dc7a30':'#9ca1a0'}}>
                     <text >
                     {item.vpsoption==''?'Pending':item.vpsoption=='Pending'?item.vpsoption:item.vpsoption.toUpperCase()}
                     </text>
@@ -89,6 +89,11 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                     EXT
                     </text>
                 </span>
+                <span className='badge badge-dark' style={{fontSize:11,marginLeft:2, backgroundColor:item.get_account==1?'#c0271b':'#9ca1a0'}}>
+                    <text >
+                    GET
+                    </text>
+                </span>
             </td>
             <td style={{width:'250px'}} className='text-end'>
                 <div  className='d-flex flex-column w-100 me-2'>
@@ -103,15 +108,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
 
                 </span>
 
-                        }{
-                        item.changefinger!=0 && <span style={{color:"black",fontWeight:'bold',fontSize:11,marginTop:2,backgroundColor:"#c0e1ce"}} className='badge badge-danger'>
-
-                                <text >
-                                       Change Finger
-                                </text>
-
-                </span>
-                    }
+                        }
                     </div>
                     <div  className='progress h-6px w-300'>
                         <div

@@ -742,10 +742,10 @@ $modal-content-box-shadow-sm-up:   					0 .5rem 1rem rgba($black, .1) !default;
 $modal-backdrop-bg:                		 			$black !default;
 $modal-backdrop-opacity:            				if(isDarkMode(), 0.4, 0.3) !default;
 
-$modal-xl:                         		 			1300px !default;
-$modal-lg:                          				1300px !default;
-$modal-md:                          				1300px !default;
-$modal-sm:                          				300px !default;
+$modal-xl:                         		 			90% !default;
+$modal-lg:                          				90%  !default;
+$modal-md:                          				90% !default;
+$modal-sm:                          				90% !default;
 
 
 // Alerts

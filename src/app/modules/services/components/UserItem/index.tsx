@@ -25,65 +25,73 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
     }
     const clickDeleteHandler = () => {
         if (window.confirm("Bạn chắc chắn muốn xóa service: "+item.service!) == true) {
-            dispatch(actions.deleteVpsRequest(item.note))
+            dispatch(actions.deleteVpsRequest(item.geo))
         }
     }
     return (
 
-        <tr>
+        <tr style={{margin:100}}>
             <td className='w-25px'>
-                <span className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
+                <span style={{marginLeft:5}} className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
             </td>
 
             <td>
-                <span >
-                    <text style={{fontSize:12,fontWeight:"bold"}}>
-                        {item.service}
-                    </text>
-                            </span>
+                    <span style={{fontSize:11,color:"white",backgroundColor:"#435e57",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.service}</span>
             </td>
-            <td>
-                <span className='badge badge-dark' style={{fontSize:11, backgroundColor:"#e5121c"}}>
-                    <text >
-                    {item.category}
-                    </text>
+            <td >
+                    <span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.mintime}-{item.maxtime} minutes</span>
+                        {item.suggest>0&&<span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Suggest | <span style={{color:"#ffffff"}}>{item.suggest}%</span></span>}
+                        {item.search>0&&<span style={{ color:'black',fontSize:11,backgroundColor:"#c0dee1",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Search | <span style={{color:"black"}}>{item.search}%</span></span>}
+                        {item.dtn>0&&<span style={{ color:'black',fontSize:11,backgroundColor:"#f1b65f",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Browse features | <span style={{color:"#000000"}}>{item.dtn}%</span></span>}
+                        {item.direct>0&&<span style={{ color:'white',fontSize:11,backgroundColor:"#6d7773",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Direct | <span style={{color:"#ffffff"}}>{item.direct}%</span></span>}
+                        {item.embed>0&&<span style={{ color:'white',fontSize:11,backgroundColor:"#af171b",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Embed | <span style={{color:"#ffffff"}}>{item.embed}%</span></span>}
+                        {item.external>0&&<span style={{ color:'black',fontSize:11,backgroundColor:"rgb(133,180,151)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>External | <span style={{color:"#000000"}}>{item.external}%</span></span>}
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#e1f8eb",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#000000"}}>{item.type}</span></span>
+                    <br/>
                 </span>
-
+            </td>
+            <td >
+                    <span style={{fontSize:11,color:"white",backgroundColor:"#b6191a",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.rate}</span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                      {item.name}
+                                        {item.min}-{item.max}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.rate}$
+                                        {item.maxorder}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.min}
+                                        {item.thread}
                                 </text>
                     </span>
             </td>
             <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold"}} >
-                                        {item.max}
-                                </text>
-                    </span>
+                <span style={{fontSize:11,color:"white",backgroundColor:item.live===1?"#b7080f":"#9ca1a0",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.live===1 ?"YES":"NO"}</span>
             </td>
             <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold"}} >
-                                        {item.note}
-                                </text>
-                    </span>
+                                   <span >
+                    {item.geo.indexOf('vn')<0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                        <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
+                </span>
+            </td>
+            <td >
+                <span style={{fontSize:11,color:"white",backgroundColor:item.enabled===1?"#b7080f":"#9ca1a0",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.enabled===1 ?"ON":"OFF"}</span>
+            </td>
+            <td >
+                <span style={{fontSize:11,color:"white",backgroundColor:item.refill===1?"#00b65c":"#9ca1a0",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.refill===1?(item.maxtimerefill==-1?"Lifetime":item.maxtimerefill+" days Refill"):"No Refill"}</span>
+            </td>
+            <td >
+                <span style={{fontSize:11,color:"white",backgroundColor:item.checktime===1?"#b92e23":"#9ca1a0",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.checktime===1?"YES":"NO"}</span>
             </td>
             {role=="ROLE_ADMIN"&&<td>
                 <div className='d-flex justify-content-end flex-shrink-0'>

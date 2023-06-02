@@ -20,7 +20,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const API_URL = process.env.REACT_APP_API_URL
     const [vpsoption, setvpsoption] = useState('vn')
     const [vpsreset, setvpsreset] = useState(0)
-    const [changefinger, setchangefinger] = useState(item.changefinger)
+    const [get_account, setget_account] = useState(item.get_account)
     const [threads, setthreads] = useState(item.threads)
     const [ext, setext] = useState(1)
     async function resetrunningacc(vps:string) {
@@ -48,7 +48,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
             vpsoption:vpsoption,
             threads:threads,
             vpsreset:vpsreset,
-            changefinger:changefinger,
+            get_account:get_account,
             ext:ext
         }))
     }
@@ -88,6 +88,9 @@ const EditModal: React.FC<Props> = ({ item }) => {
                             <option key={2} value={'us'}>
                                 {"US"}
                             </option>
+                            <option key={2} value={'live'}>
+                                {"Live"}
+                            </option>
                             <option key={0} value={'Pending'}>
                                 {"Pending"}
                             </option>
@@ -113,14 +116,14 @@ const EditModal: React.FC<Props> = ({ item }) => {
                             </option>
                         </Input>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Có đổi finger?</p>
+                    <p style={{fontWeight:'bold'}}>Get Account?</p>
                     <div className="input-group mb-5">
                         <Input
-                            onChange={(e) => setchangefinger(parseInt(e.target.value))}
+                            onChange={(e) => setget_account(parseInt(e.target.value))}
                             className="form-control form-control-solid"
                             type="select"
                             style={{fontWeight:'bold'}}
-                            value={changefinger}
+                            value={get_account}
                         >
                             <option key={0} value={0}>
                                 {"Không"}

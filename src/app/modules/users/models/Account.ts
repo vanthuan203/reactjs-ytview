@@ -6,7 +6,8 @@ export interface AccountModel {
   discount:number,
   maxorder:number,
   note:string,
-  vip:number
+  vip:number,
+  rate:number,
   checked?:boolean
 }
 export interface OrderModelChecked {
@@ -20,5 +21,6 @@ export interface AccountForm {
   discount:number,
   maxorder:number,
   note:string,
+  rate:number,
   vip:number
 }

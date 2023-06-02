@@ -54,11 +54,6 @@ const EditModal: React.FC<Props> = ({ item}) => {
     }
     let [timebuff_old,setTimebuff_Old]=useState(0);
     const submit = () => {
-
-        if (vieworder<parseInt((item.viewtotal).toFixed(0))+100) {
-            alert("Số giờ thay đổi phải lớn hơn tổng giờ đã chạy ít nhất 100h! (>="+(item.vieworder+100).toFixed(0)+"view)")
-            return
-        }
         dispatch(actions.requestUpdate({
             ...item,
             note,

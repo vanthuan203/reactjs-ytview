@@ -58,6 +58,13 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
+                                        {item.rate}%
+                                </text>
+                    </span>
+            </td>
+            <td >
+                    <span style={{fontSize:11}} >
+                                <text style={{fontWeight:"bold"}} >
                                         {item.discount}%
                                 </text>
                     </span>

@@ -71,6 +71,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                 <th className='min-w-100px '>Username</th>
                 <th className='min-w-100px'>Role</th>
                 <th className='min-w-100px'>Balance</th>
+                <th className='min-w-100px'>Rate</th>
                 <th className='min-w-100px'>Discount</th>
                 <th className='min-w-100px'>MaxOrder</th>
                 <th className='min-w-100px'>Vip</th>

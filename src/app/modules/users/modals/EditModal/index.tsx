@@ -26,6 +26,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const [discount, setdiscount] = useState(item.discount)
     const [maxorder, setmaxorder] = useState(item.maxorder)
     const [note, setnote] = useState(item.note)
+    const [rate, setrate] = useState(item.rate)
     const [vip, setvip] = useState(item.vip)
 
     const dismissModal = () => {
@@ -36,8 +37,12 @@ const EditModal: React.FC<Props> = ({ item }) => {
             alert("Số tiền nhỏ nhất là 100$")
             return
         }
+        if(rate<100){
+            alert("% rate không hợp lệ!")
+            return
+        }
         if(discount>100 || discount<0){
-            alert("% giảm giá không hợp lệ!")
+            alert("% Discount không hợp lệ!")
             return
         }
         if(maxorder<0){
@@ -51,6 +56,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
             maxorder,
             vip,
             note,
+            rate,
         }))
     }
 
@@ -72,7 +78,14 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         />
                         <span className="input-group-text" id="basic-addon2">$</span>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Giảm giá</p>
+                    <p style={{fontWeight:'bold'}}>Rate</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={rate} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setrate(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">%</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Discount</p>
                     <div className="input-group mb-5">
                         <input style={{fontWeight:'bold'}} value={discount} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
                                onChange={(e) => setdiscount(parseInt(e.target.value))}
