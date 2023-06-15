@@ -88,13 +88,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalUsshow, setTotalUsShow] = useState(0)
 
   const role: string =
-    (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+      (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const groups: Group[] =
-    (useSelector<RootState>(({orders}) => orders.groups, shallowEqual) as Group[]) || []
+      (useSelector<RootState>(({orders}) => orders.groups, shallowEqual) as Group[]) || []
   const currentGroup: Group =
-    (useSelector<RootState>(({orders}) => orders.currentGroup, shallowEqual) as Group) || undefined
+      (useSelector<RootState>(({orders}) => orders.currentGroup, shallowEqual) as Group) || undefined
   let sumtimedone=0;
   let sumorder=0;
   let summoney=0;
@@ -228,117 +228,117 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   })
 
   return (
-    <div className={`card ${className}`}>
-      <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
-        <div className="page-header__content">
-          <div className="align-items-center row" style={{margin:10}}>
-            <div className="col-lg-5 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>Đơn đã xong</span>
-              <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ]</span>
-              <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
-              </p>
-            </div>
-            <div className="col-lg-7 col-sm-12 c-order__header">
-              <div style={{float:"right",fontWeight:"bold"}}>
-                <DatePicker
+      <div className={`card ${className}`}>
+        <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
+          <div className="page-header__content">
+            <div className="align-items-center row" style={{margin:10}}>
+              <div className="col-lg-5 col-sm-12 c-order__header">
+                <span  className='fw-bolder fs-3 mb-1'>Đơn đã xong</span>
+                <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ]</span>
+                <p className="fw-bold c-order__list">
+                  <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
+                </p>
+              </div>
+              <div className="col-lg-7 col-sm-12 c-order__header">
+                <div style={{float:"right",fontWeight:"bold"}}>
+                  <DatePicker
 
-                    value={startDate}
-                    onChange={(date: React.SetStateAction<Date>) =>{ setStartDate(date)
-                    }
-                    }
+                      value={startDate}
+                      onChange={(date: React.SetStateAction<Date>) =>{ setStartDate(date)
+                      }
+                      }
 
-                />
-                <DatePicker
-                    value={endDate}
-                    onChange={(date: React.SetStateAction<Date>) =>{
-                      setEndDate(date)
-                    }
-                    }
-                />
+                  />
+                  <DatePicker
+                      value={endDate}
+                      onChange={(date: React.SetStateAction<Date>) =>{
+                        setEndDate(date)
+                      }
+                      }
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="page-header__content">
-          <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
-            <div style={{width:"60%"}}>
-              <div>
-                <Input style={{margin:10,width:"48%",maxWidth:130,minWidth:60,height:40,float:"left"}}
-                       id="note"
-                       name="note"
-                       value={key}
-                       placeholder="Search..."
-                       onChange={(e) => setKey(e.target.value)}
-                       type="text"
-                />
-                <button style={{fontWeight:'bold',color:"black",backgroundColor:"#c0e1ce",height:40,marginTop:10,float:"left"}}
-                        onClick={() => {setKeyTrue(1)
+          <div className="page-header__content">
+            <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
+              <div style={{width:"60%"}}>
+                <div>
+                  <Input style={{margin:10,width:"48%",maxWidth:130,minWidth:60,height:40,float:"left"}}
+                         id="note"
+                         name="note"
+                         value={key}
+                         placeholder="Search..."
+                         onChange={(e) => setKey(e.target.value)}
+                         type="text"
+                  />
+                  <button style={{fontWeight:'bold',color:"black",backgroundColor:"#c0e1ce",height:40,marginTop:10,float:"left"}}
+                          onClick={() => {setKeyTrue(1)
+                          }}
+                          className='btn btn-sm'
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+              <div style={{width:"40%"}}>
+                <button style={{height:40,margin:10,float:"right"}}
+                        onClick={() => {Export(list_orderhistory,nameExport)
                         }}
-                        className='btn btn-sm'
+                        className='btn btn-success'
                 >
-                  Search
+                  Export
                 </button>
+                {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
+                    //onChange={(e) => setKeyRate(parseInt(e.target.value))}
+                                             onChange={(e) => {
+                                               setKeyUser(e.target.value)
+                                               setKeyUserTrue(1)
+                                             }}
+                                             className="form-control form-control-solid"
+                                             type="select"
+                                             value={keyuser}
+                >
+                  {
+                    list_user.map((item, index) => {
+                      return(
+                          <option key={item.user.indexOf("All User")>=0?"":item.user} value={item.user.indexOf("All User")>=0?"":item.user}>
+                            {item.user}</option>)
+                    })
+                  }
+
+                </Input>}
               </div>
             </div>
-            <div style={{width:"40%"}}>
-              <button style={{height:40,margin:10,float:"right"}}
-                      onClick={() => {Export(list_orderhistory,nameExport)
-                      }}
-                      className='btn btn-success'
-              >
-                Export
-              </button>
-              {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
-                  //onChange={(e) => setKeyRate(parseInt(e.target.value))}
-                     onChange={(e) => {
-                       setKeyUser(e.target.value)
-                       setKeyUserTrue(1)
-                     }}
-                     className="form-control form-control-solid"
-                     type="select"
-                     value={keyuser}
-              >
-                {
-                  list_user.map((item, index) => {
-                    return(
-                        <option key={item.user.indexOf("All User")>=0?"":item.user} value={item.user.indexOf("All User")>=0?"":item.user}>
-                          {item.user}</option>)
-                  })
-                }
-
-              </Input>}
+          </div>
+          <div className="page-header__content">
+            <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
+              {role==="TEST"&&<div style={{width:"100%"}}>
+                <button style={{height:40,margin:10,float:"right"}}
+                        onClick={() => {Export(list_orderhistory,nameExport)
+                        }}
+                        className='btn btn-google'
+                >
+                  Đối soát
+                </button>
+                <button style={{height:40,margin:10,float:"right"}}
+                        onClick={() => {
+                          setShowAddManual(true)
+                        }}
+                        className='btn btn-success'
+                >
+                  Tra cứu nhanh
+                </button>
+              </div>}
             </div>
           </div>
         </div>
-        <div className="page-header__content">
-          <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
-            {role==="TEST"&&<div style={{width:"100%"}}>
-              <button style={{height:40,margin:10,float:"right"}}
-                      onClick={() => {Export(list_orderhistory,nameExport)
-                      }}
-                      className='btn btn-google'
-              >
-                Đối soát
-              </button>
-              <button style={{height:40,margin:10,float:"right"}}
-                      onClick={() => {
-                        setShowAddManual(true)
-                      }}
-                      className='btn btn-success'
-              >
-                Tra cứu nhanh
-              </button>
-            </div>}
-          </div>
-        </div>
-      </div>
-      <div className='card-body py-3'>
-        <div className='table-responsive'>
-          {/* begin::Table */}
-          <table className='table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3'>
-            {/* begin::Table head */}
-            <thead>
+        <div className='card-body py-3'>
+          <div className='table-responsive'>
+            {/* begin::Table */}
+            <table className='table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3'>
+              {/* begin::Table head */}
+              <thead>
               <tr className='fw-bolder text-muted'>
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black",marginLeft:5}} className='text-sm'>STT</span>
@@ -362,436 +362,436 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Note</span>
                 </th>
               </tr>
-            </thead>
-            {/* end::Table head */}
-            {/* begin::Table body */}
-            <tbody>
+              </thead>
+              {/* end::Table head */}
+              {/* begin::Table body */}
+              <tbody>
               {orders &&
-                orders.map((order: OrderModel, index: number) => {
-                  console.log(order.user)
-                  if (keyusertrue==0&&keytrue==0&&keydate==0) {
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
+                  orders.map((order: OrderModel, index: number) => {
+                    console.log(order.user)
+                    if (keyusertrue==0&&keytrue==0&&keydate==0) {
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
-                      }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
-                      }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if(order.user.indexOf(keyuser)>=0 &&keyusertrue==1&&keytrue==0&&keydate==0){
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }else if(order.user.indexOf(keyuser)>=0 &&keyusertrue==1&&keytrue==0&&keydate==0){
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
-                      &&keytrue==1&&keyusertrue==0&&keydate==0){
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
+                        &&keytrue==1&&keyusertrue==0&&keydate==0){
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if((keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)&&keytrue==0&&keyusertrue==0&&keydate==1){
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }else if((keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)&&keytrue==0&&keyusertrue==0&&keydate==1){
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }
-                  else if(order.user.indexOf(keyuser)>=0&&keytrue==0&&keyusertrue==1&&keydate==1&&
-                      (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
-                  ){
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
-                      }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
-                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                    else if(order.user.indexOf(keyuser)>=0&&keytrue==0&&keyusertrue==1&&keydate==1&&
+                        (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
+                    ){
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
+                      }else{
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
+                      }
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
-                      &&keytrue==1&&keyusertrue==0&&keydate==1&&
-                      (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
-                  ){
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
+                        &&keytrue==1&&keyusertrue==0&&keydate==1&&
+                        (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
+                    ){
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }
-                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )
-                      &&keytrue==1&&keyusertrue==1&&keydate==0) {
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
-                      }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )
+                        &&keytrue==1&&keyusertrue==1&&keydate==0) {
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }
-                  else if(((order.videoid.indexOf(key)>=0 || order.note.indexOf(key)>=0 || order.orderid.toString().indexOf(key)>=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0)
-                      &&keytrue==1&&keyusertrue==1&&keydate==1&&
-                      (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)) {
-                    if(index===0){
-                      totaldorder=1
-                      totalmoney=order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                      if(order.service>600){
-                        totalvn=1
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0)
+                        &&keytrue==1&&keyusertrue==1&&keydate==1&&
+                        (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)) {
+                      if(index===0){
+                        totaldorder=1
+                        totalmoney=order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.service>600){
+                          totalvn=1
+                        }else{
+                          totalmoneyUS=order.price
+                          totalUs=1
+                        }
                       }else{
-                        totalmoneyUS=order.price
-                        totalUs=1
+                        totaldorder=totaldorder+1
+                        totalmoney=totalmoney+order.price
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.service>600){
+                          totalvn=1+totalvn
+                        }else{
+                          totalUs=1+totalUs
+                          totalmoneyUS=totalmoneyUS+order.price
+                        }
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      totalmoney=totalmoney+order.price
-                      totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                      if(order.service>600){
-                        totalvn=1+totalvn
-                      }else{
-                        totalUs=1+totalUs
-                        totalmoneyUS=totalmoneyUS+order.price
+                      let orderitem = {
+                        id: totaldorder,
+                        videoid: order.videoid,
+                        timebuff:order.timebuff,
+                        viewtotal:order.viewtotal,
+                        timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
+                        viewstart:order.viewstart,
+                        viewend:order.viewend,
+                        insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
+                        enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
+                        cancel:order.cancel,
+                        user:order.user,
+                        note:order.note,
+                        price:order.price
                       }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.videoid+index.toString()}
+                              item={order}
+                          />
+                      )
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      videoid: order.videoid,
-                      timebuff:order.timebuff,
-                      viewtotal:order.viewtotal,
-                      timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
-                      viewstart:order.viewstart,
-                      viewend:order.viewend,
-                      insertdate: new Date(order.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(order.insertdate).toLocaleTimeString('vn-VN'),
-                      enddate: new Date(order.enddate).toLocaleDateString('vn-VN') +" "+ new Date(order.enddate).toLocaleTimeString('vn-VN'),
-                      cancel:order.cancel,
-                      user:order.user,
-                      note:order.note,
-                      price:order.price
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }
                     return null
-                })}
-            </tbody>
-            {/* end::Table body */}
-          </table>
-          {loading===true&&<div style={{width:'1%',margin:"auto"}}>
-            <div  className="spinner-grow text-success" role="status" style={{}}>
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>}
+                  })}
+              </tbody>
+              {/* end::Table body */}
+            </table>
+            {loading===true&&<div style={{width:'1%',margin:"auto"}}>
+              <div  className="spinner-grow text-success" role="status" style={{}}>
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>}
+          </div>
+          {/* end::Table container */}
         </div>
-        {/* end::Table container */}
-      </div>
-      {/* begin::Body */}
-      {showAdd && (
-        <AddModal
-          show={true}
-          close={() => {
-            setShowAdd(false)
-          }}
-        />
-      )}
+        {/* begin::Body */}
+        {showAdd && (
+            <AddModal
+                show={true}
+                close={() => {
+                  setShowAdd(false)
+                }}
+            />
+        )}
 
-      <EditMulti
-        show={showEditMulti}
-        close={() => {
-          setShowEditMulti(false)
-        }}
-      />
-      <AddManualModal
-        show={showAddManual}
-        close={() => {
-          setShowAddManual(false)
-        }}
-      />
-    </div>
+        <EditMulti
+            show={showEditMulti}
+            close={() => {
+              setShowEditMulti(false)
+            }}
+        />
+        <AddManualModal
+            show={showAddManual}
+            close={() => {
+              setShowAddManual(false)
+            }}
+        />
+      </div>
   )
 }
 
