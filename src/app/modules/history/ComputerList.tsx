@@ -16,7 +16,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = 'http://125.212.231.69/'
+  const API_URL = 'http://42.96.35.42/'
   const [ipv4, setipv4] = useState("")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)

@@ -12,7 +12,7 @@ export async function getComputer() {
 }
 
 export async function getProxy() {
-  const res:any = await getFunciton("http://125.212.231.69/proxy/list_v4")
+  const res:any = await getFunciton("http://42.96.35.42/proxy/list_v4")
   return res
 }
 export async function deleteProxy(ipv4:string) {
