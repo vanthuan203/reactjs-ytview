@@ -12,11 +12,11 @@ type Props = {
   className: string,
 }
 
-const ComputerList: React.FC<Props> = ({ className }) => {
+const ComputerListSub: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = 'http://server1.idnetwork.com.vn/'
+  const API_URL = 'http://42.96.35.42/'
   const [ipv4, setipv4] = useState("")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
@@ -31,7 +31,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
       }
   }
   useEffect(() => {
-    dispatch(actions.requestProxies())
+    dispatch(actions.requestProxiesSub())
     setipv4('')
     setKeyTrue(0)
   }, [status])
@@ -256,4 +256,4 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   )
 }
 
-export default ComputerList
+export default ComputerListSub

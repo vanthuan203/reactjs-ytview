@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { put, takeLatest } from 'redux-saga/effects'
 import {ComputerModel, HistoryModel, ChannelStaticModel, ProxyModel} from '../models/Account'
-import { getList,getComputer,getStatics,getProxy,deleteProxy} from './AccountCRUD'
+import { getList,getComputer,getStatics,getProxy,getProxySub,deleteProxy} from './AccountCRUD'
 import {deleteChannel} from "../../orderdone/redux/OrdersCRUD";
 import {OrderModel} from "../../orderdone/models/Order";
 export interface ActionWithPayload<T> extends Action {
@@ -20,6 +20,7 @@ export const actionTypes = {
   ProxyLoadedSuccess: '[Proxy] Loaded succcess',
   RequestStatic: '[Static] Requested',
   RequestProxy: '[Proxy] Requested',
+  RequestProxySub: '[Proxy] Sub Requested',
   StaticLoadedSuccess: '[Static] Loaded succcess',
   CheckedChange: '[Proxy] Checked Change',
   CheckedAllChange: '[Proxy] Checked All Change',
@@ -55,6 +56,13 @@ export const reducer = persistReducer(
           }
         }
         case actionTypes.RequestProxy: {
+          return {
+            ...state,
+            proxies: [],
+            loading: true
+          }
+        }
+        case actionTypes.RequestProxySub: {
           return {
             ...state,
             proxies: [],
@@ -127,6 +135,7 @@ export const actions = {
   loadAccountsFail: (message: string) => ({ type: actionTypes.HistoryLoadedFail, payload: { message } }),
   requestComputers: () => ({ type: actionTypes.RequestComputers}),
   requestProxies: () => ({ type: actionTypes.RequestProxy}),
+  requestProxiesSub: () => ({ type: actionTypes.RequestProxySub}),
   fulfillComputers: (computers: ComputerModel[]) => ({ type: actionTypes.ComputersLoadedSuccess, payload: { computers } }),
   requestStatics: (user:string) => ({ type: actionTypes.RequestStatic,payload:{user}}),
   fulfillStatics: (statics: ChannelStaticModel[]) => ({ type: actionTypes.StaticLoadedSuccess, payload: { statics } }),
@@ -143,6 +152,11 @@ export function* saga() {
   })
   yield takeLatest(actionTypes.RequestProxy, function* userRequested(param: any) {
     const {data: resutl} = yield getProxy()
+    console.log(resutl)
+    yield put(actions.fulfillProxy(resutl.proxies))
+  })
+  yield takeLatest(actionTypes.RequestProxySub, function* userRequested(param: any) {
+    const {data: resutl} = yield getProxySub()
     console.log(resutl)
     yield put(actions.fulfillProxy(resutl.proxies))
   })

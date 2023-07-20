@@ -52,12 +52,20 @@ export function AsideMenuMain() {
       }
       {
           role === "ROLE_ADMIN" && <AsideMenuItem
-              to='/crafted/proxy'
-              title='Danh sách Proxy'
+              to='/crafted/proxyview'
+              title='Danh sách Proxy View'
               icon='/media/icons/duotune/abstract/abs018.svg'
               fontIcon='bi-person'
           />
       }
+        {
+            role === "ROLE_ADMIN" && <AsideMenuItem
+                to='/crafted/proxysub'
+                title='Danh sách Proxy Sub'
+                icon='/media/icons/duotune/abstract/abs018.svg'
+                fontIcon='bi-person'
+            />
+        }
       <AsideMenuItem
             children={AsideMenuMain}
             to='/crafted/orders'

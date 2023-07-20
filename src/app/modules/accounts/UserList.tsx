@@ -87,7 +87,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     settotal_user(counts);
   }
   async function getcountsbyendtrial(){
-    const requestUrl = API_URL+'accview/countgmailsbyendtrial';
+    const requestUrl = API_URL+'accview/sumgmails';
     const response= await fetch(requestUrl,{
       method: 'get',
       headers: new Headers({

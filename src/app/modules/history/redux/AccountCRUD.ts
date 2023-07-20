@@ -12,6 +12,10 @@ export async function getComputer() {
 }
 
 export async function getProxy() {
+  const res:any = await getFunciton("http://server1.idnetwork.com.vn/proxy/list_v4")
+  return res
+}
+export async function getProxySub() {
   const res:any = await getFunciton("http://42.96.35.42/proxy/list_v4")
   return res
 }

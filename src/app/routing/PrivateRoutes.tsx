@@ -17,6 +17,7 @@ export function PrivateRoutes() {
   const WidgetsPageHis1 = lazy(() => import('../modules/ordercommenthistory/OrdersPage'))
   const WidgetsPageBalance = lazy(() => import('../modules/balance/OrdersPage'))
   const ComputerList = lazy(() => import('../modules/history/ComputerList'))
+  const ComputerListSub = lazy(() => import('../modules/history/ComputerListSub'))
 
   return (
     <Suspense fallback={<FallbackView />}>
@@ -32,7 +33,8 @@ export function PrivateRoutes() {
         <Route path='/crafted/vps' component={AccountPage} />
         <Route path='/crafted/user' component={AccountPage1} />
         <Route path='/crafted/threads' component={AccountPage4} />
-        <Route path='/crafted/proxy' component={ComputerList} />
+        <Route path='/crafted/proxyview' component={ComputerList} />
+        <Route path='/crafted/proxysub' component={ComputerListSub} />
         <Route path='/crafted/setting' component={AccountPage2} />
         <Route path='/crafted/service' component={AccountPage3} />
         <Route path='/crafted/balance' component={WidgetsPageBalance} />
