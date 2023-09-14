@@ -33,6 +33,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   }
   const [list_orderhistory,setList_OrderHistory]=useState([{
     id: 0,
+    orderid:0,
     videoid: '',
     timebuff:0,
     timebuffhtotal: 0,
@@ -117,7 +118,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     id:"0000000000",
     user:"All User"
   },])
-
+  const [list_video,setList_Video]=useState([{
+    id:0,
+    orderid:0,
+  },])
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
     const response = await fetch(requestUrl, {
@@ -143,10 +147,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
 
   useEffect(() => {
     setLoading(true)
-    if(orders.length!=0 || list_orderhistory.length>0){
+    if(orders.length!=0 || list_video.length>0){
       setLoading(false)
     }
-    setList_OrderHistory([])
+    setList_Video([])
     useEff=useEff+1
     setuseEff(useEff)
     if(role==="ROLE_ADMIN"){
@@ -233,10 +237,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="page-header__content">
             <div className="align-items-center row" style={{margin:10}}>
               <div className="col-lg-5 col-sm-12 c-order__header">
-                <span  className='fw-bolder fs-3 mb-1'>Đơn đã xong</span>
-                <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ]</span>
-                <p className="fw-bold c-order__list">
-                  <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
+                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đã xong {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> </span>
+                <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                  <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
                 </p>
               </div>
               <div className="col-lg-7 col-sm-12 c-order__header">
@@ -373,7 +376,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -383,7 +386,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -393,6 +396,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }
                       let orderitem = {
                         id: totaldorder,
+                        orderid:order.orderid,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
@@ -420,7 +424,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -430,7 +434,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -440,6 +444,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }
                       let orderitem = {
                         id: totaldorder,
+                        orderid:order.orderid,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
@@ -468,7 +473,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -478,7 +483,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -489,6 +494,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       let orderitem = {
                         id: totaldorder,
                         videoid: order.videoid,
+                        orderid:order.orderid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
                         timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
@@ -515,7 +521,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -525,7 +531,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -536,6 +542,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       let orderitem = {
                         id: totaldorder,
                         videoid: order.videoid,
+                        orderid:order.orderid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
                         timebuffhtotal: Math.round(Number(order.timebuffhtotal==null?0:order.timebuffhtotal)/3600),
@@ -565,7 +572,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -575,7 +582,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -585,6 +592,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }
                       let orderitem = {
                         id: totaldorder,
+                        orderid:order.orderid,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
@@ -615,7 +623,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -625,7 +633,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -635,6 +643,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }
                       let orderitem = {
                         id: totaldorder,
+                        orderid:order.orderid,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
@@ -664,7 +673,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -674,7 +683,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -683,6 +692,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }
                       }
                       let orderitem = {
+                        orderid:order.orderid,
                         id: totaldorder,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
@@ -713,7 +723,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
                         if(order.service>600){
                           totalvn=1
                         }else{
@@ -723,7 +733,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -733,6 +743,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       }
                       let orderitem = {
                         id: totaldorder,
+                        orderid:order.orderid,
                         videoid: order.videoid,
                         timebuff:order.timebuff,
                         viewtotal:order.viewtotal,
@@ -781,6 +792,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
 
         <EditMulti
             show={showEditMulti}
+            listvieoid={list_orderhistory}
             close={() => {
               setShowEditMulti(false)
             }}

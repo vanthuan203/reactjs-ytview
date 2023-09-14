@@ -8,6 +8,7 @@ export interface OrderModel {
   viewstart:number,
   viewend:number,
   insertdate: number,
+  timestart:number,
   enddate: number,
   note: string,
   view24h:number,

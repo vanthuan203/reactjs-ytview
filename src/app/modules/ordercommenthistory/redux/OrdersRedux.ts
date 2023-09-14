@@ -242,7 +242,7 @@ export const reducer = persistReducer(
         return {
           ...state,
           orders:  state.orders.map(item=>{
-            if(item.videoid===action.payload?.data?.videoid){
+            if(item.orderid==action.payload?.data?.orderid){
               return {
                 ...item,
                 checked:action?.payload?.data?.checked
@@ -283,7 +283,7 @@ export const actions = {
   addOrderSuccess: (order: OrderModel) => ({ type: actionTypes.AddOrderSuccess, payload: { order } }),
   addOrdersSuccess: (orders: OrderModel[]) => ({ type: actionTypes.AddOrdersSuccess, payload: { orders } }),
   addOrderFail: (message: string) => ({ type: actionTypes.AddOrderFail, payload: { message } }),
-  requestUpdate: (videocomment: OrderUpdateForm) => ({ type: actionTypes.RequestUpdate, payload: { videocomment } }),
+  requestUpdate: (orderid: string) => ({ type: actionTypes.RequestUpdate, payload: { orderid } }),
   updateSuccess: (videocomment: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videocomment } }),
   updateMultiSuccess: (videocomment: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videocomment } }),
   updateFail: (message: string) => ({ type: actionTypes.UpdateFail, payload: { message } }),
@@ -298,7 +298,7 @@ export const actions = {
   selectGroup: (group: Group) => ({ type: actionTypes.SelectGroup, payload: { group } }),
   deleteOrderRequest: (videoid: string) => ({ type: actionTypes.DeleteOrderRequest, payload: { videoid } }),
   deleteOrderSuccess: (videoid: string) => ({ type: actionTypes.DeleteOrderSuccess, payload: { videoid } }),
-  checkedChange: (data:{videoid:string,checked:boolean}) => ({ type: actionTypes.CheckedChange, payload: { data } }),
+  checkedChange: (data:{orderid:number,checked:boolean}) => ({ type: actionTypes.CheckedChange, payload: { data } }),
   checkedAllChange: (checked:boolean) => ({ type: actionTypes.CheckedAllChange, payload: { checked } }),
 }
 
@@ -317,7 +317,7 @@ export function* saga() {
   http://localhost:8080/Fitnees/
 
   yield takeLatest(actionTypes.RequestUpdate, function* updateUserRequested(param: any) {
-    const { data: result } = yield updateOrder(param.payload.videocomment)
+    const { data: result } = yield updateOrder(param.payload.orderid)
     if (result && result.videocomment) {
       yield put(actions.updateMultiSuccess(result.videocomment))
     } else {

@@ -295,10 +295,10 @@ const EditModal: React.FC<Props> = ({item}) => {
                                value={live}
                         >
                             <option key={"0"} value={0}>
-                                Yes
+                                No
                             </option>
                             <option key={"1"} value={1}>
-                                No
+                                Yes
                             </option>
                         </Input>
                     </FormGroup>
@@ -306,19 +306,18 @@ const EditModal: React.FC<Props> = ({item}) => {
                         <Label style={{fontWeight: 'bold'}} for="exampleEmail" className="required form-label">
                             Geo
                         </Label>
-                        <Input style={{fontWeight: "bold"}}
-                               onChange={(e) => setgeo(e.target.value)}
-                               className="form-control form-control-solid"
-                               type="select"
-                               value={geo}
-                        >
-                            <option key={"vn"} value={"vn"}>
-                                Việt Nam
-                            </option>
-                            <option key={"us"} value={"us"}>
-                                United States
-                            </option>
-                        </Input>
+                        <Label style={{fontWeight: 'bold'}} for="exampleEmail" className="required form-label">
+                            Default Threads
+                        </Label>
+                        <Input
+                            id="thread"
+                            name="thread"
+                            value={geo}
+                            className="form-control form-control-solid"
+                            placeholder="ví dụ : 100"
+                            onChange={(e) => setgeo(e.target.value)}
+                            type="text"
+                        />
                     </FormGroup>
                     <FormGroup>
                         <Label style={{fontWeight: 'bold'}} for="exampleEmail" className="required form-label">

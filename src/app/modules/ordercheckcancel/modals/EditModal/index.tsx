@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { OrderModel } from 'app/modules/orderdone/models/Order'
+import { OrderModel } from 'app/modules/ordercheckcancel/models/Order'
 import { actions } from '../../redux/OrdersRedux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -31,7 +31,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
     const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
-    const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
+    const adding: boolean = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.adding, shallowEqual) as boolean || false
     //const groups: Group[] = useSelector<RootState>(({ orders }) => orders.groups, shallowEqual) as Group[] || []
     //const orders: OrderModel[] = useSelector<RootState>(({ orders }) => orders.orders, shallowEqual) as OrderModel[] || []
 

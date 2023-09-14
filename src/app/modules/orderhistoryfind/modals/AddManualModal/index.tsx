@@ -152,7 +152,6 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
 
     useEffect(() => {
         getcounttimeorder()
-        console.log(list_service)
         if (!adding) {
             close()
         }

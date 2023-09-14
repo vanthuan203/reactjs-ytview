@@ -35,6 +35,23 @@ export async function addorderv2( videoid:string,
   return res
 }
 
+export async function addorderbychannelv2( videoid:string,
+                                  note:string,
+                                  maxthreads:number,
+                                  vieworder:number,
+                                  service:number,
+                                  user:string) {
+  const res = await postWithoutTokenFunciton("videoview/orderchannelview", {
+    videoid:videoid,
+    maxthreads:maxthreads,
+    vieworder:vieworder,
+    note:note,
+    user:user,
+    service:service
+  })
+  return res
+}
+
 export async function bhorderv2( videoid:string) {
   const res = await postWithoutTokenFunciton("videoview/bhview", {
     videoid:videoid

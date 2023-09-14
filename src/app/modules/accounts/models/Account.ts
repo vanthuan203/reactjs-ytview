@@ -14,7 +14,9 @@ export interface AccountModel {
   view24h:number,
   timegettask:string,
   get_account:number
-  ext:number
+  ext:number,
+  cmt:number,
+  proxy:number
 }
 export interface OrderModelChecked {
   vps: string,
@@ -28,4 +30,6 @@ export interface AccountForm {
   vpsreset:number,
   get_account:number,
   ext:number
+  cmt:number,
+  proxy:number
 }

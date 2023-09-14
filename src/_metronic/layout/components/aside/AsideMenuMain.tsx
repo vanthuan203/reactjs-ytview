@@ -11,14 +11,16 @@ export function AsideMenuMain() {
   const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
   return (
     <>
-        <AsideMenuItem
+        {
+        role === "ROLE_ADMIN"&&<AsideMenuItem
             to='/crafted/orderfindhistory'
             title='Tìm kiếm nhanh'
             icon='/media/icons/duotune/general/gen004.svg'
             fontIcon='bi-app-indicator'
         />
+        }
         {
-            role === "ROLE_ADMIN" &&       <AsideMenuItem
+            role === "ROLE_ADMIN1121" &&       <AsideMenuItem
                 to='/dashboard'
                 icon='/media/icons/duotune/general/gen032.svg'
                 title='Thống kê'
@@ -73,6 +75,13 @@ export function AsideMenuMain() {
             icon='/media/icons/duotune/social/soc007.svg'
             fontIcon='bi-app-indicator'
       />
+        <AsideMenuItem
+            children={AsideMenuMain}
+            to='/crafted/orderpending'
+            title='Đơn Views Pending'
+            icon='/media/icons/duotune/general/gen012.svg'
+            fontIcon='bi-app-indicator'
+        />
         {
             role === "ROLE_ADMIN" &&  <AsideMenuItem
             to='/crafted/ordercheck'

@@ -40,13 +40,12 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100,backgroundColor:item.service<600?"rgba(252,226,207,0.62)":"#ffffff"
-        }}>
+        <tr style={{margin:100}}>
             <td>
                 <span style={{marginLeft:5}} className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
             </td>
             <td>
-                <span style={{ color:'white',fontSize:11,backgroundColor:"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.orderid}</span>
+                <span style={{ color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.orderid}</span>
             </td>
             <td>
 
@@ -54,41 +53,43 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     {item.videoid}
                 </a>
                 <span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Price | <span style={{color:"rgba(227,15,25,0.93)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order | <span style={{color:"#ffffff"}}>{item.commentorder}</span></span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start | <span style={{color:"black"}}>{item.commentstart}</span></span>
-                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total | <span style={{color:"#000000"}}>{item.commenttotal==null?0:item.commenttotal}</span></span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span>
-                    {item.viewend!=null&&<span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>End | {item.commentend}</span>}
+                  <span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.commentorder}</span></span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.commentstart}</span></span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.commenttotal==null?0:item.commenttotal}</span></span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span></span>
                     <br/>
+                </span>
                 </span>
             </td>
             <td >
-                {item.service<600?<img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
-                    <img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
-                <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>
+                {//{item.service<600?<img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                    //   <img style={{width:20,height:20,marginRight:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
+                }
+                <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f"}} className='badge badge-success'>
                     {item.service}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN') +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
             </td>
             <td>
                 {
                     item.cancel === 0 ? <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>D</span> :
                         item.cancel === 2 ? <span style={{color:'white',fontSize:11,backgroundColor:"#dc7a30"}} className='badge badge-success'>P</span> :
-                        <span style={{color:'white',fontSize:11,backgroundColor:"#b7080f"}} className='badge badge-danger'>C</span>
+                            <span style={{color:'white',fontSize:11,backgroundColor:"#b7080f"}} className='badge badge-danger'>C</span>
 
                 }
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.enddate).toLocaleDateString('vn-VN') +" "+ new Date(item.enddate).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.enddate).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.enddate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>
             {role!="ROLE_USER"&&<td>
-                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.user}</span>
+                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.user.replace("@gmail.com","")}</span>
             </td>}
             <td>
-               <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
+                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
             </td>
         </tr>
     )

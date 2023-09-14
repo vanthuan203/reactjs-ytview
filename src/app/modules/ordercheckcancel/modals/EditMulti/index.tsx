@@ -1,5 +1,5 @@
 import React, {useState, useEffect, ReactChild} from 'react'
-import {OrderModel, OrderModelChecked} from 'app/modules/orderdone/models/Order'
+import {OrderModel, OrderModelChecked} from 'app/modules/ordercheckcancel/models/Order'
 import { actions } from '../../redux/OrdersRedux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -22,9 +22,9 @@ const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
     const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
     const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
-    const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
-    const groups: Group[] = useSelector<RootState>(({ orderdone }) => orderdone.groups, shallowEqual) as Group[] || []
-    const orders: OrderModel[] = useSelector<RootState>(({ orderdone }) => orderdone.orders, shallowEqual) as OrderModel[] || []
+    const adding: boolean = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.adding, shallowEqual) as boolean || false
+    const groups: Group[] = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.groups, shallowEqual) as Group[] || []
+    const orders: OrderModel[] = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.orders, shallowEqual) as OrderModel[] || []
 
     const dispatch = useDispatch()
     const [maxthreads, setMaxthreads] = useState(200)

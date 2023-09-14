@@ -19,8 +19,8 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
   const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
   const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
   const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
-  const adding: boolean = useSelector<RootState>(({ orders }) => orders.adding, shallowEqual) as boolean || false
-  const groups: Group[] = useSelector<RootState>(({ orders }) => orders.groups, shallowEqual) as Group[] || []
+  const adding: boolean = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.adding, shallowEqual) as boolean || false
+  const groups: Group[] = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.groups, shallowEqual) as Group[] || []
 
 
   const dispatch = useDispatch()

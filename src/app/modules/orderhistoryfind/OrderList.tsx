@@ -121,7 +121,6 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       list_user.push(orderitem)
     }
   }
-
   useEffect(() => {
 
     setLoading(true)
@@ -201,6 +200,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     dispatch(actions.addGroupRequest(groupName))
     setGroupName('')
   }
+  const isShowFixMulti = orders.find((item) => {
+    if (item.checked) {
+      return true
+    }
+    return false
+  })
+
 
 
   return (
@@ -208,12 +214,23 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
-            <div className="col-lg-5 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>Tìm thấy</span>
-              <span  className='ml-2 fw-bold fs-7'>{totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((totalUsshow))}</span> ]</span>
-              <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>Tổng đã chạy: {format1(totaltimebuffedordershow)} | Tổng tiền: <span style={{color:"red"}}>{totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{((totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(totalmoneyUSshow.toFixed(3))}$</span> ]</span>
+            <div className="col-lg-7 col-sm-12 c-order__header">
+              <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tìm thấy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((totalUsshow))}</span> </span>
+              <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng chạy {format1(totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{((totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totalmoneyUSshow.toFixed(3))}$</span></span>
               </p>
+            </div>
+            <div className="col-lg-5 col-sm-12 text-right">
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button style={{marginRight:5}}
+                          onClick={() => {
+                            setShowEditMulti(true)
+                          }}
+                          className='btn btn-google'
+                  >
+                    Refunds
+                  </button>
+              )}
             </div>
           </div>
         </div>
@@ -297,6 +314,21 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             {/* begin::Table head */}
             <thead>
               <tr className='fw-bolder text-muted'>
+                <th className='w-25px'>
+                  <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
+                    <input
+                        onChange={(evt) => {
+                          
+                          dispatch(actions.checkedAllChange(evt.target.checked))
+                        }}
+                        className='form-check-input'
+                        type='checkbox'
+                        value='1'
+                        data-kt-check='true'
+                        data-kt-check-target='.widget-13-check'
+                    />
+                  </div>
+                </th>
                 <th className='min-w-10px text-sm'>
                   <span  style={{fontSize:12,color:"black",marginLeft:5}} className='text-sm'>STT</span>
                 </th>
@@ -307,10 +339,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Info</span>
                 </th>
                 <th className='min-w-10px text-sm'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
+                </th>
+                <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Start</span>
                 </th>
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>End</span>
+                </th>
+                <th className='min-w-10px text-sm'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Check</span>
                 </th>
                 {role!="ROLE_USER"&&<th   className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>User</span>
@@ -368,7 +406,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -415,7 +453,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -463,7 +501,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -510,7 +548,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -559,7 +597,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -608,7 +646,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -656,7 +694,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )
@@ -704,7 +742,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         <OrderItem
                             index={index}
                             showEdit={role === 'ROLE_ADMIN'}
-                            key={order.videoid+index.toString()}
+                            key={order.orderid.toString()+index.toString()}
                             item={order}
                         />
                     )

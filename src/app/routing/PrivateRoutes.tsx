@@ -10,6 +10,7 @@ export function PrivateRoutes() {
   const AccountPage4 = lazy(() => import('../modules/history/VpsThreadList'))
   const WidgetsPage = lazy(() => import('../modules/ordercheckcancel/OrdersPage'))
   const WidgetsPage1 = lazy(() => import('../modules/orderdone/OrdersPage'))
+  const WidgetsPage4 = lazy(() => import('../modules/orderpending/OrdersPage'))
   const WidgetsPage2 = lazy(() => import('../modules/orderbaohanh/OrdersPage'))
   const WidgetsPage3 = lazy(() => import('../modules/ordercomment/OrdersPage'))
   const WidgetsPageHis = lazy(() => import('../modules/orderhistory/OrdersPage'))
@@ -24,6 +25,7 @@ export function PrivateRoutes() {
       <Switch>
         <Route path='/dashboard' component={DashboardWrapper} />
         <Route path='/crafted/orders' component={WidgetsPage1} />
+        <Route path='/crafted/orderpending' component={WidgetsPage4} />
         <Route path='/crafted/ordercheck' component={WidgetsPage} />
         <Route path='/crafted/orderbaohanh' component={WidgetsPage2} />
         <Route path='/crafted/ordercomments' component={WidgetsPage3} />

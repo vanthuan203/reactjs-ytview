@@ -186,14 +186,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-5 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>Biến động số dư</span>
-              <span  className='ml-2 fw-bold fs-7'>{useEff<=1?sumorder:totaldordershow} giao dịch [ <span style={{color:"#000000"}}>VN{-totaldorderVnshow} </span> <span style={{color:"#831013"}}>US-{(totaldordershow-totaldorderVnshow)}</span> ]</span>
-              <p className="fw-bold c-order__list">
-                <span style={{fontSize:12,marginTop:5}}>
-                  Tiền vào: <span style={{color:"red"}}> {totaladdshow.toFixed(3)}</span>$ | Tiền chi: <span style={{color:"red"}}>{(-totalsubshow.toFixed(3))}</span>$ [ <span style={{color:"#000000"}}>VN-{-totaladdvnshow.toFixed(3)} </span> <span style={{color:"#831013"}}>US-{(-totalsubshow+totaladdvnshow).toFixed(3)}</span> ]
-                  | {totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} <span style={{color:"red"}}>{totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}</span>$
+              <span   className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>{useEff<=1?sumorder:totaldordershow} giao dịch</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{totaldorderVnshow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totaldordershow-totaldorderVnshow)}</span></span>
+              <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                <span className='fw-bolder fs-3 mb-1'  >
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tiền vào {totaladdshow.toFixed(3)}$</span> <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tiền chi {(-totalsubshow.toFixed(3))}$</span>  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{-totaladdvnshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(-totalsubshow+totaladdvnshow).toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>{totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} {totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}$</span>
                 </span>
-
               </p>
             </div>
             <div className="col-lg-7 col-sm-12 c-order__header">

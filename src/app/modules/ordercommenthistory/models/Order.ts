@@ -15,6 +15,8 @@ export interface OrderModel {
   viewend:number,
   enabled: number,
   insertdate: number,
+  timestart:number,
+  timecheckbh:number,
   enddate: number,
   cancel:number,
   homerate: number ,
@@ -37,6 +39,7 @@ export interface OrderModel {
   checked?:boolean
 }
 export interface OrderModelChecked {
+  orderid:number,
   videoid: string,
   id:number,
   timebuff:number,

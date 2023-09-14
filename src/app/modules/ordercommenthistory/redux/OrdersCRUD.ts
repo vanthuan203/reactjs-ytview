@@ -20,8 +20,8 @@ export async function updateSetting(channel_prior:number) {
   return res
 }
 
-export async function updateOrder(order:OrderModel) {
-  const res:any = await postWithoutTokenFunciton("videobuffh/update",order)
+export async function updateOrder(orderid:string) {
+  const res:any = await getFunciton("videocomment/updateRefundHis?orderid="+orderid)
   return res
 }
 

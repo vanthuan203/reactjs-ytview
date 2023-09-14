@@ -33,7 +33,7 @@ const WidgetsPage: React.FC = () => {
         </div>
       </div>
       {
-        currentOrder && <EditModal key={currentOrder?.videoid} item={currentOrder}  />
+        currentOrder && <EditModal key={currentOrder?.orderid} item={currentOrder}  />
       }
     </>
   )

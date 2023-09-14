@@ -228,10 +228,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="page-header__content">
             <div className="align-items-center row" style={{margin:10}}>
               <div className="col-lg-7 col-sm-12 c-order__header">
-                <span  className='fw-bolder fs-3 mb-1'>Đơn đang chạy</span>
-                <span  className='ml-2 fw-bold fs-7'>{totaldordershow} Video [ <span style={{color:"#000000"}}>VN-{format1((useEff<=1?sumvn:totalVnshow))} </span> <span style={{color:"#831013"}}>US-{format1((useEff<=1?sumvn:totalUsshow))}</span> ] | Luồng cấp: {format1((useEff<=1?sumthreadset:totalthreadsetshow))} | Luồng chạy: {format1((useEff<=1?sumthread:totalthreadshow))}</span>
-                <p className="fw-bold c-order__list">
-                  <span style={{fontSize:12,marginTop:5}}>Tổng đặt: {format1((useEff<=1?sumtime:totaltimeordershow))} | Đã chạy: {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} | Còn tồn: {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))} | Tổng tiền: <span style={{color:"red"}}>{useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}</span>$ [ <span style={{color:"#333834"}}>VN-{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span style={{color:"#831013"}}>US-{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> ]</span>
+                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đang chạy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Luồng cấp {format1((useEff<=1?sumthreadset:totalthreadsetshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Luồng chạy {format1((useEff<=1?sumthread:totalthreadshow))}</span></span>
+                <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                  <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng đặt {format1((useEff<=1?sumtime:totaltimeordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Đã chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(141,133,133,0.97)"}}>Còn tồn {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
                 </p>
               </div>
 
@@ -390,9 +389,6 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   <option key={100} value={100}>
                     {"100"}
                   </option>
-                  <option key={104} value={104}>
-                    {"104"}
-                  </option>
                 </Input>
                 {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
                     //onChange={(e) => setKeyRate(parseInt(e.target.value))}
@@ -492,7 +488,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -534,7 +530,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -576,7 +572,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -618,7 +614,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -660,7 +656,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -702,7 +698,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -745,7 +741,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{
@@ -787,7 +783,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthreadset=totalthreadset+order.maxthreads
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commentorder))+totaltimebuffedorder
+                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
                         if(order.service>600){
                           totalvn=1+totalvn
                         }else{

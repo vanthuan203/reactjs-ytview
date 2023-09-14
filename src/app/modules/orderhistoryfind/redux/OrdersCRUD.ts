@@ -8,6 +8,10 @@ export async function getListOrder(videoid:string) {
   const res:any = await getFunciton("videoview/findorder?videoid="+videoid)
   return res
 }
+export async function getListOrderCmt(videoid:string) {
+  const res:any = await getFunciton("videocomment/findorder?videoid="+videoid)
+  return res
+}
 
 export async function getOrderFilter(key:string,user:string) {
   const res:any = await getFunciton("videobuffh/getorderfilterbuffhhistory?key="+key+'&user='+user)
@@ -20,8 +24,13 @@ export async function updateSetting(channel_prior:number) {
   return res
 }
 
-export async function updateOrder(order:OrderModel) {
-  const res:any = await postWithoutTokenFunciton("videobuffh/update",order)
+export async function updateOrder(orderid:string) {
+  const res:any = await getFunciton("videoview/updateRefundHis?orderid="+orderid)
+  return res
+}
+
+export async function updateOrderCmt(orderid:string) {
+  const res:any = await getFunciton("videocomment/updateRefundHis?orderid="+orderid)
   return res
 }
 
@@ -68,6 +77,6 @@ export async function deleteGroup(id:number) {
 }
 
 export async function deleteChannel(videoid:string) {
-  const res:any = await deleteFunciton("/videobuffh/delete?videoid="+videoid)
+  const res:any = await deleteFunciton("/videoview/delete?videoid="+videoid)
   return res
 }

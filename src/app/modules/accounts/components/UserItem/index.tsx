@@ -94,6 +94,16 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                     GET
                     </text>
                 </span>
+                <span className='badge badge-dark' style={{fontSize:11,marginLeft:2, backgroundColor:item.cmt==1?'#50CD89':'#9ca1a0'}}>
+                    <text >
+                    CMT
+                    </text>
+                </span>
+                <span className='badge badge-dark' style={{fontSize:11,marginLeft:2, backgroundColor:item.get_account==1?'#c0271b':'#9ca1a0'}}>
+                    <text >
+                    PROXY
+                    </text>
+                </span>
             </td>
             <td style={{width:'250px'}} className='text-end'>
                 <div  className='d-flex flex-column w-100 me-2'>

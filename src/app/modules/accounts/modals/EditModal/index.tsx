@@ -4,6 +4,7 @@ import { AccountModel } from 'app/modules/accounts/models/Account'
 import { useDispatch } from 'react-redux'
 import { actions } from '../../redux/AccountRedux'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {randomString} from "react-inlinesvg/lib/helpers";
 import {
     Button, Modal, ModalFooter,
     ModalHeader, ModalBody, Input
@@ -18,13 +19,58 @@ const EditModal: React.FC<Props> = ({ item }) => {
     console.log("------item------", item)
     const dispatch = useDispatch()
     const API_URL = process.env.REACT_APP_API_URL
-    const [vpsoption, setvpsoption] = useState('vn')
+    const [vpsoption, setvpsoption] = useState(item.vpsoption)
     const [vpsreset, setvpsreset] = useState(0)
     const [get_account, setget_account] = useState(item.get_account)
     const [threads, setthreads] = useState(item.threads)
-    const [ext, setext] = useState(1)
+    const [ext, setext] = useState(item.ext)
+    const [cmt, setcmt] = useState(item.cmt)
+    const [proxy, setproxy] = useState(item.proxy)
+    const [list_geo,setList_Geo]=useState([{
+        id:"0000000000",
+        geo:"Pending"
+    },])
+    let [useEff, setuseEff] = useState(0)
+    async function getallgeo() {
+        let  requestUrl = API_URL+'servive/getallgeo';
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {geo} = responseJson;
+        let arrlist =geo.split(',');
+        for(var i=0;i<arrlist.length;i++){
+            let orderitem = {
+                id: randomString(10),
+                geo: arrlist[i]
+            }
+            setList_Geo([...list_geo, orderitem])
+            list_geo.push(orderitem)
+        }
+    }
+    useEffect(() => {
+        useEff=1
+        getallgeo()
+    }, [useEff=0])
     async function resetrunningacc(vps:string) {
         let  requestUrl = API_URL+'vps/resetrunningaccbyvps?vps='+vps;
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {status} = responseJson;
+        return status
+    }
+    async function resetrunningacccmt(vps:string) {
+        let  requestUrl = API_URL+'vps/resetrunningacccmtbyvps?vps='+vps;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({
@@ -43,13 +89,18 @@ const EditModal: React.FC<Props> = ({ item }) => {
         if(vpsreset==2){
             resetrunningacc(item.vps.trim())
         }
+        if(vpsreset==3){
+            resetrunningacccmt(item.vps.trim())
+        }
         dispatch(actions.requestUpdate({
             ...item,
             vpsoption:vpsoption,
             threads:threads,
             vpsreset:vpsreset,
             get_account:get_account,
-            ext:ext
+            ext:ext,
+            proxy:proxy,
+            cmt:cmt
         }))
     }
     const handleChange = (e:any) => {
@@ -82,17 +133,46 @@ const EditModal: React.FC<Props> = ({ item }) => {
                             style={{fontWeight:'bold'}}
                             value={vpsoption}
                         >
-                            <option key={1} value={'vn'}>
-                                {"VN"}
+                            {
+                                list_geo.map((item, index) => {
+                                    return(
+                                        <option key={item.geo} value={item.geo}>
+                                            {item.geo.toUpperCase()}</option>)
+                                })
+                            }
+                        </Input>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>VPS có dùng proxy?</p>
+                    <div className="input-group mb-5">
+                        <Input
+                            onChange={(e) => setproxy(parseInt(e.target.value))}
+                            className="form-control form-control-solid"
+                            type="select"
+                            style={{fontWeight:'bold'}}
+                            value={proxy}
+                        >
+                            <option key={0} value={0}>
+                                {"Không"}
                             </option>
-                            <option key={2} value={'us'}>
-                                {"US"}
+                            <option key={1} value={1}>
+                                {"Có"}
                             </option>
-                            <option key={2} value={'live'}>
-                                {"Live"}
+                        </Input>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>VPS có comments?</p>
+                    <div className="input-group mb-5">
+                        <Input
+                            onChange={(e) => setcmt(parseInt(e.target.value))}
+                            className="form-control form-control-solid"
+                            type="select"
+                            style={{fontWeight:'bold'}}
+                            value={cmt}
+                        >
+                            <option key={0} value={0}>
+                                {"Không"}
                             </option>
-                            <option key={0} value={'Pending'}>
-                                {"Pending"}
+                            <option key={1} value={1}>
+                                {"Có"}
                             </option>
                         </Input>
                     </div>
@@ -113,6 +193,9 @@ const EditModal: React.FC<Props> = ({ item }) => {
                             </option>
                             <option key={2} value={2}>
                                 {"Restart & DelAcc"}
+                            </option>
+                            <option key={3} value={3}>
+                                {"Restart & DelAcc Cmt"}
                             </option>
                         </Input>
                     </div>

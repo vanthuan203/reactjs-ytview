@@ -44,7 +44,7 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
   const [note, setNote] = useState("")
   const [viewstart, setViewstart] = useState(0)
   const [timebuff, setTimebuff] = useState(0)
-  //
+  const [orderid,setorderid]=useState(0)
   const [enabled,setEnabled]=useState(1)
 
 
@@ -68,6 +68,7 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
       return
     }
     dispatch(actions.addOrderRequest({
+      orderid,
       videoid,
       homerate,
       note,

@@ -100,6 +100,17 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     console.log(counts);
     settotal_user_endtrial(counts);
   }
+  async function ressetall(){
+    const requestUrl = API_URL+'vps/resetAll';
+    const response= await fetch(requestUrl,{
+      method: 'get',
+      headers: new Headers({
+        'Authorization': '1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const responseJson= await  response.json();
+  }
   useEffect(() => {
     setLoading(true)
     if(accounts.length!=0){
@@ -118,6 +129,13 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     }
 
   },[keytrue,key,keystatus,vpstpye,accounts.length,,]);
+
+  const clickResetAll = async () => {
+    if (window.confirm("Bạn chắc chắn muốn Restart all VPS?") == true) {
+      await ressetall()
+      window.alert("Restart all VPS thành công!")
+    }
+  }
 
   const clickDeleteHandler = () => {
     const arr:string[]=[]
@@ -139,7 +157,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
       <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
-            <div className="col-lg-12 col-sm-12 c-order__header">
+            <div className="col-lg-8 col-sm-12 c-order__header">
               <span  className='fw-bolder fs-3 mb-1'>{totaldvpsshow} vps </span>
               <span className='badge badge-warning' style={{ color:'white',margin:4,backgroundColor:"#26695c"}}>{total_waring} vps warning</span>
               <span className='badge badge-secondary' style={{ color:'black',margin:4}}>{total_tool_warning} tool warning</span>
@@ -149,11 +167,22 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
               <span className='badge badge-secondary' style={{ color:'black',margin:4}}>{total_user} user</span>
               <span className='badge badge-danger' style={{ color:'white',margin:4,backgroundColor:"#e57624"}}>{total_user_endtrial-total_user} user die</span>
             </div>
+            <div className="col-lg-4 col-sm-12 text-right">
+              {
+                <button
+                        onClick={() => {
+                          clickResetAll()
+                        }}
+                        className='btn btn-google'
+                >
+                  Restart All
+                </button>}
+            </div>
           </div>
         </div>
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
-            <div className="col-lg-12 col-sm-12 c-order__header">
+            <div className="col-lg-7 col-sm-12 c-order__header">
               {isShowFixMulti && (
                   <div>
                     <button style={{margin:5}}

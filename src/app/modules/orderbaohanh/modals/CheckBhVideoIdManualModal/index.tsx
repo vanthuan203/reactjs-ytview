@@ -28,8 +28,8 @@ const CheckBhVideoIdManualModal: React.FC<Props> = ({ show, close }) => {
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
     const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
-    const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
-    const groups: Group[] = useSelector<RootState>(({ orderdone }) => orderdone.groups, shallowEqual) as Group[] || []
+    const adding: boolean = useSelector<RootState>(({ orderbaohanh }) => orderbaohanh.adding, shallowEqual) as boolean || false
+    const groups: Group[] = useSelector<RootState>(({ orderbaohanh }) => orderbaohanh.groups, shallowEqual) as Group[] || []
 
     function format1(n:number) {
         return n.toFixed(0).replace(/./g, function(c, i, a) {
