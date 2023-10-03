@@ -56,7 +56,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
     }
 
     const submit = () => {
-        dispatch(actions.requestUpdate(item.orderid.toString()))
+        dispatch(actions.requestUpdate(item.orderid.toString(),0))
     }
 
     return (

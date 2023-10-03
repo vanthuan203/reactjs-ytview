@@ -202,7 +202,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     }
   }
 
-  const clickDeleteOrderDoneHandler = () => {
+  const clickOrderRunningHandler = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
       const myElem = list_video.find(value => value.videoid===item.videoid)
@@ -211,8 +211,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       }
     })
     const orderarr=arr.join(',')
-    if (window.confirm("Bạn chắc chắn muốn hoàn thành "+arr.length+" đơn!") == true) {
-      dispatch(actions.deleteOrderRequest(orderarr,0))
+    if (window.confirm("Bạn chắc chắn muốn chạy "+arr.length+" đơn!") == true) {
+      dispatch(actions.editMultiOrderRequest(orderarr))
     }
   }
 
@@ -229,7 +229,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="page-header__content">
             <div className="align-items-center row" style={{margin:10}}>
               <div className="col-lg-7 col-sm-12 c-order__header">
-                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đang chạy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Luồng cấp {format1((useEff<=1?sumthreadset:totalthreadsetshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Luồng chạy {format1((useEff<=1?sumthread:totalthreadshow))}</span></span>
+                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Chờ chạy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> </span>
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                   <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng đặt {format1((useEff<=1?sumtime:totaltimeordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Đã chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(141,133,133,0.97)"}}>Còn tồn {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
                 </p>
@@ -246,25 +246,25 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       Hủy
                     </button>
                 )}
-                {isShowFixMulti&& role === "ROLE_ADMIN1231"&& (
+                {isShowFixMulti&& role === "ROLE_ADMIN"&& (
                     <button
                         onClick={() => {
                           setShowEditMulti(true)
                         }}
                         className='btn btn-light'
                     >
-                      Sửa luồng
+                      Ưu tiên
                     </button>
                 )}
 
-                {role === "ROLE_ADMIN111"&&isShowFixMulti &&  (
+                {role === "ROLE_ADMIN"&&isShowFixMulti &&  (
                     <button style={{margin:5}}
                             onClick={() => {
-                              clickDeleteOrderDoneHandler()
+                              clickOrderRunningHandler()
                             }}
-                            className='btn btn-light'
+                            className='btn btn-success'
                     >
-                      Hoàn thành
+                      Duyệt chạy
                     </button>
                 )}
                 {role === "ROLE_ADMIN111"&&<button style={{marginRight:5,color:"white"}}

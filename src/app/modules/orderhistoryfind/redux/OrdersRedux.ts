@@ -381,7 +381,7 @@ export const actions = {
   addOrderSuccess: (order: OrderModel) => ({ type: actionTypes.AddOrderSuccess, payload: { order } }),
   addOrdersSuccess: (orders: OrderModel[]) => ({ type: actionTypes.AddOrdersSuccess, payload: { orders } }),
   addOrderFail: (message: string) => ({ type: actionTypes.AddOrderFail, payload: { message } }),
-  requestUpdate: (orderid: string) => ({ type: actionTypes.RequestUpdate, payload: { orderid } }),
+  requestUpdate: (orderid: string,mode:number) => ({ type: actionTypes.RequestUpdate, payload: { orderid,mode } }),
   requestUpdateCmt: (orderid: string) => ({ type: actionTypes.RequestUpdateCmt, payload: { orderid } }),
   updateSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videoview } }),
   updateMultiSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videoview } }),
@@ -425,7 +425,7 @@ export function* saga() {
   http://localhost:8080/Fitnees/
 
   yield takeLatest(actionTypes.RequestUpdate, function* updateUserRequested(param: any) {
-    const { data: result } = yield updateOrder(param.payload.orderid)
+    const { data: result } = yield updateOrder(param.payload.orderid,param.payload.mode)
     if (result && result.videoview) {
       yield put(actions.updateMultiSuccess(result.videoview))
     } else {
@@ -481,7 +481,7 @@ export function* saga() {
 
   yield takeLatest(actionTypes.UpdateMultiOrderRequest, function* updateUserRequested(param: any) {
     try {
-      const { data: result } = yield updateOrder(param.payload.orderid)
+      const { data: result } = yield updateOrder(param.payload.orderid,param.payload.mode)
         if (result && result.videoview) {
           yield put(actions.updateMultiSuccess(result.videoview))
         } else {

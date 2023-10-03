@@ -68,6 +68,16 @@ export async function updateThread(order:OrderModel) {
   return res
 }
 
+export async function updateThreadPending(videoid:string) {
+  const res:any = await getFunciton("videoview/updatethreadpending?videoid="+videoid)
+  return res
+}
+
+export async function updatePriority(order:OrderModel) {
+  const res:any = await postWithoutTokenFunciton("videoview/updatepriority",order)
+  return res
+}
+
 export async function addOrder(order:OrderForm) {
   const res:any = await postWithoutTokenFunciton("",order)
   return res

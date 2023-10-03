@@ -5,8 +5,20 @@ export interface AccountModel {
   maxorder:number,
   maxordervn:number,
   maxorderus:number,
+  threadmin:number,
+  redirect:number,
   checked?:boolean
 }
+
+export interface AccountLimitModel {
+  id:number
+  user:string,
+  service:number,
+  maxorder:number,
+  maxrunning:number,
+  checked?:boolean
+}
+
 export interface OrderModelChecked {
   id:number
 }
@@ -18,4 +30,14 @@ export interface AccountForm {
   maxorder:number,
   maxordervn:number,
   maxorderus:number,
+  threadmin:number,
+  redirect:number
+}
+
+export interface AccountLimitForm {
+  id:number
+  user:string,
+  service:number,
+  maxorder:number,
+  maxrunning:number,
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {postWithoutTokenFunciton, getFunciton, deleteFunciton} from 'utils/ApiHelper'
-import { AccountModel } from '../models/Account'
+import { AccountModel,AccountLimitModel } from '../models/Account'
 
 
 
@@ -9,9 +9,19 @@ export async function getListAccount() {
   return res
 }
 
+export async function getListLimitService() {
+  const res:any = await getFunciton("auth/limitservice")
+  return res
+}
+
 
 export async function updateAccount(account:AccountModel) {
   const res:any = await postWithoutTokenFunciton("auth/updatesetting",account)
+  return res
+}
+
+export async function updateAccountLimit(accountlimit:AccountLimitModel) {
+  const res:any = await postWithoutTokenFunciton("auth/updatelimit",accountlimit)
   return res
 }
 

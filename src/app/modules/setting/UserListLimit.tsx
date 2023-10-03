@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useState} from 'react'
 import { KTSVG, toAbsoluteUrl } from '../../../_metronic/helpers'
-import { AccountModel } from 'app/modules/setting/models/Account'
+import { AccountModel ,AccountLimitModel} from 'app/modules/setting/models/Account'
 
-import UserItem from './components/UserItem'
+import UserItemLimit from './components/UserItemLimit'
 import {actions} from "./redux/AccountRedux";
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import {ComputerModel} from "../history/models/Account";
@@ -12,10 +12,10 @@ import {Input} from "reactstrap";
 import {round} from "@popperjs/core/lib/utils/math";
 type Props = {
   className: string,
-  accounts: AccountModel[]
+  accounts: AccountLimitModel[]
 }
 
-const UserList: React.FC<Props> = ({ className, accounts }) => {
+const UserListLimit: React.FC<Props> = ({ className, accounts }) => {
 
   const dispatch = useDispatch()
   const API_URL = process.env.REACT_APP_API_URL
@@ -50,7 +50,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-12 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>Cài đặt hệ thống</span>
+              <span  className='fw-bolder fs-3 mb-1'>Giới hạn service</span>
             </div>
           </div>
         </div>
@@ -65,12 +65,10 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             {/* begin::Table head */}
             <thead>
               <tr className='fw-bolder text-muted'>
-                <th className='min-w-100px'>Bonus</th>
-                <th className='min-w-100px'>MaxorderVN</th>
-                <th className='min-w-100px'>MaxorderUS</th>
-                <th className='min-w-100px'>MaxRunning BuffH</th>
-                <th className='min-w-100px'>ThreadMin</th>
-                <th style={{color:"red"}} className='min-w-100px'>Redirect BuffH</th>
+                <th className='min-w-100px'>User</th>
+                <th className='min-w-100px'>Service</th>
+                <th className='min-w-100px'>MaxOrder</th>
+                <th className='min-w-100px'>MaxRunning</th>
               </tr>
             </thead>
             {/* end::Table head */}
@@ -78,8 +76,8 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
 
             <tbody>
               {
-                  accounts&&accounts?.map((item: AccountModel,index:number) => {
-                      return <UserItem key={item.id+index} item={item} index={index} />
+                  accounts&&accounts?.map((item: AccountLimitModel,index:number) => {
+                      return <UserItemLimit key={item.id+index} item={item} index={index} />
                     })
               }
 
@@ -93,4 +91,4 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     </div>
   )
 }
-export  { UserList }
+export  { UserListLimit }

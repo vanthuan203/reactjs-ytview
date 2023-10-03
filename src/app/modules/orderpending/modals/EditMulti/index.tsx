@@ -19,15 +19,17 @@ type Props = {
     close: () => void
 }
 const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
+    console.log(listvieoid);
     const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
     const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
-    const adding: boolean = useSelector<RootState>(({ orderdone }) => orderdone.adding, shallowEqual) as boolean || false
-    const groups: Group[] = useSelector<RootState>(({ orderdone }) => orderdone.groups, shallowEqual) as Group[] || []
-    const orders: OrderModel[] = useSelector<RootState>(({ orderdone }) => orderdone.orders, shallowEqual) as OrderModel[] || []
+    const adding: boolean = useSelector<RootState>(({ orderpending }) => orderpending.adding, shallowEqual) as boolean || false
+    const groups: Group[] = useSelector<RootState>(({ orderpending }) => orderpending.groups, shallowEqual) as Group[] || []
+    const orders: OrderModel[] = useSelector<RootState>(({ orderpending }) => orderpending.orders, shallowEqual) as OrderModel[] || []
 
     const dispatch = useDispatch()
     const [maxthreads, setMaxthreads] = useState(200)
+    const [priority, setPriority] = useState(0)
     const [videoid, setVideoid] = useState("")
     //const [list_video, setList_video] = useState("")
     //
@@ -100,7 +102,8 @@ const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
             timebuff,
             user,
             service,
-            vieworder
+            vieworder,
+            priority
         }))
      
     }
@@ -154,14 +157,14 @@ const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
                             </FormGroup>}
                             {role === "ROLE_ADMIN"&&<FormGroup>
                                 <Label for="exampleEmail" className="required form-label">
-                                    Luồng
+                                    Mức ưu tiên
                                 </Label>
                                 <Input //disabled={role === "ROLE_ADMIN" ? false : true}
                                     id="max_thread"
                                     name="max_thread"
-                                    value={maxthreads}
+                                    value={priority}
                                     className="form-control form-control-solid"
-                                    onChange={(e) => setMaxthreads(parseInt(e.target.value))}
+                                    onChange={(e) => setPriority(parseInt(e.target.value))}
                                     type="number"
                                 />
                             </FormGroup>}

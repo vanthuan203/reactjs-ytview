@@ -27,6 +27,9 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const [bonus, setbonus] = useState(item.bonus)
     const [maxordervn, setmaxordervn] = useState(item.maxordervn)
     const [maxorderus, setmaxorderus] = useState(item.maxorderus)
+    const [maxorder, setmaxorder] = useState(item.maxorder)
+    const [threadmin, setthreadmin] = useState(item.threadmin)
+    const [redirect, setredirect] = useState(item.redirect)
 
     const dismissModal = () => {
         dispatch(actions.clearCurrentAccount())
@@ -49,7 +52,10 @@ const EditModal: React.FC<Props> = ({ item }) => {
             pricerate,
             bonus,
             maxordervn,
-            maxorderus
+            maxorderus,
+            maxorder,
+            threadmin,
+            redirect
         }))
     }
 
@@ -84,6 +90,34 @@ const EditModal: React.FC<Props> = ({ item }) => {
                                onChange={(e) => setmaxorderus(parseInt(e.target.value))}
                         />
                         <span className="input-group-text" id="basic-addon2">đơn</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Số đơn max(US)</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={maxorderus} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxorderus(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">đơn</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Số đơn giờ chạy(MAX)</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={maxorder} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxorder(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">đơn</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Min Thread View(%)</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={threadmin} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setthreadmin(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">%</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Redirect sang BuffH</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={redirect} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setredirect(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">/1000</span>
                     </div>
                 </div>
                 <div className="modal-footer">

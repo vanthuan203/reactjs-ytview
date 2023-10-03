@@ -8,12 +8,12 @@ import {
   getListOrder,
   getOrderFilter,
   updateOrder,
-    updateThread,
+  updateThreadPending,
   addOrder,
   addOrderManual,
   deleteChannel,
   addOrderMulti,
-  getOrderPercentFilter
+  getOrderPercentFilter, updatePriority,updateThread
 } from './OrdersCRUD'
 const sleep = (milliseconds: number) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -313,7 +313,7 @@ export const actions = {
   loadordersFail: (message: string) => ({ type: actionTypes.OrdersLoadedFail, payload: { message } }),
   addOrderRequest: (data: OrderForm) => ({ type: actionTypes.AddOrderRequest, payload: { data } }),
   addOrderManualRequest: (data: OrderFormManual) => ({ type: actionTypes.AddOrderManualRequest, payload: { data } }),
-  editMultiOrderRequest: (data: OrderForm) => ({ type: actionTypes.UpdateMultiOrderRequest, payload: { data } }),
+  editMultiOrderRequest: (data: string) => ({ type: actionTypes.UpdateMultiOrderRequest, payload: { data } }),
   editMultiThreadRequest: (data: OrderForm) => ({ type: actionTypes.UpdateMultiThreadRequest, payload: { data } }),
   addOrderSuccess: (order: OrderModel) => ({ type: actionTypes.AddOrderSuccess, payload: { order } }),
   addOrdersSuccess: (orders: OrderModel[]) => ({ type: actionTypes.AddOrdersSuccess, payload: { orders } }),
@@ -423,12 +423,12 @@ export function* saga() {
   yield takeLatest(actionTypes.UpdateMultiOrderRequest, function* addOrderRequest(param: any) {
     const payload = param.payload.data
     try {
-        const { data: result } = yield updateOrder(payload)
+        const { data: result } = yield updateThreadPending(payload)
         if (result && result.videoview) {
           yield put(actions.updateMultiSuccess(result.videoview))
         } else {
           yield put(actions.addOrderFail(result.message))
-        } 
+        }
     } catch (error) {
       yield put(actions.addOrderFail(""))
     }
@@ -437,7 +437,7 @@ export function* saga() {
   yield takeLatest(actionTypes.UpdateMultiThreadRequest, function* addOrderRequest(param: any) {
     const payload = param.payload.data
     try {
-      const { data: result } = yield updateThread(payload)
+      const { data: result } = yield updatePriority(payload)
       if (result && result.videoview) {
         yield put(actions.updateMultiSuccess(result.videoview))
       } else {

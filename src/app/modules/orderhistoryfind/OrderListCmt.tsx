@@ -33,6 +33,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
   }
   const [list_orderhistory,setList_OrderHistory]=useState([{
     id: 0,
+    orderid:0,
     videoid: '',
     timebuff:0,
     timebuffhtotal: 0,
@@ -207,7 +208,20 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
     return false
   })
 
+  const clickRefund = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
 
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("Bạn chắc chắn muốn refund "+arr.length+" đơn!") == true) {
+      dispatch(actions.requestUpdateCmt(orderarr))
+    }
+  }
 
   return (
     <div className={`card ${className}`}>
@@ -224,7 +238,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
                   <button style={{marginRight:5}}
                           onClick={() => {
-                            setShowEditMulti(true)
+                            clickRefund()
                           }}
                           className='btn btn-google'
                   >
@@ -381,6 +395,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -428,6 +443,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -476,6 +492,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -523,6 +540,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -572,6 +590,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -621,6 +640,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -670,6 +690,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -682,6 +703,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                       user:order.user,
                       note:order.note,
                       price:order.price
+
                     }
                     list_orderhistory.push(orderitem)
                     return (
@@ -718,6 +740,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -730,6 +753,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                       user:order.user,
                       note:order.note,
                       price:order.price
+
                     }
                     list_orderhistory.push(orderitem)
                     return (

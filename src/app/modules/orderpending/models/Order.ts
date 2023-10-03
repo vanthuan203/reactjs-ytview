@@ -17,6 +17,7 @@ export interface OrderModel {
   price:number,
   service:number,
   vieworder:number,
+  priority:number,
   checked?:boolean
 }
 
@@ -42,6 +43,7 @@ export interface OrderUpdateForm {
   service:number,
   vieworder:number,
   user:string
+  priority:number,
 }
 
 export interface OrderForm {
@@ -52,7 +54,8 @@ export interface OrderForm {
   timebuff:number,
   service:number,
   vieworder:number,
-  user:string
+  user:string,
+  priority:number,
 }
 export interface OrderFormManual {
   orderid:number,
@@ -78,6 +81,7 @@ export interface OrderFormManual {
   optionbuff:number,
   service:number,
   vieworder:number,
+  priority:number,
   user:string
 }
 

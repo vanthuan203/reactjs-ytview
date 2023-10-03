@@ -33,6 +33,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   }
   const [list_orderhistory,setList_OrderHistory]=useState([{
     id: 0,
+    orderid:0,
     videoid: '',
     timebuff:0,
     timebuffhtotal: 0,
@@ -207,8 +208,35 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     return false
   })
 
+  const clickRefund = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
 
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("Bạn chắc chắn muốn refund "+arr.length+" đơn!") == true) {
+      dispatch(actions.requestUpdate(orderarr,0))
+    }
+  }
+  const clickRefill = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
 
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("Bạn chắc chắn muốn refund phần thiếu cho "+arr.length+" đơn!") == true) {
+      dispatch(actions.requestUpdate(orderarr,1))
+    }
+  }
+  
   return (
     <div className={`card ${className}`}>
       <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
@@ -222,13 +250,23 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             </div>
             <div className="col-lg-5 col-sm-12 text-right">
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
-                  <button style={{marginRight:5}}
+                  <button style={{marginRight:5,backgroundColor:"rgba(213,143,51,0.97)"}}
                           onClick={() => {
-                            setShowEditMulti(true)
+                            clickRefill()
                           }}
                           className='btn btn-google'
                   >
                     Refunds
+                  </button>
+              )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button
+                          onClick={() => {
+                            clickRefund()
+                          }}
+                          className='btn btn-google'
+                  >
+                    Refunds 100%
                   </button>
               )}
             </div>
@@ -347,7 +385,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 <th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>End</span>
                 </th>
-                <th className='min-w-10px text-sm'>
+                <th className='min-w-15px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Check</span>
                 </th>
                 {role!="ROLE_USER"&&<th   className='min-w-10px text-sm'>
@@ -387,6 +425,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -434,6 +473,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -482,6 +522,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -529,6 +570,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -578,6 +620,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -627,6 +670,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -676,6 +720,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -688,6 +733,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       user:order.user,
                       note:order.note,
                       price:order.price
+
                     }
                     list_orderhistory.push(orderitem)
                     return (
@@ -724,6 +770,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     }
                     let orderitem = {
                       id: totaldorder,
+                      orderid:order.orderid,
                       videoid: order.videoid,
                       timebuff:order.timebuff,
                       viewtotal:order.viewtotal,
@@ -736,6 +783,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       user:order.user,
                       note:order.note,
                       price:order.price
+
                     }
                     list_orderhistory.push(orderitem)
                     return (

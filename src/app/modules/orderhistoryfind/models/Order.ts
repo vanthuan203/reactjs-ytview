@@ -32,6 +32,7 @@ export interface OrderModel {
   optionbuff:number,
   user:string,
   price:number,
+  info:string,
   checked?:boolean
 }
 

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import { KTSVG, toAbsoluteUrl } from '_metronic/helpers'
-import { AccountModel } from 'app/modules/setting/models/Account'
+import { AccountLimitModel } from 'app/modules/setting/models/Account'
 import {useDispatch} from 'react-redux'
 import {actions} from '../../redux/AccountRedux'
 import moment from 'moment'
 import {date} from "yup";
 import {round} from "@popperjs/core/lib/utils/math";
 type Props = {
-    item: AccountModel,
+    item: AccountLimitModel,
     index:number
 }
 function format1(n:number) {
@@ -15,11 +15,11 @@ function format1(n:number) {
         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
     });
 }
-const UserItem : React.FC<Props> = ({ item ,index}) => {
+const UserItemLimit : React.FC<Props> = ({ item ,index}) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const clickHandler =()=>{
-        dispatch(actions.showCurrentAccount(item))
+        dispatch(actions.showCurrentAccountLimit(item))
     }
     return (
 
@@ -27,7 +27,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td>
                 <span>
                     <text style={{fontSize:12,fontWeight:"bold"}} >
-                    {item.bonus}%
+                    {item.user}
                     </text>
                 </span>
 
@@ -35,14 +35,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxordervn}
-                                </text>
-                    </span>
-            </td>
-            <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold"}} >
-                                        {item.maxorderus}
+                                        {item.service}
                                 </text>
                     </span>
             </td>
@@ -56,14 +49,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.threadmin}%
-                                </text>
-                    </span>
-            </td>
-            <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold",color:"red"}} >
-                                        {item.redirect}/1000
+                                        {item.maxrunning}
                                 </text>
                     </span>
             </td>
@@ -81,4 +67,4 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
     )
 }
 
-export default UserItem
+export default UserItemLimit

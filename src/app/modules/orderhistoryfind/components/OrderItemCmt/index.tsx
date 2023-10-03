@@ -29,7 +29,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
     const dispatch = useDispatch()
     const clickUpdateHandler = () => {
-        dispatch(actions.showcurrentOrderCmt(item))
+        if (window.confirm("Bạn có chắc chắn muốn refund orderId "+item.orderid!
+        ) == true) {
+            dispatch(actions.requestUpdateCmt(item.orderid.toString()))
+        }
     }
     const clickDeleteHandler = () => {
         if (window.confirm("bạn có chắc chắn muốn xóa đơn : "+item.videoid!) == true) {
@@ -112,8 +115,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             </td>
             {
                 role === "ROLE_ADMIN"&&item.price!=0&&<td >
-                    <a href='#' onClick={clickUpdateHandler} className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm mr-5'>
-                        <KTSVG path='/media/icons/duotune/arrows/arr089.svg' className='svg-icon-3' />
+                    <a href='#' onClick={clickUpdateHandler} style={{color:'white',backgroundColor:'rgba(220,13,13,0.97)'}} className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm mr-5'>
+                        R
                     </a>
                 </td>
             }
