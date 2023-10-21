@@ -82,7 +82,7 @@ const WidgetsPage: React.FC = () => {
           >
             Fetching
           </button>
-          {role==='ROLE_ADMIN'&&<Input style={{marginLeft:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"left"}}
+          {<Input style={{marginLeft:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"left"}}
               //onChange={(e) => setKeyRate(parseInt(e.target.value))}
                                        onChange={(e) => {
                                          setOption(e.target.value)

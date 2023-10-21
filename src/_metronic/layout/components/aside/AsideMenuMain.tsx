@@ -12,7 +12,7 @@ export function AsideMenuMain() {
   return (
     <>
         {
-        role === "ROLE_ADMIN"&&<AsideMenuItem
+        <AsideMenuItem
             to='/crafted/orderfindhistory'
             title='Tìm kiếm nhanh'
             icon='/media/icons/duotune/general/gen004.svg'

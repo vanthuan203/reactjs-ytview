@@ -40,18 +40,20 @@ const UserItemLimit : React.FC<Props> = ({ item ,index}) => {
                     </span>
             </td>
             <td >
-                    <span style={{fontSize:11}} >
+                    <span style={{fontSize:12}} >
                                 <text style={{fontWeight:"bold"}} >
                                         {item.maxorder}
                                 </text>
                     </span>
+                <span style={{ color:'white',fontSize:10,backgroundColor:"rgba(20,122,178,0.66)",marginLeft:5,padding:2}} className='badge badge-success 1'>{item.countorder}</span>
             </td>
             <td >
-                    <span style={{fontSize:11}} >
+                    <span style={{fontSize:12}} >
                                 <text style={{fontWeight:"bold"}} >
                                         {item.maxrunning}
                                 </text>
                     </span>
+                <span style={{ color:'white',fontSize:10,backgroundColor:"#03d96e",marginLeft:5,padding:2}} className='badge badge-success 1'>{item.countdone}</span>
             </td>
             <td>
                 <div className='d-flex justify-content-end flex-shrink-0'>

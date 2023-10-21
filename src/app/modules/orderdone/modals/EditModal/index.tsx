@@ -48,7 +48,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
     const [note, setNote] = useState(item.note)
     const [viewstart, setViewstart] = useState(0)
     const [vieworder, setvieworder] = useState(item.vieworder)
-    const [user,setUser]=useState(username)
+    const [user,setUser]=useState(item.user)
     const dismissModal = () => {
         dispatch(actions.clearcurrentOrder())
     }

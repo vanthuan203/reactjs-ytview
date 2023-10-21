@@ -16,6 +16,8 @@ export interface AccountLimitModel {
   service:number,
   maxorder:number,
   maxrunning:number,
+  countorder:number,
+  countdone:number,
   checked?:boolean
 }
 

@@ -31,13 +31,13 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     const clickUpdateHandler0 = () => {
         if (window.confirm("Bạn có chắc chắn muốn refund 100% cho orderId "+item.orderid!
         ) == true) {
-            dispatch(actions.requestUpdate(item.orderid.toString(),0))
+            dispatch(actions.requestUpdate(item.orderid.toString(),0,1))
         }
     }
     const clickUpdateHandler1 = () => {
         if (window.confirm("Bạn có chắc chắn muốn refund phần thiếu cho orderId "+item.orderid!
         ) == true) {
-            dispatch(actions.requestUpdate(item.orderid.toString(),1))
+            dispatch(actions.requestUpdate(item.orderid.toString(),1,1))
         }
     }
 
@@ -152,7 +152,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
             </td>
             <td >
-                {(item.viewend>0&&item.viewend!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.vieworder)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                {(item.viewend>0&&item.viewend!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.viewtotal)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                     {item.viewend}</span>}
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{item.timecheckbh>0?(new Date(item.timecheckbh).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.timecheckbh).toLocaleTimeString('vn-VN')):""}</span>

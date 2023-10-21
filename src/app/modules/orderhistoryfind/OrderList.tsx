@@ -208,7 +208,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     return false
   })
 
-  const clickRefund = () => {
+  const clickRefund100Check = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
       const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
@@ -219,10 +219,24 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     })
     const orderarr=arr.join(',')
     if (window.confirm("Bạn chắc chắn muốn refund "+arr.length+" đơn!") == true) {
-      dispatch(actions.requestUpdate(orderarr,0))
+      dispatch(actions.requestUpdate(orderarr,0,1))
     }
   }
-  const clickRefill = () => {
+  const clickRefund100 = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
+
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("Bạn chắc chắn muốn refund "+arr.length+" đơn!") == true) {
+      dispatch(actions.requestUpdate(orderarr,0,0))
+    }
+  }
+  const clickRefund = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
       const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
@@ -233,7 +247,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     })
     const orderarr=arr.join(',')
     if (window.confirm("Bạn chắc chắn muốn refund phần thiếu cho "+arr.length+" đơn!") == true) {
-      dispatch(actions.requestUpdate(orderarr,1))
+      dispatch(actions.requestUpdate(orderarr,1,1))
     }
   }
   
@@ -252,7 +266,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
                   <button style={{marginRight:5,backgroundColor:"rgba(213,143,51,0.97)"}}
                           onClick={() => {
-                            clickRefill()
+                            clickRefund()
                           }}
                           className='btn btn-google'
                   >
@@ -260,13 +274,23 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   </button>
               )}
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
-                  <button
+                  <button style={{marginRight:5}}
                           onClick={() => {
-                            clickRefund()
+                            clickRefund100()
                           }}
-                          className='btn btn-google'
+                          className='btn btn-facebook'
                   >
-                    Refunds 100%
+                    R100%
+                  </button>
+              )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button
+                      onClick={() => {
+                        clickRefund100Check()
+                      }}
+                      className='btn btn-google'
+                  >
+                    Check & R100%
                   </button>
               )}
             </div>

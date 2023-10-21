@@ -59,7 +59,7 @@ const EditMulti: React.FC<Props> = ({ show,close }) => {
     })
     const orderid=arr.join(',')
     const submit = () => {
-        dispatch(actions.requestUpdate(orderid.toString(),0))
+        dispatch(actions.requestUpdate(orderid.toString(),0,1))
         close()
     }
     return (

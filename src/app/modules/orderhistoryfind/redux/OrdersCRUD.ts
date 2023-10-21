@@ -24,12 +24,12 @@ export async function updateSetting(channel_prior:number) {
   return res
 }
 
-export async function updateOrder(orderid:string,mode:number) {
+export async function updateOrder(orderid:string,mode:number,check:number) {
   if(mode==0){
-    const res:any = await getFunciton("videoview/updateRefundHis?orderid="+orderid)
+    const res:any = await getFunciton("videoview/updateRefundHis?orderid="+orderid+"&checkview="+check)
     return res
   }else{
-    const res:any = await getFunciton("videoview/updateRefillHis?orderid="+orderid)
+    const res:any = await getFunciton("videoview/updateRefillHis?orderid="+orderid+"&checkview="+check)
     return res
   }
 
