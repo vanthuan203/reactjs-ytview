@@ -231,6 +231,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hủy "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,1))
     }
+    dispatch(actions.checkedAllChange(false))
   }
 
   const clickDeleteOrderDoneHandler = () => {
@@ -245,6 +246,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hoàn thành "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,0))
     }
+    dispatch(actions.checkedAllChange(false))
   }
 
   const isShowFixMulti = orders.find((item) => {
@@ -524,7 +526,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 {role!="ROLE_USER"&&<th className='min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>User</span>
                 </th>}
-                <th   className='min-w-10px text-sm'>
+                <th   className='min-w-10px min-w-10px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Note</span>
                 </th>
                 <th   className='min-w-150px text-sm'>

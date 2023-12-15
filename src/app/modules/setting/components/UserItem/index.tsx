@@ -49,7 +49,14 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxorder}
+                                        {item.maxorderbuffhvn}
+                                </text>
+                    </span>
+            </td>
+            <td >
+                    <span style={{fontSize:11}} >
+                                <text style={{fontWeight:"bold"}} >
+                                        {item.maxorderbuffhus}
                                 </text>
                     </span>
             </td>
@@ -63,7 +70,14 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold",color:"red"}} >
-                                        {item.redirect}/1000
+                                        {item.redirectvn}/1000
+                                </text>
+                    </span>
+            </td>
+            <td >
+                    <span style={{fontSize:11}} >
+                                <text style={{fontWeight:"bold",color:"red"}} >
+                                        {item.redirectus}/1000
                                 </text>
                     </span>
             </td>

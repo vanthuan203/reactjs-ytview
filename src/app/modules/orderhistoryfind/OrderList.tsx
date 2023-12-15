@@ -232,10 +232,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       }
     })
     const orderarr=arr.join(',')
-    if (window.confirm("Bạn chắc chắn muốn refund "+arr.length+" đơn!") == true) {
+    if (window.confirm("WARRING!!! " +
+        "Bạn chắc chắn muốn refund 100%  "+arr.length+" đơn(No check view)!") == true) {
       dispatch(actions.requestUpdate(orderarr,0,0))
     }
   }
+
+  const clickRefund50 = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
+
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("WARRING!!! " +
+        "Bạn chắc chắn muốn refund 50%  "+arr.length+" đơn(No check view)!") == true) {
+      dispatch(actions.requestUpdate(orderarr,0,-1))
+    }
+  }
+
   const clickRefund = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
@@ -275,16 +293,6 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               )}
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
                   <button style={{marginRight:5}}
-                          onClick={() => {
-                            clickRefund100()
-                          }}
-                          className='btn btn-facebook'
-                  >
-                    R100%
-                  </button>
-              )}
-              { isShowFixMulti && role === "ROLE_ADMIN"&&(
-                  <button
                       onClick={() => {
                         clickRefund100Check()
                       }}
@@ -293,7 +301,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     Check & R100%
                   </button>
               )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button style={{marginRight:5,backgroundColor:"rgba(2,24,49,0.66)"}}
+                          onClick={() => {
+                            clickRefund100()
+                          }}
+                          className='btn btn-google'
+                  >
+                    R100%
+                  </button>
+              )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button style={{backgroundColor:"rgba(20,122,178,0.66)"}}
+                      onClick={() => {
+                        clickRefund50()
+                      }}
+                      className='btn btn-google'
+                  >
+                    R50%
+                  </button>
+              )}
             </div>
+
           </div>
         </div>
         <div className="page-header__content">

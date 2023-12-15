@@ -60,8 +60,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"black"}}>{item.viewstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#000000"}}>{item.viewtotal==null?0:item.viewtotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))+'%'}</span></span>
-                    <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                        {round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'}</span>
+                    <span style={{color:'white',fontSize:11,backgroundColor:item.timestart!=0?"#03d96e":"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                        {item.timestart!=0?(round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'):'C'}</span>
                     <br/>
                 </span>
                 </span>
@@ -94,7 +94,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
             </td>
             <td >
-                {(item.viewend>0&&item.viewend!=null)&&<span  style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.viewtotal)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                {(item.viewend>-1&&item.viewend!=null)&&<span  style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.vieworder)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                     {item.viewend}</span>}
                 {
                     <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.timecheckbh>0?(new Date(item.timecheckbh).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.timecheckbh).toLocaleTimeString('vn-VN')):""}</span>
@@ -104,7 +104,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span className='badge badge-success' style={{color:'black',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.user.replace("@gmail.com","")}</span>
             </td>}
             <td>
-               <span className='badge badge-success' style={{color:'black',fontSize:11,fontWeight:'normal',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.note}</span>
+               <span className='badge badge-success' style={{overflow:"hidden",maxWidth:100,color:'black',fontSize:11,fontWeight:'normal',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.note}</span>
             </td>
         </tr>
     )

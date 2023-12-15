@@ -335,7 +335,7 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
                     }
                   </Input>
                 </FormGroup>
-                {role === "ROLE_ADMIN" &&<FormGroup>
+                {role != "ROLE_USER" &&<FormGroup>
                   <Label for="exampleEmail" className="required form-label">
                     Luồng
                   </Label>

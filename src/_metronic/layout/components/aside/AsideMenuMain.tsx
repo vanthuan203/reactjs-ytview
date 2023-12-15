@@ -120,6 +120,20 @@ export function AsideMenuMain() {
         />
 
         <AsideMenuItem
+            to='/crafted/ordertraffic'
+            title='Đơn Traffic Website'
+            icon='/media/icons/duotune/graphs/gra005.svg'
+            fontIcon='bi-app-indicator'
+        />
+
+      <AsideMenuItem
+          to='/crafted/ordertraffiwebhistory'
+          title='Lịch sử Traffic Website'
+          icon='/media/icons/duotune/graphs/gra011.svg'
+          fontIcon='bi-app-indicator'
+      />
+
+        <AsideMenuItem
             to='/crafted/balance'
             title='Biến động số dư'
             icon='/media/icons/duotune/finance/fin002.svg'

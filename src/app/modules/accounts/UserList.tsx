@@ -33,6 +33,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
   const [keystatus, setKeyStatus] = useState('')
   const [keystatustrue, setKeyStatusTrue] = useState(0)
   const [key, setKey] = useState("")
+  const [statusVNTrue, setstatusVNTrue] = useState(0)
   const role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
   const [list_vps,setList_VPS]=useState([{
@@ -100,8 +101,8 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     console.log(counts);
     settotal_user_endtrial(counts);
   }
-  async function ressetall(){
-    const requestUrl = API_URL+'vps/resetAll';
+  async function changer_vn(){
+    const requestUrl = API_URL+'vps/changer_vn';
     const response= await fetch(requestUrl,{
       method: 'get',
       headers: new Headers({
@@ -110,6 +111,29 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
       })
     });
     const responseJson= await  response.json();
+    const {status}=responseJson;
+    if(parseInt(status)>0){
+      alert('Thay thành công '+status+' tài khoản mới!')
+    }else{
+      alert('Thay tài khoản thất bại!')
+    }
+  }
+  async function changer_us(){
+    const requestUrl = API_URL+'vps/changer_us';
+    const response= await fetch(requestUrl,{
+      method: 'get',
+      headers: new Headers({
+        'Authorization': '1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const responseJson= await  response.json();
+    const {status}=responseJson;
+    if(parseInt(status)>0){
+      alert('Thay thành công '+status+' tài khoản mới!')
+    }else{
+      alert('Thay tài khoản thất bại!')
+    }
   }
   useEffect(() => {
     setLoading(true)
@@ -130,10 +154,14 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
 
   },[keytrue,key,keystatus,vpstpye,accounts.length,,]);
 
-  const clickResetAll = async () => {
-    if (window.confirm("Bạn chắc chắn muốn Restart all VPS?") == true) {
-      await ressetall()
-      window.alert("Restart all VPS thành công!")
+  const clickResetAllVN = async () => {
+    if (window.confirm("Bạn chắc chắn muốn thay acc VN?") == true) {
+      await changer_vn()
+    }
+  }
+  const clickResetAllUS = async () => {
+    if (window.confirm("Bạn chắc chắn muốn thay acc US?") == true) {
+      await changer_us()
     }
   }
 
@@ -169,13 +197,22 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             </div>
             <div className="col-lg-4 col-sm-12 text-right">
               {
-                <button
+                <button style={{backgroundColor:"rgba(222,58,58,0.97)"}}
                         onClick={() => {
-                          clickResetAll()
+                          clickResetAllVN()
                         }}
-                        className='btn btn-google'
+                        className='btn btn-success'
                 >
-                  Restart All
+                  Change VN accounts
+                </button>}
+              {
+                <button style={{margin:5,backgroundColor:"rgba(34,126,231,0.97)"}}
+                    onClick={() => {
+                      clickResetAllUS()
+                    }}
+                    className='btn btn-success'
+                >
+                  Change US accounts
                 </button>}
             </div>
           </div>

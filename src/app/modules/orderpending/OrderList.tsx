@@ -200,6 +200,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hủy "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,1))
     }
+    dispatch(actions.checkedAllChange(false))
   }
 
   const clickOrderRunningHandler = () => {
@@ -214,6 +215,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn chạy "+arr.length+" đơn!") == true) {
       dispatch(actions.editMultiOrderRequest(orderarr))
     }
+    dispatch(actions.checkedAllChange(false))
   }
 
   const isShowFixMulti = orders.find((item) => {

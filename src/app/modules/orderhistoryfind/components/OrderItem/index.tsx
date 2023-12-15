@@ -90,8 +90,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"black"}}>{item.viewstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#000000"}}>{item.viewtotal==null?0:item.viewtotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))+'%'}</span></span>
-                      {item.timestart!=0&&<span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>
-                        {round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'}</span>}
+                    <span style={{color:'white',fontSize:11,backgroundColor:item.timestart!=0?"#03d96e":"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                        {item.timestart!=0?(round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'):'C'}</span>
                     <br/>
                       {item.info.length>0&&<span>
                       <a target="_blank" style={{textDecorationLine:'none',fontWeight:'normal',fontSize:11,backgroundColor:"rgba(105,101,101,0.6)",marginRight:5,marginBottom:5,color:"white",}} href={'https://www.youtube.com/watch?v=' + item.videoid} className='badge badge-danger'>
@@ -152,13 +152,13 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
             </td>
             <td >
-                {(item.viewend>0&&item.viewend!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.viewtotal)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                {(item.viewend>-1&&item.viewend!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:item.viewend>=(item.vieworder)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                     {item.viewend}</span>}
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{item.timecheckbh>0?(new Date(item.timecheckbh).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.timecheckbh).toLocaleTimeString('vn-VN')):""}</span>
                 }
                 <br/>
-                {(parseInt(item.info.split(',')[12])>0&&parseInt(item.info.split(',')[12])!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:"rgba(105,101,101,0.6)"}} className='badge badge-success'>
+                {(parseInt(item.info.split(',')[12])>-1&&parseInt(item.info.split(',')[12])!=null)&&<span style={{color:'white',fontSize:11,backgroundColor:"rgba(105,101,101,0.6)"}} className='badge badge-success'>
                     {parseInt(item.info.split(',')[12])}</span>}
                 {
                     <span style={{color:'rgba(9,9,9,0.58)',fontWeight:"bold",fontSize:11,margin:5}} >{parseFloat(item.info.split(',')[11])>0?(new Date(parseFloat(item.info.split(',')[11])).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(parseFloat(item.info.split(',')[11])).toLocaleTimeString('vn-VN')):""}</span>
@@ -170,12 +170,12 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {item.info.length>0&&<span className='badge badge-success' style={{color:'rgba(9,9,9,0.58)',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.info.split(',')[13].replace("@gmail.com","")}</span>}
             </td>}
             <td>
-                <span className='badge badge-success' style={{color:'black',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.note}</span>
+                <span className='badge badge-success' style={{overflow:"hidden",maxWidth:100,color:'black',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.note}</span>
                 <br/>
-                {item.info.length>0&&<span className='badge badge-success' style={{color:'rgba(9,9,9,0.58)',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.info.split(',')[14]}</span>}
+                {item.info.length>0&&<span className='badge badge-success' style={{overflow:"hidden",maxWidth:100,color:'rgba(9,9,9,0.58)',fontSize:11,fontWeight:'bold',marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.info.split(',')[14]}</span>}
             </td>
 
-            {
+            {item.status==null&&
                 role === "ROLE_ADMIN"&&item.price!=0&&<td >
                     <a target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"rgba(213,143,51,0.97)",marginRight:5,marginBottom:5,color:"white",padding:8}} onClick={clickUpdateHandler1} className='badge badge-danger'>
                         R
@@ -183,6 +183,12 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <a target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"rgba(220,13,13,0.97)",marginRight:5,marginBottom:5,color:"white",padding:8}} onClick={clickUpdateHandler0} className='badge badge-danger'>
                         R100
                     </a>
+                </td>
+            }
+            {item.status!=null&&
+                role === "ROLE_ADMIN"&&<td >
+                    <span style={{color:'white',fontSize:11,backgroundColor:item.status.includes("No")?"#b7080f":"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                    {item.status}</span>
                 </td>
             }
         </tr>

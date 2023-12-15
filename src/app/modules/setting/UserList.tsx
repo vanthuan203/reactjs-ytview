@@ -29,6 +29,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
   const [keytrue, setKeyTrue] = useState(0)
   const [keystatus, setKeyStatus] = useState('')
   const [keystatustrue, setKeyStatusTrue] = useState(0)
+  const [statusTrue, setstatusTrue] = useState(0)
   const [key, setKey] = useState("")
   const role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
@@ -39,6 +40,23 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     }
     return false
   })
+
+  async function getcountsbyendtrial(){
+    const requestUrl = API_URL+'vps/DellALL';
+    const response= await fetch(requestUrl,{
+      method: 'get',
+      headers: new Headers({
+        'Authorization': '1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const responseJson= await  response.json();
+    const {status}=responseJson;
+    if(status==="true"){
+      setstatusTrue(1)
+    }
+  }
+
   useEffect(() => {
   },[]);
 
@@ -68,9 +86,11 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                 <th className='min-w-100px'>Bonus</th>
                 <th className='min-w-100px'>MaxorderVN</th>
                 <th className='min-w-100px'>MaxorderUS</th>
-                <th className='min-w-100px'>MaxRunning BuffH</th>
+                <th className='min-w-100px'>MaxR BuffH VN</th>
+                <th className='min-w-100px'>MaxR BuffH US</th>
                 <th className='min-w-100px'>ThreadMin</th>
-                <th style={{color:"red"}} className='min-w-100px'>Redirect BuffH</th>
+                <th style={{color:"red"}} className='min-w-100px'>Redirect BuffH VN</th>
+                <th style={{color:"red"}} className='min-w-100px'>Redirect BuffH US</th>
               </tr>
             </thead>
             {/* end::Table head */}
@@ -82,8 +102,8 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                       return <UserItem key={item.id+index} item={item} index={index} />
                     })
               }
-
             </tbody>
+            <br/>
             {/* end::Table body */}
           </table>
         </div>

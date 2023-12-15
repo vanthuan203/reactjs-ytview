@@ -2,11 +2,13 @@ export interface AccountModel {
   id:number
   pricerate:number,
   bonus:number,
-  maxorder:number,
+  maxorderbuffhus:number,
+  maxorderbuffhvn:number,
   maxordervn:number,
   maxorderus:number,
   threadmin:number,
-  redirect:number,
+  redirectvn:number,
+  redirectus:number,
   checked?:boolean
 }
 
@@ -29,11 +31,13 @@ export interface AccountForm {
   id:number,
   pricerate:number,
   bonus:number,
-  maxorder:number,
+  maxorderbuffhus:number,
+  maxorderbuffhvn:number,
   maxordervn:number,
   maxorderus:number,
   threadmin:number,
-  redirect:number
+  redirectvn:number,
+  redirectus:number
 }
 
 export interface AccountLimitForm {

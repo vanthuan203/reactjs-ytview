@@ -13,6 +13,8 @@ export function PrivateRoutes() {
   const WidgetsPage4 = lazy(() => import('../modules/orderpending/OrdersPage'))
   const WidgetsPage2 = lazy(() => import('../modules/orderbaohanh/OrdersPage'))
   const WidgetsPage3 = lazy(() => import('../modules/ordercomment/OrdersPage'))
+  const WidgetsPage5 = lazy(() => import('../modules/ordertraffic/OrdersPage'))
+  const WidgetsPage6 = lazy(() => import('../modules/ordertraffichistory/OrdersPage'))
   const WidgetsPageHis = lazy(() => import('../modules/orderhistory/OrdersPage'))
   const WidgetsPageHis2 = lazy(() => import('../modules/orderhistoryfind/OrdersPage'))
   const WidgetsPageHis1 = lazy(() => import('../modules/ordercommenthistory/OrdersPage'))
@@ -29,6 +31,8 @@ export function PrivateRoutes() {
         <Route path='/crafted/ordercheck' component={WidgetsPage} />
         <Route path='/crafted/orderbaohanh' component={WidgetsPage2} />
         <Route path='/crafted/ordercomments' component={WidgetsPage3} />
+        <Route path='/crafted/ordertraffic' component={WidgetsPage5} />
+        <Route path='/crafted/ordertraffiwebhistory' component={WidgetsPage6} />
         <Route path='/crafted/orderhistory' component={WidgetsPageHis} />
         <Route path='/crafted/ordercommenthistory' component={WidgetsPageHis1} />
         <Route path='/crafted/orderfindhistory' component={WidgetsPageHis2} />

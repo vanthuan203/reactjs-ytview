@@ -306,9 +306,6 @@ const EditModal: React.FC<Props> = ({item}) => {
                         <Label style={{fontWeight: 'bold'}} for="exampleEmail" className="required form-label">
                             Geo
                         </Label>
-                        <Label style={{fontWeight: 'bold'}} for="exampleEmail" className="required form-label">
-                            Default Threads
-                        </Label>
                         <Input
                             id="thread"
                             name="thread"

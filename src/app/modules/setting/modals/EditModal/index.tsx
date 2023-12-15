@@ -27,9 +27,11 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const [bonus, setbonus] = useState(item.bonus)
     const [maxordervn, setmaxordervn] = useState(item.maxordervn)
     const [maxorderus, setmaxorderus] = useState(item.maxorderus)
-    const [maxorder, setmaxorder] = useState(item.maxorder)
+    const [maxorderbuffhus, setmaxorderbuffhus] = useState(item.maxorderbuffhus)
+    const [maxorderbuffhvn, setmaxorderbuffhvn] = useState(item.maxorderbuffhvn)
     const [threadmin, setthreadmin] = useState(item.threadmin)
-    const [redirect, setredirect] = useState(item.redirect)
+    const [redirectvn, setredirectvn] = useState(item.redirectvn)
+    const [redirectus, setredirectus] = useState(item.redirectus)
 
     const dismissModal = () => {
         dispatch(actions.clearCurrentAccount())
@@ -53,9 +55,11 @@ const EditModal: React.FC<Props> = ({ item }) => {
             bonus,
             maxordervn,
             maxorderus,
-            maxorder,
+            maxorderbuffhvn,
+            maxorderbuffhus,
             threadmin,
-            redirect
+            redirectvn,
+            redirectus,
         }))
     }
 
@@ -98,10 +102,17 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         />
                         <span className="input-group-text" id="basic-addon2">đơn</span>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Số đơn giờ chạy(MAX)</p>
+                    <p style={{fontWeight:'bold'}}>Số đơn giờ VN chạy(MAX)</p>
                     <div className="input-group mb-5">
-                        <input style={{fontWeight:'bold'}} value={maxorder} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
-                               onChange={(e) => setmaxorder(parseInt(e.target.value))}
+                        <input style={{fontWeight:'bold'}} value={maxorderbuffhvn} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxorderbuffhvn(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">đơn</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Số đơn giờ US chạy(MAX)</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={maxorderbuffhus} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setmaxorderbuffhus(parseInt(e.target.value))}
                         />
                         <span className="input-group-text" id="basic-addon2">đơn</span>
                     </div>
@@ -112,10 +123,17 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         />
                         <span className="input-group-text" id="basic-addon2">%</span>
                     </div>
-                    <p style={{fontWeight:'bold'}}>Redirect sang BuffH</p>
+                    <p style={{fontWeight:'bold'}}>Redirect VN BuffH</p>
                     <div className="input-group mb-5">
-                        <input style={{fontWeight:'bold'}} value={redirect} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
-                               onChange={(e) => setredirect(parseInt(e.target.value))}
+                        <input style={{fontWeight:'bold'}} value={redirectvn} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setredirectvn(parseInt(e.target.value))}
+                        />
+                        <span className="input-group-text" id="basic-addon2">/1000</span>
+                    </div>
+                    <p style={{fontWeight:'bold'}}>Redirect US BuffH</p>
+                    <div className="input-group mb-5">
+                        <input style={{fontWeight:'bold'}} value={redirectus} type="number" className="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2"
+                               onChange={(e) => setredirectus(parseInt(e.target.value))}
                         />
                         <span className="input-group-text" id="basic-addon2">/1000</span>
                     </div>

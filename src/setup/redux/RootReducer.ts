@@ -5,9 +5,11 @@ import * as auth from '../../app/modules/auth'
 import * as accounts from '../../app/modules/accounts'
 import * as orders from '../../app/modules/orders'
 import * as orderdone from '../../app/modules/orderdone'
+import * as ordertraffic from '../../app/modules/ordertraffic'
 import * as orderpending from '../../app/modules/orderpending'
 import * as ordercheckcancel from '../../app/modules/ordercheckcancel'
 import * as orderhistory from '../../app/modules/orderhistory'
+import * as ordertraffichistory from '../../app/modules/ordertraffichistory'
 import * as orderhistoryfind from '../../app/modules/orderhistoryfind'
 import * as ordercommenthistory from '../../app/modules/ordercommenthistory'
 import * as orderbaohanh from '../../app/modules/orderbaohanh'
@@ -34,11 +36,13 @@ export const rootReducer = combineReducers({
   balance:balance.reducer,
   orderbaohanh:orderbaohanh.reducer,
   orderhistoryfind:orderhistoryfind.reducer,
-  orderpending:orderpending.reducer
+  orderpending:orderpending.reducer,
+  ordertraffic:ordertraffic.reducer,
+  ordertraffichistory:ordertraffichistory.reducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>
 
 export function* rootSaga() {
-  yield all([auth.saga(),accounts.saga(),orders.saga(),orderdone.saga(),histories.saga(),orderhistory.saga(),users.saga(),setting.saga(),balance.saga(),services.saga(),ordercheckcancel.saga(),orderbaohanh.saga(),ordercomment.saga(),ordercommenthistory.saga(),orderhistoryfind.saga(),orderpending.saga()])
+  yield all([auth.saga(),accounts.saga(),orders.saga(),orderdone.saga(),histories.saga(),orderhistory.saga(),users.saga(),setting.saga(),balance.saga(),services.saga(),ordercheckcancel.saga(),orderbaohanh.saga(),ordercomment.saga(),ordercommenthistory.saga(),orderhistoryfind.saga(),orderpending.saga(),ordertraffic.saga(),ordertraffichistory.saga()])
 }

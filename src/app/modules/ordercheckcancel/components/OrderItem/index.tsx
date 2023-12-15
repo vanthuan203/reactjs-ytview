@@ -116,7 +116,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.user.replace("@gmail.com","")}</span>
             </td>}
             <td>
-                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
+                <span style={{overflow:"hidden",maxWidth:100,color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
             </td>
 
             {

@@ -34,7 +34,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100,backgroundColor:item.service<600?"rgba(252,226,207,0.62)":"#ffffff"}}>
+        <tr style={{margin:100,backgroundColor:item.balance>0?"rgba(252,226,207,0.62)":"#ffffff"}}>
             <td className='w-25px'>
                 <span style={{marginLeft:5}}  className='text-muted fw-bold text-muted d-block text-sm'>{index+1}</span>
             </td>
@@ -62,7 +62,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             </td>
             <td>
                 <span >
-                    <text style={{fontSize:12,fontWeight:"bold"}}>
+                    <text style={{fontSize:12,fontWeight:"bold",color:item.service<600?"rgba(34,126,231,0.97)":"#b7080f"}}>
                         {item.service}
                     </text>
                             </span>
