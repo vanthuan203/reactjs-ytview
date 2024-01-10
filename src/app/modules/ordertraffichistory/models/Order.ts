@@ -35,6 +35,7 @@ export interface OrderModel {
   link: string,
   keywords: string,
   traffic24h:number,
+  package:number,
   traffictotal:number,
   trafficorder:number,
   checked?:boolean

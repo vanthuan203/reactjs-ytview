@@ -14,6 +14,7 @@ export interface OrderModel {
   user:string,
   price:number,
   service:number,
+  package:number,
   trafficorder:number,
   checked?:boolean
 }

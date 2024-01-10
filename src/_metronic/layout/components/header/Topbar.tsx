@@ -7,6 +7,7 @@ import {UserModel} from "../../../../app/modules/auth/models/UserModel";
 import {shallowEqual, useSelector} from "react-redux";
 import {RootState} from "../../../../setup";
 import {auto} from "@popperjs/core";
+import moment from "moment";
 const API_URL = process.env.REACT_APP_API_URL
 let total_user=0
 const toolbarButtonMarginClass = 'ms-2 ms-lg-3',
@@ -20,10 +21,16 @@ function format1(n:number) {
 }
 const Topbar: FC = () => {
     const [toggle, setToggle] = useState(false)
+    const [toggle5m, setToggle5m] = useState(false)
     let [total_user, settotal_user] = useState("")
+    let [fluctuationsNow, sefluctuationsNow] = useState("")
+    let [now, setnow] = useState(moment().format("hh:mm:s A").toString())
     let [useEff, setuseEff] = useState(0)
+    const [isMobile, setIsMobile] = useState(false);
+    const [countPrice, setCountPrice] = useState(0);
     async function getcounts(){
         settotal_user("")
+
         const requestUrl = API_URL+'auth/balanceNow';
         const response= await fetch(requestUrl,{
             method: 'get',
@@ -35,33 +42,121 @@ const Topbar: FC = () => {
         const responseJson= await  response.json();
         const {balance}=responseJson;
         settotal_user(balance)
+        setnow(moment().format("hh:mm:s A").toString())
     }
+    async function getnow(){
+        const requestUrl = API_URL+'auth/fluctuationsNow';
+        const response= await fetch(requestUrl,{
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson= await  response.json();
+        const {noti}=responseJson;
+
+        if(noti!=fluctuationsNow){
+            sefluctuationsNow(noti)
+        }
+    }
+    async function get5M(){
+        const requestUrl = API_URL+'auth/fluctuations5M';
+        const response= await fetch(requestUrl,{
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson= await  response.json();
+        const {price}=responseJson;
+        setCountPrice(-price)
+    }
+    const handleWindowResize = () => {
+        setIsMobile(window.innerWidth <= 800);
+    };
     useEffect(() => {
         useEff=useEff+1
         setuseEff(useEff)
-        if(useEff<=1){
+        if(useEff<=1&&user.role==='ROLE_ADMIN'){
             getcounts()
         }
+        handleWindowResize();
+        window.addEventListener('resize', handleWindowResize);
     }, []);
+    useEffect(() => {
+        if(user.role==='ROLE_ADMIN'){
+            setTimeout(() => setToggle((prevToggle) => !prevToggle), 10000);
+            handleWindowResize();
+            // Thêm sự kiện lắng nghe để kiểm tra kích thước cửa sổ khi cửa sổ thay đổi
+            window.addEventListener('resize', handleWindowResize);
+            if(window.innerWidth > 800){
+                getnow()
+            }
+        }
+
+    }, [toggle]);
+
+    useEffect(() => {
+        if(user.role==='ROLE_ADMIN'){
+            setTimeout(() => setToggle5m((prevToggle) => !prevToggle), 60000);
+            handleWindowResize();
+            // Thêm sự kiện lắng nghe để kiểm tra kích thước cửa sổ khi cửa sổ thay đổi
+            window.addEventListener('resize', handleWindowResize);
+            if(window.innerWidth > 800){
+                get5M()
+            }
+        }
+
+    }, [toggle5m]);
+    function animate_string() {
+        const element = document.getElementById('target');
+        // @ts-ignore
+        const textNode = element.firstChild;
+        // @ts-ignore
+        let text = textNode.data;
+        setInterval(() => {
+            text = text[text.length - 1] + text.substring(0, text.length - 1);
+            // @ts-ignore
+            textNode.data = text;
+        }, 100);
+    }
+
   const {config} = useLayout()
   const user: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
   return (
 
     <div className='d-flex align-items-stretch flex-lg-shrink-1'>
       {/* begin::User */}
-        {user.role==='ROLE_ADMIN'&&<div className="align-items-center row" style={{backgroundColor:"#9de3bb",marginRight:15}}>
-            <div style={{width:"100%", margin: auto}}>
+        {user.role==='ROLE_ADMIN111'&&<div className="align-items-top row" style={{marginRight:15}}>
+            <div style={{width:"100%",margin:auto}}>
+                <div className="pl-0 text-left">
+                        <div dangerouslySetInnerHTML={{ __html: now }} style={{color:"rgb(9,9,9)",fontSize:13,fontWeight:"bold",fontFamily:"monospace",textAlign:"center",margin:auto}}>
+                        </div>
+                </div>
+            </div>
+        </div>}
+        {isMobile==false&&user.role==='ROLE_ADMIN'&&<div className="align-items-top row" style={{marginRight:15}}>
+            <div style={{width:"100%",display: "flex",alignItems:"center",justifyItems:"center"}}>
+                <div className="pl-0 text-left">
+                   <span  style={{textAlign:"center",fontWeight:"bold",fontFamily:"monospace"}}>{fluctuationsNow +" 🕐 𝐋𝐀𝐒𝐓 𝟓𝐌 +" +countPrice.toFixed(3)+ "$" }</span>
+                </div>
+            </div>
+        </div>}
+        {user.role==='ROLE_ADMIN'&&<div className="align-items-top row" style={{backgroundColor:"#9de3bb",marginRight:15}}>
+            <div style={{width:"100%"}}>
                 <div className="pl-0 text-left">
                     <button
                             onClick={() => {getcounts()
                             }}
                             className='btn btn-sm'
                     >
-                        <div style={{color:"rgba(34,126,231,0.97)",fontWeight:"bold",textAlign:"center",marginBottom:5}} className="font-weight-bold">
-                            <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{total_user!=""?total_user.split(",")[0]:"Loading..."}</span>
+                        <div style={{color:"rgba(34,126,231,0.97)",fontWeight:"bold",textAlign:"center",marginBottom:8}} className="font-weight-bold">
+                            <span style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",padding:4,paddingRight:7,paddingLeft:6,flex: 1,alignItems: 'center',borderRadius:10}}>{total_user!=""?total_user.split(",")[0]:"Loading..."}</span>
                         </div>
                         <div style={{color:"rgba(34,126,231,0.97)",fontWeight:"bold",textAlign:"center"}} className="font-weight-bold">
-                            <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{total_user!=""?total_user.split(",")[1]:"Loading..."}</span>
+                            <span  style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",padding:4,paddingRight:7,paddingLeft:6,flex: 1,alignItems: 'center',borderRadius:10}}>{total_user!=""?total_user.split(",")[1]:"Loading..."}</span>
                         </div>
                     </button>
                 </div>

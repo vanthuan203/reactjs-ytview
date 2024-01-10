@@ -40,7 +40,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100}}>
+        <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td  className='w-25px'>
                 <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
@@ -96,7 +96,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f"}} className='badge badge-success'>
                   {item.service}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>

@@ -40,7 +40,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100}}>
+        <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td  className='w-25px'>
                 <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
@@ -78,7 +78,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.viewstart}</span></span>
                     <span style={{color:'white',fontSize:11,backgroundColor:item.maxthreads>0?"#03d96e":"rgba(20,122,178,0.66)",marginRight:5,marginBottom:5}} className='badge badge-success'>
                        {item.maxthreads>0?"Running":"Pending"} </span>
-                    {item.priority>0&&<span style={{color:'white',fontSize:11,backgroundColor:"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                    {item.priority!=0&&<span style={{color:'white',fontSize:11,backgroundColor:item.priority>0?"rgba(218,30,30,0.97)":"rgba(9,9,9,0.68)",marginRight:5,marginBottom:5}} className='badge badge-success'>
                        {item.priority}</span>}
                     <br/>
                 </span>
@@ -91,7 +91,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {item.service}</span>
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>

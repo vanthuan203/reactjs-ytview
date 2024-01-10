@@ -24,7 +24,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
     }
     return (
 
-        <tr style={{margin:100}}>
+        <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td className='w-25px'>
                 <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input

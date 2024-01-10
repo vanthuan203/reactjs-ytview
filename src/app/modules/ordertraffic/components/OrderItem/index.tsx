@@ -40,7 +40,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
     //const increase = item.current_view - item.start_view
     return (
-        <tr style={{margin:100}}>
+        <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td  className='w-25px'>
                 <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
@@ -72,6 +72,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.trafficorder}</span></span>
+                                <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(34,126,231,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>24h <span style={{color:"#fdfdfd"}}>{item.traffic24h==null?0:item.traffic24h}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.traffictotal==null?0:item.traffictotal}</span></span>
                     {(item.maxthreads>0||item.traffictotal>0)&&<span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))+'%'}</span></span>}
                     {item.maxthreads<=0&&<span style={{color:'white',fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",marginRight:5,marginBottom:5}} className='badge badge-success'>
@@ -94,8 +95,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 }
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {item.service}</span>
+                <span style={{color:'white',fontSize:11,backgroundColor:item.package<=1?"#03d96e":item.package<=7?"rgba(225,135,15,0.97)":"rgba(20,122,178,0.66)",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                  {item.package+"D"}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>
@@ -106,7 +109,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {round((Date.now()-item.timestart)/1000/60)>60?(round((Date.now()-item.timestart)/1000/60)/60).toFixed(2)+'H':round((Date.now()-item.timestart)/1000/60)+'m'}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.timestart).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(item.timestart).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.timestart).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timestart).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>

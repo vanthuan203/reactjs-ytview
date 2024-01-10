@@ -34,6 +34,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
   const [keystatustrue, setKeyStatusTrue] = useState(0)
   const [key, setKey] = useState("")
   const [statusVNTrue, setstatusVNTrue] = useState(0)
+  const [Checked, setChecked] = useState(false)
   const role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
   const [list_vps,setList_VPS]=useState([{
@@ -177,6 +178,8 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" VPS!") == true) {
       dispatch(actions.deleteVpsRequest(vps))
     }
+    setChecked(false)
+    dispatch(actions.checkedAllChange(false))
   }
 
   return (
@@ -306,7 +309,9 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                     <input
                         onChange={(evt) => {
                           dispatch(actions.checkedAllChange(evt.target.checked))
+                          setChecked(evt.target.checked)
                         }}
+                        checked={Checked}
                         className='form-check-input'
                         type='checkbox'
                         value='1'

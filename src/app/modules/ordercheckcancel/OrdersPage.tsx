@@ -15,17 +15,28 @@ const WidgetsPage: React.FC = () => {
   const dispatch = useDispatch()
   const orders: OrderModel[] = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.orders, shallowEqual) as OrderModel[] || []
   const currentOrder: OrderModel = useSelector<RootState>(({ ordercheckcancel }) => ordercheckcancel.currentOrder, shallowEqual) as OrderModel || undefined
+  const [refresh, setRefresh] = useState(true)
   useEffect(() => {
-    if(role.indexOf("ROLE_ADMIN")>=0){
-      dispatch(actions.requestOrders(''))
-    }else{
-      dispatch(actions.requestOrders(user))
+    if(refresh===true){
+      if(role.indexOf("ROLE_ADMIN")>=0){
+        dispatch(actions.requestOrders(''))
+      }else{
+        dispatch(actions.requestOrders(user))
+      }
     }
-  }, [])
+    setRefresh(false)
+  }, [refresh])
   return (
     <>
       <div className='row gy-5 gx-xl-12'>
-        <div className='col-xl-12'>
+        <div className='col-xl-12' style={{margin:0}}>
+          <a style={{float:"right"}} href='#' onClick={() => {
+            setRefresh(true)
+          }} >
+            <img style={{width:32,height:32}} src='/media/dowload/refresh-cw-alt-1-svgrepo-com.svg' className='svg-icon-6' />
+          </a>
+        </div>
+        <div className='col-xl-12' style={{margin:0}}>
           <OrderList orders={orders} done={1} className='card-xxl-stretch mb-5 mb-xl-12' />
         </div>
       </div>

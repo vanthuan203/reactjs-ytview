@@ -30,6 +30,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
     });
   }
+  const [Checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(true)
   const [showAdd, setShowAdd] = useState(false)
   const [key, setKey] = useState("")
@@ -192,6 +193,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hủy "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,1))
     }
+    setChecked(false)
+    dispatch(actions.checkedAllChange(false))
   }
 
   const clickDeleteOrderDoneHandler = () => {
@@ -206,6 +209,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn duyệt "+arr.length+" đơn!") == true) {
       dispatch(actions.updateOrderCheckRequest(orderarr))
     }
+    setChecked(false)
+    dispatch(actions.checkedAllChange(false))
   }
 
   const isShowFixMulti = orders.find((item) => {
@@ -427,7 +432,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     <input
                         onChange={(evt) => {
                           dispatch(actions.checkedAllChange(evt.target.checked))
+                          setChecked(evt.target.checked)
                         }}
+                        checked={Checked}
                         className='form-check-input'
                         type='checkbox'
                         value='1'
@@ -589,7 +596,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -629,7 +636,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -710,7 +717,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -750,7 +757,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder

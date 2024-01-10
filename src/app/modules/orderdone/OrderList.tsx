@@ -25,11 +25,19 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   const dispatch = useDispatch()
   const API_URL = process.env.REACT_APP_API_URL
   function format1(n:number) {
-    return n.toFixed(0).replace(/./g, function(c, i, a) {
-      return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-    });
+    if(n>=0){
+      return n.toFixed(0).replace(/./g, function(c, i, a) {
+        return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+      });
+    }else{
+      return 0;
+    }
+
   }
+  const [isMobile, setIsMobile] = useState(false);
+  const [Checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [refresh, setRefresh] = useState(false)
   const [showAdd, setShowAdd] = useState(false)
   const [key, setKey] = useState("")
   const [keyrate, setKeyRate] = useState(0)
@@ -145,6 +153,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     }
   }
   let videos=''
+  const handleWindowResize = () => {
+    setIsMobile(window.innerWidth <= 800);
+  };
   useEffect(() => {
     setLoading(true)
     if(orders.length!=0 || list_video.length>0){
@@ -208,10 +219,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalTimeBuffedOrderUsShow(totaltimebuffedorderusshow)
     totaltimebuffedorderus=0
     setTotalTimeBuffedOrderUs(0)
-
     if(useEff<=1){
       getcounttimeorder();
     }
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
 
   }, [keytrue,keyuser,keyrate,key,orders.length,,])
   const selectGroup = (item: Group) => {
@@ -231,6 +243,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hủy "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,1))
     }
+    setChecked(false)
     dispatch(actions.checkedAllChange(false))
   }
 
@@ -246,6 +259,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if (window.confirm("Bạn chắc chắn muốn hoàn thành "+arr.length+" đơn!") == true) {
       dispatch(actions.deleteOrderRequest(orderarr,0))
     }
+    setChecked(false)
     dispatch(actions.checkedAllChange(false))
   }
 
@@ -260,25 +274,25 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       <div className={`card ${className}`}>
         <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
           <div className="page-header__content">
-            <div className="align-items-center row" style={{margin:10}}>
+            <div className="align-items-center row" style={{marginTop:10,marginBottom:10,marginRight:5,marginLeft:5}}>
              <div className="col-lg-7 col-sm-12 c-order__header">
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
-                  <span className='badge badge-success' style={{fontSize:13,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>Đang chạy {totaldordershow} <span className='badge badge-success 1' style={{fontSize:13,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:13,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalUsshow))}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?("Đang chạy " +totaldordershow):"Total Order"} <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalUsshow))}</span></span>
                 </span>
                 </p>
-                <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5}}>Luồng cấp {format1((useEff<=1?sumthreadset:totalthreadsetshow))} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totalthreadsetshow-totalthreadsetusshow))} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totalthreadsetusshow))}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>Luồng chạy {format1((useEff<=1?sumthread:totalthreadshow))} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totalthreadshow-totalthreadusshow))} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totalthreadusshow))}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5}}>Tổng đặt {format1((useEff<=1?sumtime:totaltimeordershow))} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totaltimeordershow-totaltimeorderusshow))} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totaltimeorderusshow))}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng cấp "+ ((useEff<=1?sumthreadset:totalthreadsetshow)>=1000?(format1((useEff<=1?sumthreadset/1000:totalthreadsetshow/1000))+"K"):(format1((useEff<=1?sumthreadset/1000:totalthreadsetshow/1000))))):"Set"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalthreadsetshow-totalthreadsetusshow)<1000?format1((totalthreadsetshow-totalthreadsetusshow)):(format1((totalthreadsetshow-totalthreadsetusshow)/1000)+"K")}</span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadsetusshow<1000?format1((totalthreadsetusshow)):(format1((totalthreadsetusshow/1000))+"K")}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng chạy " +((useEff<=1?sumthread:totalthreadshow)>=1000?(format1((useEff<=1?sumthread/1000:totalthreadshow/1000))+"K"):(format1((useEff<=1?sumthread:totalthreadshow))))):"Run"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totalthreadshow-totalthreadusshow<1000?format1((totalthreadshow-totalthreadusshow)):(format1((totalthreadshow-totalthreadusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadusshow<1000?format1((totalthreadusshow)):(format1((totalthreadusshow/1000))+"K")}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng đặt "+ ((useEff<=1?sumtime:totaltimeordershow)>=1000?(format1((useEff<=1?sumtime/1000:totaltimeordershow/1000))+"K"):(format1((useEff<=1?sumtime:totaltimeordershow))))):"Quantity"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimeordershow-totaltimeorderusshow<1000?format1((totaltimeordershow-totaltimeorderusshow)):(format1((totaltimeordershow-totaltimeorderusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow<1000?format1((totaltimeorderusshow)):(format1((totaltimeorderusshow/1000))+"K")}</span></span>
                   </span>
                 </p>
-                <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1' >
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>Đã chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totaltimebuffedordershow-totaltimebuffedorderusshow))} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totaltimebuffedorderusshow))}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5}}>Còn tồn {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totaltimeorderusshow-totaltimebuffedorderusshow))}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Đã chạy "+ ((useEff<=1?sumtimedone:totaltimebuffedordershow)>=1000?(format1((useEff<=1?sumtimedone/1000:totaltimebuffedordershow/1000))+"K"):(format1((useEff<=1?sumtimedone:totaltimebuffedordershow))))):"Done"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimebuffedordershow-totaltimebuffedorderusshow<1000?format1((totaltimebuffedordershow-totaltimebuffedorderusshow)):(format1((totaltimebuffedordershow-totaltimebuffedorderusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimebuffedorderusshow<1000?format1((totaltimebuffedorderusshow)):(format1((totaltimebuffedorderusshow/1000))+"K")}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Còn tồn "+ (((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))>=1000?(format1(((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))/1000)+"K"):(format1(((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow)))))):"Remains"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))<1000?format1(((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))):(format1(((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow-totaltimebuffedorderusshow<1000?format1((totaltimeorderusshow-totaltimebuffedorderusshow)):(format1((totaltimeorderusshow-totaltimebuffedorderusshow)/1000)+"K")}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(useEff<=1?summoney.toFixed(0):totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{useEff<=1?(summoney-summoneyUS).toFixed(0):(totalmoneyshow-totalmoneyUSshow).toFixed(0)}$ </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(useEff<=1?summoneyUS.toFixed(0):totalmoneyUSshow.toFixed(0))}$</span></span>
                   </span>
                 </p>
               </div>
@@ -496,7 +510,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     <input
                         onChange={(evt) => {
                           dispatch(actions.checkedAllChange(evt.target.checked))
+                          setChecked(evt.target.checked)
                         }}
+                        checked={Checked}
                         className='form-check-input'
                         type='checkbox'
                         value='1'
@@ -688,7 +704,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                    }else if((key.indexOf(order.videoid)>=0 || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 ||  order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -738,7 +754,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 ||  order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -839,7 +855,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -889,7 +905,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
