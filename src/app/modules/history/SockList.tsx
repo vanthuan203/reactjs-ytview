@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, {useEffect, useState} from 'react'
-import {AuthenModel} from 'app/modules/history/models/Account'
-import AuthenItem from './components/AuthenItem'
+import {SockModel} from './models/Account'
+import SockItem from './components/SockItem'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { actions } from './redux/AccountRedux'
-import { RootState } from 'setup'
+import { RootState } from '../../../setup'
 import {Input, Label} from "reactstrap";
 import {randomString} from "react-inlinesvg/lib/helpers";
 type Props = {
@@ -21,12 +21,12 @@ const SockList: React.FC<Props> = ({ className }) => {
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
   const [status, setStatus] = useState(true)
-  const authens:AuthenModel[] = useSelector<RootState>(({ histories }) => histories.authens, shallowEqual) as AuthenModel[] || []
+  const authens:SockModel[] = useSelector<RootState>(({ histories }) => histories.socks, shallowEqual) as SockModel[] || []
   let sum_total=0;
   let sum_die=0;
   useEffect(() => {
     if(status===true){
-      dispatch(actions.requestAuthens())
+      dispatch(actions.requestSocks())
       setipv4('')
       setKeyTrue(0)
     }
@@ -81,10 +81,10 @@ const SockList: React.FC<Props> = ({ className }) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-6 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>IP Authen</span>
+              <span  className='fw-bolder fs-3 mb-1'>IP SOCK</span>
               <span  className='ml-2 fw-bold fs-7'>(Tổng: {authens.length})</span>
             </div>
-            {keytrue==0&&<div className="col-lg-6 col-sm-12 text-right">
+            {keytrue==1&&<div className="col-lg-6 col-sm-12 text-right">
               <button
                   onClick={() => {
                     setKeyTrue(1)
@@ -182,7 +182,7 @@ const SockList: React.FC<Props> = ({ className }) => {
         {/* begin::Table container */}
         <div className='table-responsive'>
           {/* begin::Table */}
-          <table className='table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4'>
+          <table className='table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3'>
             {/* begin::Table head */}
             <thead>
               <tr className='fw-bolder text-muted'>
@@ -190,13 +190,19 @@ const SockList: React.FC<Props> = ({ className }) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>STT</span>
                 </th>
                 <th className='min-w-50px'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Host</span>
+                </th>
+                <th className='min-w-50px'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Auth_Ips</span>
+                </th>
+                <th className='min-w-50px'>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>TimeUpdate</span>
+                </th>
+                <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4</span>
                 </th>
                 <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Lock</span>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4_Old</span>
                 </th>
               </tr>
             </thead>
@@ -204,8 +210,8 @@ const SockList: React.FC<Props> = ({ className }) => {
             {/* begin::Table body */}
             <tbody>
               {
-                authens&&authens?.map((item: AuthenModel,index:number) => {
-                  return <AuthenItem key={"ipv4-"+index} item={item} index={index}/>
+                authens&&authens?.map((item: SockModel,index:number) => {
+                  return <SockItem key={"ipv4-"+index} item={item} index={index}/>
                 })
               }
 

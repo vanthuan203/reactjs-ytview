@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {postWithoutTokenFunciton, getFunciton, deleteFunciton} from 'utils/ApiHelper'
-import { AccountModel,AccountLimitModel } from '../models/Account'
+import { AccountModel,AccountLimitModel,ProxySettingModel } from '../models/Account'
 
 
 
@@ -13,6 +13,10 @@ export async function getListLimitService() {
   const res:any = await getFunciton("auth/limitservice")
   return res
 }
+export async function getListProxySetting() {
+  const res:any = await getFunciton("proxy/proxysetting")
+  return res
+}
 
 
 export async function updateAccount(account:AccountModel) {
@@ -22,6 +26,11 @@ export async function updateAccount(account:AccountModel) {
 
 export async function updateAccountLimit(accountlimit:AccountLimitModel) {
   const res:any = await postWithoutTokenFunciton("auth/updatelimit",accountlimit)
+  return res
+}
+
+export async function updateProxySetting(proxysetting:ProxySettingModel) {
+  const res:any = await postWithoutTokenFunciton("proxy/updateProxySetting",proxysetting)
   return res
 }
 

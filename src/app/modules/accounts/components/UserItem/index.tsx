@@ -72,7 +72,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                 </div>
             </td>
             <td>
-                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='vn'?'#50CD89':item.vpsoption=='us'?'#d32627':item.vpsoption=='live'?'#dc7a30':'#9ca1a0'}}>
+                <span className='badge badge-dark' style={{fontSize:11,marginRight:2, backgroundColor:item.vpsoption=='vn'?'#50CD89':item.vpsoption=='us'?'#d32627':item.vpsoption=='live'?'#dc7a30':item.vpsoption=='kr'?"rgba(3,37,80,0.97)":'#9ca1a0'}}>
                     <text >
                     {item.vpsoption==''?'Pending':item.vpsoption=='Pending'?item.vpsoption:item.vpsoption.toUpperCase()}
                     </text>

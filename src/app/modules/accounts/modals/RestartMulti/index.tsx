@@ -69,7 +69,7 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
         getallgeo()
     }, [useEff=0])
     async function resetrunningacc(vps:string) {
-        let  requestUrl = API_URL+'vps/resetrunningaccbyvps?vps='+vps;
+        let  requestUrl = API_URL+'accview/dellAccViewByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({
@@ -82,7 +82,7 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
         return status
     }
     async function resetrunningacccmt(vps:string) {
-        let  requestUrl = API_URL+'vps/resetrunningacccmtbyvps?vps='+vps;
+        let  requestUrl = API_URL+'accview/dellAccCmtByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({
@@ -102,13 +102,19 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                 arr.push(item.vps)
             }
         })
-        if(vpsreset==2){
+        if(vpsreset==3){
             for(var i=0;i<arr.length;i++){
                 resetrunningacc(arr[i].trim())
             }
         }
-        if(vpsreset==3){
+        if(vpsreset==5){
             for(var i=0;i<arr.length;i++){
+                resetrunningacccmt(arr[i].trim())
+            }
+        }
+        if(vpsreset==10){
+            for(var i=0;i<arr.length;i++){
+                resetrunningacc(arr[i].trim())
                 resetrunningacccmt(arr[i].trim())
             }
         }
@@ -152,17 +158,23 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                             style={{fontWeight:'bold'}}
                             value={vpsreset}
                         >
-                            <option key={1} value={0}>
+                            <option key={0} value={0}>
                                 {"Không"}
                             </option>
-                            <option key={1} value={1}>
+                            <option key={2} value={2}>
                                 {"Restart"}
                             </option>
-                            <option key={1} value={2}>
-                                {"Restart & DelAcc"}
-                            </option>
                             <option key={3} value={3}>
+                                {"Restart & DelAcc View"}
+                            </option>
+                            <option key={5} value={5}>
                                 {"Restart & DelAcc Cmt"}
+                            </option>
+                            <option key={10} value={10}>
+                                {"Restart & DelAcc All"}
+                            </option>
+                            <option key={6} value={6}>
+                                {"Restart & Off VPS"}
                             </option>
                         </Input>
                     </div>

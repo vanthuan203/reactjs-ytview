@@ -62,7 +62,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             </td>
             <td>
                 <span >
-                    <text style={{fontSize:12,fontWeight:"bold",color:item.service<600?"rgba(34,126,231,0.97)":"#b7080f"}}>
+                    <text style={{fontSize:12,fontWeight:"bold",color:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f")}}>
                         {item.service}
                     </text>
                             </span>

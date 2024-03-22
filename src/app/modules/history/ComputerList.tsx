@@ -16,8 +16,9 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = 'http://server1.idnetwork.com.vn/'
+  const API_URL = process.env.REACT_APP_API_URL
   const [ipv4, setipv4] = useState("")
+  const [option_setting, setoption_setting] = useState("pending")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
   const [status, setStatus] = useState('')
@@ -48,8 +49,8 @@ const ComputerList: React.FC<Props> = ({ className }) => {
     const {status} = responseJson;
     return status
   }
-  async function addipv4(ipv4:string) {
-    let  requestUrl = API_URL+'proxy/addipv4?ipv4='+ipv4;
+  async function addipv4(ipv4:string,option:string) {
+    let  requestUrl = API_URL+'proxy/addipv4?ipv4='+ipv4+"&option_setting="+option;
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({
@@ -77,7 +78,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   }
   const clickDeleteHandler = () => {
     const arr:string[]=ipv4.split('\n');
-    if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" đơn!") == true) {
+    if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" IP!") == true) {
       for(var i=0;i<arr.length;i++){
         delipv4(arr[i])
       }
@@ -85,9 +86,13 @@ const ComputerList: React.FC<Props> = ({ className }) => {
     }
   }
   const clickAddHandler = () => {
+    if(option_setting=="pending"){
+      alert("Vui lòng chọn option setting")
+      return
+    }
     const arr:string[]=ipv4.split('\n');
     for(var i=0;i<arr.length;i++){
-      addipv4(arr[i])
+      addipv4(arr[i],option_setting)
     }
     setStatus('true')
   }
@@ -144,6 +149,29 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                        type={"textarea"}
                        onChange={(e) => setipv4(e.target.value)}
                 />
+              <Input
+                  onChange={(e) => setoption_setting(e.target.value)}
+                  className="form-control form-control-solid"
+                  type="select"
+                  style={{fontWeight:'bold',backgroundColor:"black",color:"white"}}
+                  value={option_setting}
+              >
+                <option key={0} value={"pending"}>
+                  {"Chọn Option Setting"}
+                </option>
+                <option key={1} value={"view"}>
+                  {"PROXY VIEW"}
+                </option>
+                <option key={2} value={"sub"}>
+                  {"PROXY SUB"}
+                </option>
+                <option key={3} value={"tiktok"}>
+                  {"PROXY TIKTOK"}
+                </option>
+                <option key={4} value={"traffic"}>
+                  {"PROXY TRAFFIC"}
+                </option>
+              </Input>
               {addtrue==0&&<button style={{maxWidth:120,color:"white",height:40,marginTop:10,float:"right",marginBottom:20}}
                         onClick={() => {
                           clickDeleteHandler()

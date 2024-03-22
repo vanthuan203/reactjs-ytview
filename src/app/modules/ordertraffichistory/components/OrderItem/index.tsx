@@ -14,8 +14,11 @@ type Props = {
 }
 
 const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
-    const role: string =
+    let role: string =
         (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const [running, setRunning] = useState(0)
     const [success, setSuccess] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -57,11 +60,14 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                   <span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#ffffff"}}>{item.trafficorder}</span></span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(96,92,92,0.68)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#ffffff"}}>{item.keywords}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#000000"}}>{item.traffictotal==null?0:item.traffictotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))+'%'}</span></span>
                     <span style={{color:'white',fontSize:11,backgroundColor:item.timestart!=0?"#03d96e":"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
                         {item.timestart!=0?(round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'):'C'}</span>
                     <br/>
+                     <span style={{fontSize:9}}>
+                        {item.link}</span>
                 </span>
                 </span>
             </td>

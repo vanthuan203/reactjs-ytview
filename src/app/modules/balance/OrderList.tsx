@@ -64,11 +64,15 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldorder, setTotalOrder] = useState(0)
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totaldordervn, setTotalOrderVN] = useState(0)
+  let [totaldorderkr, setTotalOrderKR] = useState(0)
   let [totaldorderVnshow, setTotalOrderVNShow] = useState(0)
+  let [totaldorderKrshow, setTotalOrderKRShow] = useState(0)
   let [totaladd, setTotalAdd] = useState(0)
   let [totaladdshow, setTotalAddShow] = useState(0)
   let [totaladdvn, setTotalAddVN] = useState(0)
+  let [totaladdkr, setTotalAddKR] = useState(0)
   let [totaladdvnshow, setTotalAddVNShow] = useState(0)
+  let [totaladdkrshow, setTotalAddKRShow] = useState(0)
   let [totalsub, setTotalSub] = useState(0)
   let [totalsubshow, setTotalSubShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
@@ -135,6 +139,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalAddVNShow(totaladdvnshow)
     setTotalAddVN(0)
 
+    totaladdkrshow=totaladdkr
+    setTotalAddKRShow(totaladdkrshow)
+    setTotalAddKR(0)
+
+
     if(startDate==null || endDate==null){
       setKeyDateStartTrue(0)
       setKeyDateEndTrue(0)
@@ -154,6 +163,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaldorderVnshow=totaldordervn
     setTotalOrderVNShow(totaldorderVnshow)
     totaldordervn=0
+    totaldorderKrshow=totaldorderkr
+    setTotalOrderKRShow(totaldorderKrshow)
+    totaldorderkr=0
     totaladdshow=totaladd
     setTotalAddShow(totaladdshow)
     totaladd=0
@@ -186,10 +198,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-5 col-sm-12 c-order__header">
-              <span   className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>{useEff<=1?sumorder:totaldordershow} giao dịch</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{totaldorderVnshow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totaldordershow-totaldorderVnshow)}</span></span>
+              <span   className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>{useEff<=1?sumorder:totaldordershow} giao dịch</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{totaldorderVnshow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totaldordershow-totaldorderVnshow-totaldorderKrshow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{totaldorderKrshow}</span></span>
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1'  >
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tiền vào {totaladdshow.toFixed(3)}$</span> <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tiền chi {(-totalsubshow.toFixed(3))}$</span>  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{-totaladdvnshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(-totalsubshow+totaladdvnshow).toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>{totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} {totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}$</span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tiền vào {totaladdshow.toFixed(3)}$</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tiền chi {(-totalsubshow.toFixed(3))}$</span>  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{-totaladdvnshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(-totalsubshow+totaladdvnshow+totaladdkrshow).toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{-totaladdkrshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>{totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} {totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}$</span>
                 </span>
               </p>
             </div>
@@ -289,7 +301,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.service>=600){
                           totaldordervn=1
                           totaladdvn=order.balance
                         }
@@ -300,7 +315,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.service>=600){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
                         }
@@ -332,7 +350,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.service>=600){
                           totaldordervn=1
                           totaladdvn=order.balance
                         }
@@ -343,7 +364,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.service>=600){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
                         }
@@ -375,7 +399,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.service>=600){
                           totaldordervn=1
                           totaladdvn=order.balance
                         }
@@ -386,7 +413,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.service>=600){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
                         }
@@ -421,7 +451,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=order.balance
                       }else{
                         totalsub=order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.service>=600){
                           totaldordervn=1
                           totaladdvn=order.balance
                         }
@@ -432,7 +465,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totaladd=totaladd+order.balance
                       }else{
                         totalsub=totalsub+order.balance
-                        if(order.service>=600){
+                        if(order.service>=1000){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.service>=600){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
                         }

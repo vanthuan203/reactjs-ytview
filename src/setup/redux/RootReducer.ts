@@ -3,6 +3,7 @@ import {combineReducers} from 'redux'
 
 import * as auth from '../../app/modules/auth'
 import * as accounts from '../../app/modules/accounts'
+import * as vpssub from '../../app/modules/vpssub'
 import * as orders from '../../app/modules/orders'
 import * as orderdone from '../../app/modules/orderdone'
 import * as ordertraffic from '../../app/modules/ordertraffic'
@@ -10,6 +11,7 @@ import * as orderpending from '../../app/modules/orderpending'
 import * as ordercheckcancel from '../../app/modules/ordercheckcancel'
 import * as orderhistory from '../../app/modules/orderhistory'
 import * as ordertraffichistory from '../../app/modules/ordertraffichistory'
+import * as orderfollowertiktok from '../../app/modules/orderfollowertiktok'
 import * as orderhistoryfind from '../../app/modules/orderhistoryfind'
 import * as ordercommenthistory from '../../app/modules/ordercommenthistory'
 import * as orderbaohanh from '../../app/modules/orderbaohanh'
@@ -23,6 +25,7 @@ import * as services from '../../app/modules/services'
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   accounts: accounts.reducer,
+  vpsdub: vpssub.reducer,
   users:users.reducer,
   services:services.reducer,
   ordercomment:ordercomment.reducer,
@@ -38,11 +41,14 @@ export const rootReducer = combineReducers({
   orderhistoryfind:orderhistoryfind.reducer,
   orderpending:orderpending.reducer,
   ordertraffic:ordertraffic.reducer,
-  ordertraffichistory:ordertraffichistory.reducer
+  ordertraffichistory:ordertraffichistory.reducer,
+  orderfollowertiktok:orderfollowertiktok.reducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>
 
 export function* rootSaga() {
-  yield all([auth.saga(),accounts.saga(),orders.saga(),orderdone.saga(),histories.saga(),orderhistory.saga(),users.saga(),setting.saga(),balance.saga(),services.saga(),ordercheckcancel.saga(),orderbaohanh.saga(),ordercomment.saga(),ordercommenthistory.saga(),orderhistoryfind.saga(),orderpending.saga(),ordertraffic.saga(),ordertraffichistory.saga()])
+  yield all([auth.saga(),accounts.saga(),orders.saga(),orderdone.saga(),histories.saga(),orderhistory.saga(),users.saga(),setting.saga(),balance.saga(),services.saga(),ordercheckcancel.saga(),orderbaohanh.saga(),ordercomment.saga(),ordercommenthistory.saga(),orderhistoryfind.saga(),orderpending.saga(),ordertraffic.saga(),ordertraffichistory.saga(),vpssub.saga()
+    ,orderfollowertiktok.saga()
+  ])
 }

@@ -18,7 +18,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     const [success, setSuccess] = useState(0)
     const [loading, setLoading] = useState(false)
     const [isHovering, setIsHovering] = useState(false);
-    const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    let role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
     const API_URL = process.env.REACT_APP_API_URL
     function format1(n:number) {
@@ -72,6 +75,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.trafficorder}</span></span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(96,92,92,0.68)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#ffffff"}}>{item.keywords}</span></span>
                                 <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(34,126,231,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>24h <span style={{color:"#fdfdfd"}}>{item.traffic24h==null?0:item.traffic24h}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.traffictotal==null?0:item.traffictotal}</span></span>
                     {(item.maxthreads>0||item.traffictotal>0)&&<span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))+'%'}</span></span>}
@@ -79,6 +83,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                         Pending</span>
                     }
                     <br/>
+                     <span style={{fontSize:9}}>
+                        {item.link}</span>
                 </span>
 
             </td>
@@ -86,7 +92,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {loading ? <span className='text-muted fw-bold text-muted d-block text-sm'>
                     {"Đang lấy dữ liệu"}
                 </span> :
-                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=1?"#c0e1ce":"#dc7a30",marginRight:5,marginBottom:5}} className='badge badge-dark'>{item.total==1?0:item.total}/{item.maxthreads}</span>
+                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=0?"#c0e1ce":"#dc7a30",marginRight:5,marginBottom:5}} className='badge badge-dark'>{item.total}/{item.maxthreads}</span>
                 }
             </td>}
             <td>

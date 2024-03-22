@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, {useEffect, useState} from 'react'
-import {ProxyModel} from 'app/modules/history/models/Account'
-import ComputerItem from './components/ComputerItem'
+import {AuthenModel} from 'app/modules/history/models/Account'
+import AuthenItem from './components/AuthenItem'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { actions } from './redux/AccountRedux'
 import { RootState } from 'setup'
@@ -12,31 +12,28 @@ type Props = {
   className: string,
 }
 
-const ComputerList: React.FC<Props> = ({ className }) => {
+const AuthenList: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = 'http://server1.idnetwork.com.vn/'
+  const API_URL = process.env.REACT_APP_API_URL
   const [ipv4, setipv4] = useState("")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
-  const [status, setStatus] = useState('')
-  const proxies:ProxyModel[] = useSelector<RootState>(({ histories }) => histories.proxies, shallowEqual) as ProxyModel[] || []
+  const [status, setStatus] = useState(true)
+  const authens:AuthenModel[] = useSelector<RootState>(({ histories }) => histories.authens, shallowEqual) as AuthenModel[] || []
   let sum_total=0;
   let sum_die=0;
-
-  for (var i = 0; i < proxies.length; i++) {
-      if(proxies[i].state==0){
-        sum_die=sum_die+1
-      }
-  }
   useEffect(() => {
-    dispatch(actions.requestProxies())
-    setipv4('')
-    setKeyTrue(0)
+    if(status===true){
+      dispatch(actions.requestAuthens())
+      setipv4('')
+      setKeyTrue(0)
+    }
+    setStatus(false)
   }, [status])
   async function delipv4(ipv4:string) {
-    let  requestUrl = API_URL+'proxy/delipv4?ipv4='+ipv4;
+    let  requestUrl = API_URL+'proxy/delauthen?ipv4='+ipv4;
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({
@@ -49,7 +46,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
     return status
   }
   async function addipv4(ipv4:string) {
-    let  requestUrl = API_URL+'proxy/addipv4?ipv4='+ipv4;
+    let  requestUrl = API_URL+'proxy/addauthen?ipv4='+ipv4;
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({
@@ -61,27 +58,13 @@ const ComputerList: React.FC<Props> = ({ className }) => {
     const {status} = responseJson;
     return status
   }
-  async function addcron() {
-    let  requestUrl = API_URL+'proxy/addcron'
-    const response = await fetch(requestUrl, {
-      method: 'get',
-      headers: new Headers({
-        'Authorization': '1',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    });
-    const responseJson = await response.json();
-    const {num} = responseJson;
-    sum_total=num
-    return num
-  }
   const clickDeleteHandler = () => {
     const arr:string[]=ipv4.split('\n');
-    if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" đơn!") == true) {
+    if (window.confirm("Bạn chắc chắn muốn xóa "+arr.length+" IP!") == true) {
       for(var i=0;i<arr.length;i++){
         delipv4(arr[i])
       }
-      setStatus('true')
+      setStatus(true)
     }
   }
   const clickAddHandler = () => {
@@ -89,7 +72,7 @@ const ComputerList: React.FC<Props> = ({ className }) => {
     for(var i=0;i<arr.length;i++){
       addipv4(arr[i])
     }
-    setStatus('true')
+    setStatus(true)
   }
   return (
     <div className={`card ${className}`}>
@@ -98,8 +81,8 @@ const ComputerList: React.FC<Props> = ({ className }) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-6 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'>Danh sách Proxy</span>
-              <span  className='ml-2 fw-bold fs-7'>(Tổng: {proxies.length} | Die: {sum_die} | Live: {proxies.length-sum_die})</span>
+              <span  className='fw-bolder fs-3 mb-1'>IP Authen</span>
+              <span  className='ml-2 fw-bold fs-7'>(Tổng: {authens.length})</span>
             </div>
             {keytrue==0&&<div className="col-lg-6 col-sm-12 text-right">
               <button
@@ -119,15 +102,6 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                 >
                   Xóa
                 </button>
-              <button
-                  onClick={() => {
-                    addcron()
-                    alert('Số Cron:'+sum_total)
-                  }}
-                  className='btn btn-light-facebook'
-              >
-                Add Cron
-              </button>
             </div>}
 
           </div>
@@ -219,19 +193,10 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4</span>
                 </th>
                 <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Port</span>
-                </th>
-                <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
                 </th>
                 <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>State</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Geo</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>TypeProxy</span>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Lock</span>
                 </th>
               </tr>
             </thead>
@@ -239,8 +204,8 @@ const ComputerList: React.FC<Props> = ({ className }) => {
             {/* begin::Table body */}
             <tbody>
               {
-                proxies&&proxies?.map((item: ProxyModel,index:number) => {
-                  return <ComputerItem key={"ipv4-"+index} item={item} index={index}/>
+                authens&&authens?.map((item: AuthenModel,index:number) => {
+                  return <AuthenItem key={"ipv4-"+index} item={item} index={index}/>
                 })
               }
 
@@ -256,4 +221,4 @@ const ComputerList: React.FC<Props> = ({ className }) => {
   )
 }
 
-export default ComputerList
+export default AuthenList

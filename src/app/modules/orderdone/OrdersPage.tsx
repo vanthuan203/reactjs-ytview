@@ -10,8 +10,11 @@ import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 
 const WidgetsPage: React.FC = () => {
     const API_URL = process.env.REACT_APP_API_URL
-    const role: string =
+    let role: string =
         (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const user: string =
         (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
     const dispatch = useDispatch()
@@ -21,9 +24,27 @@ const WidgetsPage: React.FC = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [countPrice, setCountPrice] = useState(0);
     const [toggle, setToggle] = useState(false)
+    const [toggle1, setToggle1] = useState(false)
+    let [fluctuationsNow, sefluctuationsNow] = useState("")
     const handleWindowResize = () => {
         setIsMobile(window.innerWidth <= 800);
     };
+    async function getnow(){
+        const requestUrl = API_URL+'auth/fluctuationsMobile';
+        const response= await fetch(requestUrl,{
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson= await  response.json();
+        const {noti}=responseJson;
+
+        if(noti!=fluctuationsNow){
+            sefluctuationsNow(noti)
+        }
+    }
     async function get5M(){
         const requestUrl = API_URL+'auth/fluctuations5M';
         const response= await fetch(requestUrl,{
@@ -37,7 +58,18 @@ const WidgetsPage: React.FC = () => {
         const {price}=responseJson;
         setCountPrice(-price)
     }
+    useEffect(() => {
+        if(role==='ROLE_ADMIN'){
+            setTimeout(() => setToggle((prevToggle) => !prevToggle), 10000);
+            handleWindowResize();
+            // Thêm sự kiện lắng nghe để kiểm tra kích thước cửa sổ khi cửa sổ thay đổi
+            window.addEventListener('resize', handleWindowResize);
+            if(window.innerWidth < 800){
+                getnow()
+            }
+        }
 
+    }, [toggle]);
   useEffect(() => {
    if (refresh===true) {
      if (role.indexOf("ROLE_ADMIN") >= 0) {
@@ -45,12 +77,14 @@ const WidgetsPage: React.FC = () => {
      } else {
        dispatch(actions.requestOrders(user))
      }
+     handleWindowResize();
+     window.addEventListener('resize', handleWindowResize);
    }
    setRefresh(false)
   }, [refresh])
     useEffect(() => {
         if(role==='ROLE_ADMIN'){
-            setTimeout(() => setToggle((prevToggle) => !prevToggle), 60000);
+            setTimeout(() => setToggle1((prevToggle) => !prevToggle), 60000);
             handleWindowResize();
             // Thêm sự kiện lắng nghe để kiểm tra kích thước cửa sổ khi cửa sổ thay đổi
             window.addEventListener('resize', handleWindowResize);
@@ -59,12 +93,12 @@ const WidgetsPage: React.FC = () => {
             }
         }
 
-    }, [toggle]);
+    }, [toggle1]);
   return (
     <>
       <div className='row gy-5 gx-xl-12'>
           <div className='col-xl-12' style={{margin:0,position: "relative"}}>
-              {isMobile==true&&<span style={{position: "absolute",bottom:0,textAlign:"center",fontWeight:"bold",fontFamily:"monospace"}}>{"🕐 𝐋𝐀𝐒𝐓 𝟓𝐌 +" +countPrice.toFixed(3)+ "$"}</span>}
+              {isMobile==true&&<span style={{position: "absolute",bottom:0,textAlign:"center",fontWeight:"bold",fontFamily:"monospace",marginBottom:7}}>{"🕐 𝐋𝐀𝐒𝐓 𝟓𝐌"} <span className='badge badge-success 1' style={{padding:1,fontSize:12,fontWeight:"bold",color:"#ffffff",backgroundColor:"rgba(9,9,9,0.68)"}}>+{countPrice.toFixed(3)+ "$"}</span> {fluctuationsNow}</span>}
               <a style={{float:"right"}} href='#' onClick={() => {
               setRefresh(true)
             }} >

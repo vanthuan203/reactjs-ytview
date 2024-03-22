@@ -12,11 +12,19 @@ export async function getComputer() {
 }
 
 export async function getProxy() {
-  const res:any = await getFunciton("http://server1.idnetwork.com.vn/proxy/list_v4")
+  const res:any = await getFunciton("/proxy/list_v4")
+  return res
+}
+export async function getAuthen() {
+  const res:any = await getFunciton("/proxy/list_authen")
+  return res
+}
+export async function getSock() {
+  const res:any = await getFunciton("/proxy/list_sock")
   return res
 }
 export async function getProxySub() {
-  const res:any = await getFunciton("http://42.96.35.42/proxy/list_v4")
+  const res:any = await getFunciton("/proxysub/list_v4")
   return res
 }
 export async function deleteProxy(ipv4:string) {
@@ -30,6 +38,6 @@ export async function resetComputer(computer_name:string) {
 }
 
 export async function getStatics(user:string) {
-  const res:any = await getFunciton("historyview/getviewbuff7day?user="+user)
+  const res:any = await getFunciton("auth/getbalance7day?user="+user)
   return res
 }

@@ -1,14 +1,14 @@
 import React from 'react'
 import { KTSVG, toAbsoluteUrl } from '_metronic/helpers'
-import {AuthenModel} from 'app/modules/history/models/Account'
+import {SockModel} from 'app/modules/history/models/Account'
 import moment from 'moment'
 import {round} from "@popperjs/core/lib/utils/math";
 type Props = {
-    item: AuthenModel,
+    item: SockModel,
     index: number
 }
 
-const AuthenItem: React.FC<Props> = ({ item, index }) => {
+const SockItem: React.FC<Props> = ({ item, index }) => {
 
 
     return (
@@ -19,23 +19,37 @@ const AuthenItem: React.FC<Props> = ({ item, index }) => {
                 </div>
             </td>
             <td>
-                <span style={{fontSize:11,backgroundColor:item.lockmode==1?"#03d96e":"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
+                <span style={{fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
+                    {item.ip}
+                </span>
+            </td>
+            <td>
+                 <span style={{fontSize:11,marginLeft:5,backgroundColor:"rgba(218,30,30,0.97)",color:"white",}} className='badge badge-danger'>
+                    {item.auth.split(",").length}
+                </span>
+            </td>
+            <td>
+                <span style={{color:'black',fontWeight:"bold",fontSize:11}}>
+                    {new Date(item.timeupdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timeupdate).toLocaleTimeString('vn-VN')}
+                    <span style={{fontSize:11,marginLeft:5,backgroundColor:"#090909",color:"white",}} className='badge badge-danger'>
+                    {item.timeupdate==0?'-':round((Date.now()-item.timeupdate)/1000/60)}m
+                </span>
+                </span>
+            </td>
+            <td>
+                <span style={{fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
                     {item.ipv4}
                 </span>
             </td>
             <td>
-                <span style={{fontSize:11,backgroundColor:"#c0e1ce",color:"black",}} className='badge badge-danger'>
-                    {item.timecheck==0?'-':round((Date.now()-item.timecheck)/1000/60)}m
+                <span style={{fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
+                    {item.ipv4_old}
                 </span>
             </td>
-            <td>
-                <span style={{fontSize:11,backgroundColor:item.lockmode==0?"#6d7773":"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
-                    {item.lockmode}
-                </span>
-            </td>
+
 
         </tr>
     )
 }
 
-export default AuthenItem
+export default SockItem

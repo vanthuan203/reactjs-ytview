@@ -8,8 +8,11 @@ import EditModal from './modals/EditModal'
 import {FormGroup, Input, Label} from "reactstrap";
 
 const WidgetsPage: React.FC = () => {
-  const role: string =
+  let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const dispatch = useDispatch()

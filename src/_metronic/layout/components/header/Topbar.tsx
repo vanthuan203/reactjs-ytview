@@ -137,7 +137,7 @@ const Topbar: FC = () => {
                 </div>
             </div>
         </div>}
-        {isMobile==false&&user.role==='ROLE_ADMIN'&&<div className="align-items-top row" style={{marginRight:15}}>
+        {isMobile==false&&(user.role==='ROLE_ADMIN')&&<div className="align-items-top row" style={{marginRight:15}}>
             <div style={{width:"100%",display: "flex",alignItems:"center",justifyItems:"center"}}>
                 <div className="pl-0 text-left">
                    <span  style={{textAlign:"center",fontWeight:"bold",fontFamily:"monospace"}}>{fluctuationsNow +" 🕐 𝐋𝐀𝐒𝐓 𝟓𝐌 +" +countPrice.toFixed(3)+ "$" }</span>
@@ -146,17 +146,21 @@ const Topbar: FC = () => {
         </div>}
         {user.role==='ROLE_ADMIN'&&<div className="align-items-top row" style={{backgroundColor:"#9de3bb",marginRight:15}}>
             <div style={{width:"100%"}}>
-                <div className="pl-0 text-left">
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    height: "100%"
+                }} className="pl-0 text-left">
                     <button
                             onClick={() => {getcounts()
                             }}
                             className='btn btn-sm'
                     >
-                        <div style={{color:"rgba(34,126,231,0.97)",fontWeight:"bold",textAlign:"center",marginBottom:8}} className="font-weight-bold">
-                            <span style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",padding:4,paddingRight:7,paddingLeft:6,flex: 1,alignItems: 'center',borderRadius:10}}>{total_user!=""?total_user.split(",")[0]:"Loading..."}</span>
-                        </div>
-                        <div style={{color:"rgba(34,126,231,0.97)",fontWeight:"bold",textAlign:"center"}} className="font-weight-bold">
-                            <span  style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",padding:4,paddingRight:7,paddingLeft:6,flex: 1,alignItems: 'center',borderRadius:10}}>{total_user!=""?total_user.split(",")[1]:"Loading..."}</span>
+                        <div style={{width:"100%",display: "flex",alignItems:"center",justifyItems:"center"}}>
+                            <span style={{textAlign:"center",fontWeight:"bold",fontSize:isMobile==false?11:11,color:"rgb(9,9,9)",backgroundColor:"rgb(255,255,255)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10}}>{total_user!=""?(isMobile==false?total_user.split(",")[0]:(parseInt(total_user.split(",")[0]).toFixed(0))):""}{isMobile==true?"$":""}</span>
+                            <span style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[1]:(parseInt(total_user.split(",")[1]).toFixed(0))):""}</span>
+                            <span  style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[2]:(parseInt(total_user.split(",")[2]).toFixed(0))):""}</span>
+                            <span  style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[3]:(parseInt(total_user.split(",")[3]).toFixed(0))):""}</span>
                         </div>
                     </button>
                 </div>

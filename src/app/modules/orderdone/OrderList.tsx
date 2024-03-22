@@ -76,6 +76,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
   let [totalUsshow, setTotalUsShow] = useState(0)
+  let [totalKr, setTotalKr] = useState(0)
+  let [totalKrshow, setTotalKrShow] = useState(0)
+  let [threadrandvn, setthreadrandvn] = useState(0)
+  let [threadrandus, setthreadrandus] = useState(0)
 
   let [useEff, setuseEff] = useState(0)
   const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
@@ -83,8 +87,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   const price: number = useSelector<RootState>(({ auth }) => auth.user?.price, shallowEqual) as number || 0
   const bonus: number = useSelector<RootState>(({ auth }) => auth.user?.bonus, shallowEqual) as number || 0
   const vip: number = useSelector<RootState>(({ auth }) => auth.user?.vip, shallowEqual) as number || 0
-  const role: string =
+  let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const groups: Group[] =
@@ -102,6 +109,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumthreadus=0;
   let sumvn=0;
   let sumus=0;
+  let sumkr=0;
   let sumtimedone=0;
   const arr:string[]=[]
   const [list_user,setList_User]=useState([{
@@ -121,7 +129,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     sumtimedone=sumtimedone+Math.round(Number(item.viewtotal==null?0:item.viewtotal))
     if(item.service>600){
       sumvn=sumvn+1;
-    }else{
+    }else {
       sumtimeus=sumtimeus+item.viewtotal;
       sumthreadusset=sumthreadusset+item.maxthreads;
       summoneyUS=summoneyUS+item.price
@@ -130,6 +138,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     }
   })
 
+  async function getThreadRand() {
+    let  requestUrl = API_URL+'videoview/countThreadRand';
+    const response = await fetch(requestUrl, {
+      method: 'get',
+      headers: new Headers({
+        'Authorization': '1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const responseJson = await response.json();
+    const {vn} = responseJson;
+    const {us} = responseJson;
+    setthreadrandvn(vn)
+    setthreadrandus(us)
+
+  }
 
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
@@ -219,6 +243,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalTimeBuffedOrderUsShow(totaltimebuffedorderusshow)
     totaltimebuffedorderus=0
     setTotalTimeBuffedOrderUs(0)
+
     if(useEff<=1){
       getcounttimeorder();
     }

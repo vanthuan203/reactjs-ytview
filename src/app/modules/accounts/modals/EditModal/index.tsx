@@ -57,7 +57,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
         getallgeo()
     }, [useEff=0])
     async function resetrunningacc(vps:string) {
-        let  requestUrl = API_URL+'vps/resetrunningaccbyvps?vps='+vps;
+        let  requestUrl = API_URL+'accview/dellAccViewByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({
@@ -70,7 +70,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
         return status
     }
     async function resetrunningacccmt(vps:string) {
-        let  requestUrl = API_URL+'vps/resetrunningacccmtbyvps?vps='+vps;
+        let  requestUrl = API_URL+'accview/dellAccCmtByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({
@@ -86,10 +86,14 @@ const EditModal: React.FC<Props> = ({ item }) => {
         dispatch(actions.clearCurrentAccount())
     }
     const updateUser = () => {
-        if(vpsreset==2){
+        if(vpsreset==3){
             resetrunningacc(item.vps.trim())
         }
-        if(vpsreset==3){
+        if(vpsreset==5){
+            resetrunningacccmt(item.vps.trim())
+        }
+        if(vpsreset==10){
+            resetrunningacc(item.vps.trim())
             resetrunningacccmt(item.vps.trim())
         }
         dispatch(actions.requestUpdate({
@@ -188,14 +192,20 @@ const EditModal: React.FC<Props> = ({ item }) => {
                             <option key={0} value={0}>
                                 {"Không"}
                             </option>
-                            <option key={1} value={1}>
+                            <option key={2} value={2}>
                                 {"Restart"}
                             </option>
-                            <option key={2} value={2}>
-                                {"Restart & DelAcc"}
-                            </option>
                             <option key={3} value={3}>
+                                {"Restart & DelAcc View"}
+                            </option>
+                            <option key={5} value={5}>
                                 {"Restart & DelAcc Cmt"}
+                            </option>
+                            <option key={10} value={10}>
+                                {"Restart & DelAcc All"}
+                            </option>
+                            <option key={6} value={6}>
+                                {"Restart & Off VPS"}
                             </option>
                         </Input>
                     </div>

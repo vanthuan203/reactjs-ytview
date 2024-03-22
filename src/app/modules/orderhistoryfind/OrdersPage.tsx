@@ -21,8 +21,11 @@ const WidgetsPage: React.FC = () => {
   const orderscmt: OrderModelCmt[] = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.ordersCmt, shallowEqual) as OrderModelCmt[] || []
   const currentOrder: OrderModel = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.currentOrder, shallowEqual) as OrderModel || undefined
   const currentOrderCmt: OrderModelCmt = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.currentOrderCmt, shallowEqual) as OrderModelCmt || undefined
-  const role: string =
+  let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   useEffect(() => {

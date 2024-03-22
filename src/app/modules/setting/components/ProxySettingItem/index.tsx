@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import { KTSVG, toAbsoluteUrl } from '_metronic/helpers'
-import { AccountModel } from 'app/modules/setting/models/Account'
+import { ProxySettingModel } from 'app/modules/setting/models/Account'
 import {useDispatch} from 'react-redux'
 import {actions} from '../../redux/AccountRedux'
 import moment from 'moment'
 import {date} from "yup";
 import {round} from "@popperjs/core/lib/utils/math";
 type Props = {
-    item: AccountModel,
+    item: ProxySettingModel,
     index:number
 }
 function format1(n:number) {
@@ -15,11 +15,11 @@ function format1(n:number) {
         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
     });
 }
-const UserItem : React.FC<Props> = ({ item ,index}) => {
+const ProxySettingItem : React.FC<Props> = ({ item ,index}) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const clickHandler =()=>{
-        dispatch(actions.showCurrentAccount(item))
+       dispatch(actions.showCurrentProxySetting(item))
     }
     return (
 
@@ -27,7 +27,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td>
                 <span>
                     <text style={{fontSize:12,fontWeight:"bold"}} >
-                    {item.bonus}%
+                    {item.option_proxy}
                     </text>
                 </span>
 
@@ -35,50 +35,41 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxordervn}
+                                        {item.username}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxorderus}
+                                        {item.password}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxorderbuffhvn}
+                                        {item.cron}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.maxorderbuffhus}
+                                        {item.total_port}
                                 </text>
                     </span>
             </td>
             <td >
                     <span style={{fontSize:11}} >
                                 <text style={{fontWeight:"bold"}} >
-                                        {item.threadmin}%
+                                        {item.total_sock_port}
                                 </text>
                     </span>
             </td>
             <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold",color:"red"}} >
-                                        {item.redirectvn}/1000
-                                </text>
-                    </span>
-            </td>
-            <td >
-                    <span style={{fontSize:11}} >
-                                <text style={{fontWeight:"bold",color:"red"}} >
-                                        {item.redirectus}/1000
-                                </text>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11}}>
+                        {new Date(item.timeupdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timeupdate).toLocaleTimeString('vn-VN')}
                     </span>
             </td>
             <td>
@@ -95,4 +86,4 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
     )
 }
 
-export default UserItem
+export default ProxySettingItem

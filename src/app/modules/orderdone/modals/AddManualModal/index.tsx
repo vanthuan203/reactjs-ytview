@@ -47,7 +47,6 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
         state:"",
         time:0,
         price:0
-
     },])
     const [list_service,setList_Service]=useState([{
         id:"000",

@@ -12,8 +12,11 @@ const WidgetsPage: React.FC = () => {
   const dispatch = useDispatch()
   const orders: OrderModel[] = useSelector<RootState>(({ orderhistory }) => orderhistory.orders, shallowEqual) as OrderModel[] || []
   const currentOrder: OrderModel = useSelector<RootState>(({ orderhistory }) => orderhistory.currentOrder, shallowEqual) as OrderModel || undefined
-  const role: string =
+  let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const [refresh, setRefresh] = useState(true)

@@ -11,14 +11,13 @@ import {KTSVG} from '../../../_metronic/helpers'
 import OrderItem from './components/OrderItem'
 import {RootState} from 'setup'
 import {actions} from './redux/OrdersRedux'
-import {FormGroup, Input, Label} from "reactstrap";
+import {FormGroup, Input, Label, Modal} from "reactstrap";
 import {randomString} from "react-inlinesvg/lib/helpers";
 import * as XLSX from 'xlsx';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import * as FileSaver from 'file-saver';
 import { DateRangePicker } from 'rsuite';
 import DatePicker from "react-date-picker";
-
-
 type Props = {
   done:number
   className: string
@@ -53,7 +52,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   const dispatch = useDispatch()
   let [startDate, setStartDate] = useState(today);
   let [endDate, setEndDate] = useState(today);
-
+  const [showManual, setShowManual] = useState(false)
   const [Checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(true)
   const API_URL = process.env.REACT_APP_API_URL
@@ -82,14 +81,18 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalmoneyUS, setTotalMoneyUS] = useState(0)
   let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
-
+  let[copy,setCopy] =useState("")
+  let[copyShow,setCopyShow] =useState("")
   let [totalvn, setTotalVn] = useState(0)
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
   let [totalUsshow, setTotalUsShow] = useState(0)
-
-  const role: string =
+  let [copy_check,setcopy_check]=useState("1111111111");
+  let role: string =
     (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const groups: Group[] =
@@ -100,7 +103,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     id:"0000000000",
     user:"All User"
   },])
+  let [list_refund,setRefund]=useState([{
+    id:"0000000000",
+    reponse:""
 
+  },])
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
     const response = await fetch(requestUrl, {
@@ -123,7 +130,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     }
   }
   useEffect(() => {
-
+    setcopy_check(randomString(10))
     setLoading(true)
     if(orders.length!=0 || list_orderhistory.length>0){
       setLoading(false)
@@ -175,6 +182,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if(useEff<=1){
       getcounttimeorder();
     }
+    copy=""
+    setCopy("")
 
   }, [keyusertrue,keydate,startDate,endDate,keydatestart,keydateend,keytrue,keyuser,key,orders.length,,])
 
@@ -203,6 +212,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   }
   const isShowFixMulti = orders.find((item) => {
     if (item.checked) {
+      return true
+    }
+    return false
+  })
+
+  const isShowCopy = orders.find((item) => {
+    if (item.status!=null) {
       return true
     }
     return false
@@ -259,7 +275,19 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setChecked(false)
     dispatch(actions.checkedAllChange(false))
   }
-
+  let  clickCopy = () => {
+    const arr:string[]=[]
+    copy=""
+    setCopy("")
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.status.length>0){
+        copy=copy+item.orderid.toString()+" | "+item.status+"\n"
+      }
+      setCopy(copy)
+    })
+  }
+  //console.log(list_refund)
   const clickRefund = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
@@ -329,9 +357,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     R50%
                   </button>
               )}
-            </div>
+              { isShowCopy && role === "ROLE_ADMIN"&&(
+                  <CopyToClipboard
+                      text={copy}
+                      onCopy={() => {clickCopy()}}>
+                    <span className='btn btn-google' style={{backgroundColor:"white",color:"black"}}>{copy==""?"Copy Text":"Copied"}</span>
+                  </CopyToClipboard>
 
-          </div>
+              )}
+            </div>
+            </div>
         </div>
         <div className="page-header__content">
           <div className="align-items-center row" style={{backgroundColor:"white",margin:10}}>
@@ -871,11 +906,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
         {/* end::Table container */}
       </div>
       {/* begin::Body */}
-      {showAdd && (
-        <AddModal
+      {showManual && (
+        <AddManualModal
           show={true}
           close={() => {
-            setShowAdd(false)
+            setShowManual(false)
           }}
         />
       )}

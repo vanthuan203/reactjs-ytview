@@ -2,14 +2,14 @@ import { Action } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { put, takeLatest } from 'redux-saga/effects'
-import { AccountModel,AccountForm,AccountLimitModel,AccountLimitForm } from '../models/Account'
+import { AccountModel,AccountForm,AccountLimitModel,AccountLimitForm,ProxySettingModel,ProxySettingForm } from '../models/Account'
 import {
   getListAccount,
   updateAccount,
   deleteVps,
   updateResetVPS,
   getListLimitService,
-  updateAccountLimit
+  updateAccountLimit,getListProxySetting,updateProxySetting
 } from './AccountCRUD'
 import {OrderForm, OrderModel} from "../../orders/models/Order";
 import {deleteChannel, updateOrder} from "../../orders/redux/OrdersCRUD";
@@ -20,19 +20,26 @@ export interface ActionWithPayload<T> extends Action {
 export const actionTypes = {
   RequestAccounts: '[Setting] Requested',
   RequestAccountLimit: '[Setting] Requested Limit',
+  RequestProxySetting: '[Proxy] Requested Setting',
   AccountsLoadedSuccess: '[Setting] Loaded succcess',
   AccountLimitLoadedSuccess: '[Setting] Loaded Limit succcess',
+  ProxySettingLoadedSuccess: '[Proxy] Loaded Setting succcess',
   AccountsLoadedFail: '[Setting] load fail',
   AccountLimitLoadedFail: '[Setting] load Limit fail',
+  ProxySettingLoadedFail: '[Proxy] load Setting fail',
   ShowCurrentAccount: '[Setting] Show Account',
   ShowCurrentAccountLimit: '[Setting] Show Account Limit',
+  ShowCurrentProxySetting: '[Proxy] Show Setting Limit',
   RequestUpdate: '[Setting] Requested Update',
   RequestUpdateLimit: '[Setting] Requested Update Limit',
+  RequestUpdateProxySetting: '[Proxy] Requested Update Setting',
   UpdateSuccess: '[Setting] Update Success',
   UpdateLimitSuccess: '[Setting] Update Limit Success',
+  UpdateProxySettingSuccess: '[Proxy] Update Setting Success',
   UpdateFail: '[Setting] Update Fail',
   ClearSelected:'[Setting] Clear selected account',
   ClearSelectedLimit:'[Setting] Clear selected account limit',
+  ClearSelectedProxySetting:'[Proxy] Clear selected account Setting',
   DeleteVpsRequest: '[Setting] Delete Account Request',
   DeleteVpsSuccess: '[Setting] Delete Account Success',
   DeleteMultiVpsRequest: '[Setting] Delete Account Request',
@@ -47,19 +54,23 @@ export const actionTypes = {
 const initialAccountState: IAccountState = {
   accounts: [],
   accountlimit: [],
+  proxysetting: [],
   loading: false,
   adding:false,
   currentAccount:undefined,
-  currentAccountLimit:undefined
+  currentAccountLimit:undefined,
+  currentProxySetting:undefined
 }
 
 export interface IAccountState {
   accounts: AccountModel[]
   accountlimit: AccountLimitModel[]
+  proxysetting: ProxySettingModel[]
   loading: boolean
   adding:boolean
   currentAccount?:AccountModel
   currentAccountLimit?:AccountLimitModel
+  currentProxySetting?:ProxySettingModel
 }
 
 export const reducer = persistReducer(
@@ -80,6 +91,14 @@ export const reducer = persistReducer(
           loading: true
         }
       }
+            case actionTypes.RequestProxySetting: {
+        return {
+          ...state,
+          proxysetting: [],
+          loading: true
+        }
+      }
+
       case actionTypes.AccountsLoadedSuccess: {
         return {
           ...state,
@@ -94,6 +113,14 @@ export const reducer = persistReducer(
           loading: false
         }
       }
+      case actionTypes.ProxySettingLoadedSuccess: {
+        return {
+          ...state,
+          proxysetting: action.payload?.proxysetting || [],
+          loading: false
+        }
+      }
+
       case actionTypes.AccountsLoadedFail: {
         return {
           ...state,
@@ -108,6 +135,14 @@ export const reducer = persistReducer(
           loading: false
         }
       }
+      case actionTypes.ProxySettingLoadedFail: {
+        return {
+          ...state,
+          proxysetting: [],
+          loading: false
+        }
+      }
+
       case actionTypes.RequestUpdate: {
         return {
           ...state,
@@ -115,6 +150,12 @@ export const reducer = persistReducer(
         }
       }
       case actionTypes.RequestAccountLimit: {
+        return {
+          ...state,
+          loading: true
+        }
+      }
+      case actionTypes.RequestProxySetting: {
         return {
           ...state,
           loading: true
@@ -152,6 +193,22 @@ export const reducer = persistReducer(
           currentAccountLimit: undefined
         }
       }
+      case actionTypes.UpdateProxySettingSuccess: {
+
+        const remapAccounts = state.proxysetting.map((item: ProxySettingModel)=>{
+          if(item.id===action.payload?.proxysetting?.id){
+            return action.payload?.proxysetting
+          }else {
+            return item
+          }
+        })
+        return {
+          ...state,
+          proxysetting: remapAccounts,
+          loading: false,
+          currentProxySetting: undefined
+        }
+      }
       case actionTypes.DeleteVpsSuccess: {
         return {
           ...state,
@@ -181,6 +238,12 @@ export const reducer = persistReducer(
           currentAccountLimit: action.payload?.currentAccountLimit
         }
       }
+      case actionTypes.ShowCurrentProxySetting: {
+        return {
+          ...state,
+          currentProxySetting: action.payload?.currentProxySetting
+        }
+      }
       case actionTypes.ClearSelected: {
         return {
           ...state,
@@ -191,6 +254,12 @@ export const reducer = persistReducer(
         return {
           ...state,
           currentAccountLimit: action.payload?.currentAccountLimit
+        }
+      }
+      case actionTypes.ClearSelectedProxySetting: {
+        return {
+          ...state,
+          currentProxySetting: action.payload?.currentProxySetting
         }
       }
       case actionTypes.CheckedChange: {
@@ -260,18 +329,24 @@ export const reducer = persistReducer(
 export const actions = {
   requestAccounts: () => ({ type: actionTypes.RequestAccounts }),
   requestAccountLimit: () => ({ type: actionTypes.RequestAccountLimit }),
+  requestProxySetting: () => ({ type: actionTypes.RequestProxySetting }),
   fulfillAccounts: (accounts: AccountModel[]) => ({ type: actionTypes.AccountsLoadedSuccess, payload: { accounts } }),
   fulfillAccountLimit: (accountlimit: AccountLimitModel[]) => ({ type: actionTypes.AccountLimitLoadedSuccess, payload: { accountlimit } }),
+  fulfillProxySetting: (proxysetting: ProxySettingModel[]) => ({ type: actionTypes.ProxySettingLoadedSuccess, payload: { proxysetting } }),
   loadAccountsFail: (message: string) => ({ type: actionTypes.AccountsLoadedFail, payload: { message } }),
   requestUpdate: (account: AccountModel) => ({ type: actionTypes.RequestUpdate, payload: { account } }),
   requestUpdateLimit: (accountlimit: AccountLimitModel) => ({ type: actionTypes.RequestUpdateLimit, payload: { accountlimit } }),
+  requestUpdateProxySetting: (proxysetting: ProxySettingModel) => ({ type: actionTypes.RequestUpdateProxySetting, payload: { proxysetting } }),
   updateSuccess: (account: AccountModel) => ({ type: actionTypes.UpdateSuccess, payload: { account } }),
   updateLimitSuccess: (accountlimit: AccountLimitModel) => ({ type: actionTypes.UpdateLimitSuccess, payload: { accountlimit } }),
+  updateProxySettingSuccess: (proxysetting: ProxySettingModel) => ({ type: actionTypes.UpdateProxySettingSuccess, payload: { proxysetting } }),
   updateFail: (message: string) => ({ type: actionTypes.UpdateFail, payload: { message } }),
   showCurrentAccount: (currentAccount: AccountModel) => ({ type: actionTypes.ShowCurrentAccount, payload: { currentAccount } }),
   showCurrentAccountLimit: (currentAccountLimit: AccountLimitModel) => ({ type: actionTypes.ShowCurrentAccountLimit, payload: { currentAccountLimit } }),
+  showCurrentProxySetting: (currentProxySetting: ProxySettingModel) => ({ type: actionTypes.ShowCurrentProxySetting, payload: { currentProxySetting } }),
   clearCurrentAccount: () => ({ type: actionTypes.ClearSelected}),
   clearCurrentAccountLimit: () => ({ type: actionTypes.ClearSelectedLimit}),
+  clearCurrentProxySetting: () => ({ type: actionTypes.ClearSelectedProxySetting}),
   deleteVpsRequest: (vps: string) => ({ type: actionTypes.DeleteVpsRequest, payload: { vps } }),
   deleteVpsSuccess: (vps: string) => ({ type: actionTypes.DeleteVpsSuccess, payload: { vps } }),
   checkedChange: (data:{username:string,checked:boolean}) => ({ type: actionTypes.CheckedChange, payload: { data } }),
@@ -290,6 +365,10 @@ export function* saga() {
     const {data: accountlimit} = yield getListLimitService()
     yield put(actions.fulfillAccountLimit(accountlimit.accountlimit))
   })
+  yield takeLatest(actionTypes.RequestProxySetting, function* userRequested(param: any) {
+    const {data: proxysetting} = yield getListProxySetting()
+    yield put(actions.fulfillProxySetting(proxysetting.proxysetting))
+  })
   yield takeLatest(actionTypes.RequestUpdate, function* updateUserRequested(param: any) {
     //console.log("------update account param-----",param.payload.account)
     const {data: account} = yield updateAccount(param.payload.account)
@@ -301,6 +380,12 @@ export function* saga() {
     const {data: accountlimit} = yield updateAccountLimit(param.payload.accountlimit)
     console.log("------update account res-----",accountlimit.accountlimit)
     yield put(actions.updateLimitSuccess(accountlimit.accountlimit))
+  })
+  yield takeLatest(actionTypes.RequestUpdateProxySetting, function* updateUserRequested(param: any) {
+    //console.log("------update account param-----",param.payload.account)
+    const {data: proxysetting} = yield updateProxySetting(param.payload.proxysetting)
+    console.log("------update account res-----",proxysetting.proxysetting)
+    yield put(actions.updateProxySettingSuccess(proxysetting.proxysetting))
   })
   yield takeLatest(actionTypes.DeleteVpsRequest, function* DeleteVpsRequest(param: any) {
     try {

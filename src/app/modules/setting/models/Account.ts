@@ -22,6 +22,17 @@ export interface AccountLimitModel {
   countdone:number,
   checked?:boolean
 }
+export interface ProxySettingModel {
+  id:number
+  option_proxy:number,
+  total_port:number,
+  total_sock_port:number,
+  username:string,
+  password:string,
+  cron:string,
+  timeupdate:number,
+  checked?:boolean
+}
 
 export interface OrderModelChecked {
   id:number
@@ -46,4 +57,14 @@ export interface AccountLimitForm {
   service:number,
   maxorder:number,
   maxrunning:number,
+}
+
+export interface ProxySettingForm {
+  id:number
+  option_proxy:number,
+  total_port:number,
+  total_sock_port:number,
+  username:string,
+  password:string,
+  cron:string
 }

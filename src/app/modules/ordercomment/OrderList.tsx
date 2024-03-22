@@ -49,6 +49,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
+  let [totalmoneyKR, setTotalMoneyKR] = useState(0)
+  let [totalmoneyKRshow, setTotalMoneyKRShow] = useState(0)
   let [totalmoneyUS, setTotalMoneyUS] = useState(0)
   let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
 
@@ -56,6 +58,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalthreadsetshow, setTotalThreadSetShow] = useState(0)
   let [totalthread, setTotalThread] = useState(0)
   let [totalthreadshow, setTotalThreadShow] = useState(0)
+  let [totalkr, setTotalKr] = useState(0)
+  let [totalKrshow, setTotalKrShow] = useState(0)
   let [totalvn, setTotalVn] = useState(0)
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
@@ -67,8 +71,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   const price: number = useSelector<RootState>(({ auth }) => auth.user?.price, shallowEqual) as number || 0
   const bonus: number = useSelector<RootState>(({ auth }) => auth.user?.bonus, shallowEqual) as number || 0
   const vip: number = useSelector<RootState>(({ auth }) => auth.user?.vip, shallowEqual) as number || 0
-  const role: string =
+  let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
+  if(role==="ROLE_SUPPORT"){
+    role="ROLE_ADMIN"
+  }
   const user: string =
       (useSelector<RootState>(({auth}) => auth.user?.username, shallowEqual) as string) || ''
   const groups: Group[] =
@@ -79,9 +86,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let sumorder=0;
   let summoney=0;
   let summoneyUS=0;
+  let summoneyKR=0;
   let sumthreadset=0;
   let sumthread=0;
   let sumvn=0;
+  let sumkr=0;
   let sumus=0;
   let sumtimedone=0;
   const arr:string[]=[]
@@ -100,15 +109,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     sumorder=sumorder+1;
     summoney=summoney+item.price
     sumtimedone=sumtimedone+Math.round(Number(item.commenttotal==null?0:item.commenttotal))
-    if(item.service>600){
+    if(item.service>1000){
+      summoneyKR=summoneyKR+item.price
+      sumkr=sumkr+1;
+    }else if(item.service>600){
       sumvn=sumvn+1;
     }else{
       summoneyUS=summoneyUS+item.price
       sumus=sumus+1;
     }
   })
-
-
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
     const response = await fetch(requestUrl, {
@@ -164,6 +174,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalVnShow(totalVnshow)
     setTotalVn(0)
 
+    totalKrshow=totalkr
+    setTotalKrShow(totalKrshow)
+    setTotalKr(0)
+
     totalUsshow=totalUs
     setTotalUsShow(totalUsshow)
     setTotalUs(0)
@@ -171,6 +185,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totalmoneyUSshow=totalmoneyUS
     setTotalMoneyUSShow(totalmoneyUSshow)
     setTotalMoneyUS(0)
+
+    totalmoneyKRshow=totalmoneyKR
+    setTotalMoneyKRShow(totalmoneyKRshow)
+    setTotalMoneyKR(0)
 
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
@@ -233,9 +251,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="page-header__content">
             <div className="align-items-center row" style={{margin:10}}>
               <div className="col-lg-7 col-sm-12 c-order__header">
-                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đang chạy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Luồng cấp {format1((useEff<=1?sumthreadset:totalthreadsetshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Luồng chạy {format1((useEff<=1?sumthread:totalthreadshow))}</span></span>
+                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đang chạy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{format1((useEff<=1?sumkr:totalKrshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Luồng cấp {format1((useEff<=1?sumthreadset:totalthreadsetshow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Luồng chạy {format1((useEff<=1?sumthread:totalthreadshow))}</span></span>
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
-                  <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng đặt {format1((useEff<=1?sumtime:totaltimeordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Đã chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(141,133,133,0.97)"}}>Còn tồn {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
+                  <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng đặt {format1((useEff<=1?sumtime:totaltimeordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(241,133,133,0.97)"}}>Đã chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(141,133,133,0.97)"}}>Còn tồn {format1((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS-summoney).toFixed(3):(totalmoneyshow-totalmoneyUSshow-totalmoneyKRshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{(useEff<=1?summoneyKR.toFixed(3):totalmoneyKRshow.toFixed(3))}$</span></span>
                 </p>
               </div>
 
@@ -483,7 +501,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -496,7 +517,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -525,7 +549,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -538,7 +565,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -567,7 +597,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -580,7 +613,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -609,7 +645,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -622,7 +661,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -651,7 +693,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -664,7 +709,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -693,7 +741,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -706,7 +757,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -736,7 +790,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -749,7 +806,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price
@@ -778,7 +838,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=order.price
+                          totalkr=1
+                        } else if(order.service>600){
                           totalvn=1
                         }else{
                           totalmoneyUS=order.price
@@ -791,7 +854,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.commentorder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.service>1000){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalkr=1+totalkr
+                        }else if(order.service>600){
                           totalvn=1+totalvn
                         }else{
                           totalmoneyUS=totalmoneyUS+order.price

@@ -11,13 +11,7 @@ type Props = {
 }
 
 const ComputerItem: React.FC<Props> = ({ item, index }) => {
-
-    const clickDeleteHandler= async()=>{
-        if (window.confirm("bạn có chắc chắn muốn reset luồng trên VPS này") == true) {
-            const res:any = await resetComputer(item.ipv4)
-            //dispatch(actions.deleteOrderRequest(item.channel_id))
-        }
-    }
+    
 
     return (
         <tr style={{margin:100}}>

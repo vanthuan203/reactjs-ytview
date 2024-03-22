@@ -10,7 +10,6 @@ import {
 } from "reactstrap"
 
 
-
 type Props = {
     item: AccountModel
 }
@@ -22,21 +21,17 @@ function format1(n:number) {
 const EditModal: React.FC<Props> = ({ item }) => {
     const dispatch = useDispatch()
     const API_URL = process.env.REACT_APP_API_URL
-    const [balance, setbalance] = useState(0)
+    let [balance, setbalance] = useState(0)
     const [discount, setdiscount] = useState(item.discount)
     const [maxorder, setmaxorder] = useState(item.maxorder)
     const [note, setnote] = useState(item.note)
     const [rate, setrate] = useState(item.rate)
     const [vip, setvip] = useState(item.vip)
-
+    const [add, setadd] = useState(1)
     const dismissModal = () => {
         dispatch(actions.clearCurrentAccount())
     }
     const updateUser = () => {
-        if(balance<100 && balance!=0){
-            alert("Số tiền nhỏ nhất là 100$")
-            return
-        }
         if(rate<100){
             alert("% rate không hợp lệ!")
             return
@@ -49,6 +44,11 @@ const EditModal: React.FC<Props> = ({ item }) => {
             alert("Giá trị số đơn max không hợp lệ!")
             return
         }
+        console.log(add)
+        if(add==0){
+           balance=-balance
+        }
+        console.log(balance)
         dispatch(actions.requestUpdate({
             ...item,
             balance,
@@ -71,8 +71,24 @@ const EditModal: React.FC<Props> = ({ item }) => {
                     </div>
                 </div>
                 <div className="modal-body">
-                    <p style={{fontWeight:'bold'}}>Số tiền nạp</p>
+                    <p style={{fontWeight:'bold'}}>Change Balance</p>
+
                     <div className="input-group mb-5">
+                        <Input
+                            onChange={(e) => setadd(parseInt(e.target.value))}
+                            className="form-control form-control-solid"
+                            type="select"
+                            style={{fontWeight:'bold',maxWidth:150,fontSize:12}}
+                            value={add}
+                        >
+                            <option key={1} value={1}>
+                                {"+"}
+                            </option>
+                            <option key={0} value={0}>
+                                {"-"}
+                            </option>
+
+                        </Input>
                         <input style={{fontWeight:'bold'}} value={balance} type="number" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"
                                onChange={(e) => setbalance(parseInt(e.target.value))}
                         />

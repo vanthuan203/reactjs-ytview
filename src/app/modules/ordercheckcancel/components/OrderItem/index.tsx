@@ -18,7 +18,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     const [success, setSuccess] = useState(0)
     const [loading, setLoading] = useState(false)
     const [isHovering, setIsHovering] = useState(false);
-    const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    let role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
     const API_URL = process.env.REACT_APP_API_URL
     function format1(n:number) {
@@ -63,7 +66,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span className='text-muted fw-bold text-muted d-block text-sm'>{index}</span>
             </td>
             <td>
-                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
+                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
                     {item.orderid}
                 </a>
             </td>
@@ -94,7 +97,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {//{item.service<600?<img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
                     //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
-                <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f"}} className='badge badge-success'>
+                <span style={{color:'white',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f")}} className='badge badge-success'>
                   {item.service}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>

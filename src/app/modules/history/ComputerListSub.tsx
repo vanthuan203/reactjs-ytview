@@ -16,7 +16,7 @@ const ComputerListSub: React.FC<Props> = ({ className }) => {
   const dispatch = useDispatch()
 
 
-  const API_URL = 'http://42.96.35.42/'
+  const API_URL = process.env.REACT_APP_API_URL
   const [ipv4, setipv4] = useState("")
   const [keytrue, setKeyTrue] = useState(0)
   const [addtrue, setAddTrue] = useState(0)
@@ -49,7 +49,7 @@ const ComputerListSub: React.FC<Props> = ({ className }) => {
     return status
   }
   async function addipv4(ipv4:string) {
-    let  requestUrl = API_URL+'proxy/addipv4?ipv4='+ipv4;
+    let  requestUrl = API_URL+'proxy/addipv4?ipv4='+ipv4+"&option_setting=sub";
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({

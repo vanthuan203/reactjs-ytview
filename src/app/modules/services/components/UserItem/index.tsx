@@ -81,8 +81,9 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
             <td >
                                    <span >
                     {item.geo.indexOf('us')>=0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:item.geo.indexOf('vn')>=0?
-                        <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />:
-                        <span style={{fontSize:11,color:"white",backgroundColor:"rgb(9,9,9)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.geo.toUpperCase()}</span>}
+                        <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />:item.geo.indexOf('kr')>=0?
+                            <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/south-korea.svg')} alt='metronic' />:
+                            <span style={{fontSize:11,color:"white",backgroundColor:"rgb(9,9,9)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>{item.geo.toUpperCase()}</span>}
                 </span>
             </td>
             <td >

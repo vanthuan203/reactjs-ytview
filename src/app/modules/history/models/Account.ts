@@ -1,5 +1,12 @@
 export interface HistoryModel {
- date:string,time:number,view:number,maxtime:number,maxview:number
+ date:string,
+  viewsub:number,
+  view:number,
+  maxsubview:number,
+  maxview:number,
+  count_view:number,
+  count_viewsub:number,
+  count_order:number
 }
 export interface ComputerModel {
   vps: string,
@@ -15,6 +22,22 @@ export interface ProxyModel {
   geo:string,
   numcheck:number,
   typeproxy:string
+  checked?:boolean
+}
+
+export interface AuthenModel {
+  ipv4: string,
+  timecheck: number,
+  lockmode:number,
+  checked?:boolean
+}
+
+export interface SockModel {
+  ip:string,
+  ipv4: string,
+  ipv4_old:string,
+  timeupdate: number,
+  auth:string,
   checked?:boolean
 }
 

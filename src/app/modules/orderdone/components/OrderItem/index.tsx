@@ -18,7 +18,10 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     const [success, setSuccess] = useState(0)
     const [loading, setLoading] = useState(false)
     const [isHovering, setIsHovering] = useState(false);
-    const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    let role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const discount: number = useSelector<RootState>(({ auth }) => auth.user?.discount, shallowEqual) as number || 0
     const API_URL = process.env.REACT_APP_API_URL
     function format1(n:number) {
@@ -63,12 +66,11 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span className='text-muted fw-bold text-muted d-block text-sm'>{index}</span>
             </td>
             <td>
-                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
+                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
                     {item.orderid}
                 </a>
             </td>
             <td>
-
                 <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5,color:"white",}} href={'https://www.youtube.com/watch?v=' + item.videoid} className='badge badge-danger'>
                     {item.videoid}
                 </a>
@@ -89,14 +91,14 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {loading ? <span className='text-muted fw-bold text-muted d-block text-sm'>
                     {"Đang lấy dữ liệu"}
                 </span> :
-                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=1?"#c0e1ce":"#dc7a30",marginRight:5,marginBottom:5}} className='badge badge-dark'>{item.total==1?0:item.total}/{item.maxthreads}</span>
+                    <span style={{color:'black',fontSize:11,backgroundColor:item.total!=0?"#c0e1ce":"#dc7a30",marginRight:5,marginBottom:5}} className='badge badge-dark'>{item.total}/{item.maxthreads}</span>
                 }
             </td>}
             <td>
                 {//{item.service<600?<img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
                 //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
-                <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                <span style={{color:'white',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {item.service}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>

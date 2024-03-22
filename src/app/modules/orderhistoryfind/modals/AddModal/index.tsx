@@ -87,11 +87,7 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
 
   }
 
-  useEffect(() => {
-    if (!adding) {
-      close()
-    }
-  }, [adding])
+
 
   return (
       <Modal isOpen={show}
