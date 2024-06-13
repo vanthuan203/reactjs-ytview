@@ -5,6 +5,7 @@ export interface OrderModel {
   totalbalance:number,
   user:string,
   service:number,
+  geo:string,
   note:string
 }
 export interface OrderModelChecked {

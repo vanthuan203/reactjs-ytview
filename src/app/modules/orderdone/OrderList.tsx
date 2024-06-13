@@ -53,33 +53,42 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaltimeordershow, setTotalTimeOrderShow] = useState(0)
   let [totaltimeorderus, setTotalTimeOrderUs] = useState(0)
   let [totaltimeorderusshow, setTotalTimeOrderUsShow] = useState(0)
+  let [totaltimeorderkr, setTotalTimeOrderKr] = useState(0)
+  let [totaltimeorderkrshow, setTotalTimeOrderKrShow] = useState(0)
   let [totaltimebuffedorder, setTotalTimeBuffedOrder] = useState(0)
   let [totaltimebuffedordershow, setTotalTimeBuffedOrderShow] = useState(0)
   let [totaltimebuffedorderus, setTotalTimeBuffedOrderUs] = useState(0)
   let [totaltimebuffedorderusshow, setTotalTimeBuffedOrderUsShow] = useState(0)
+  let [totaltimebuffedorderkr, setTotalTimeBuffedOrderKr] = useState(0)
+  let [totaltimebuffedorderkrshow, setTotalTimeBuffedOrderKrShow] = useState(0)
   let [totaldorder, setTotalOrder] = useState(0)
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
   let [totalmoneyUS, setTotalMoneyUS] = useState(0)
   let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
+  let [totalmoneyKR, setTotalMoneyKR] = useState(0)
+  let [totalmoneyKRshow, setTotalMoneyKRShow] = useState(0)
 
   let [totalthreadset, setTotalThreadSet] = useState(0)
   let [totalthreadsetshow, setTotalThreadSetShow] = useState(0)
   let [totalthreadusset, setTotalThreadUsSet] = useState(0)
   let [totalthreadsetusshow, setTotalThreadSetUsShow] = useState(0)
+  let [totalthreadkrset, setTotalThreadKrSet] = useState(0)
+  let [totalthreadsetkrshow, setTotalThreadSetKrShow] = useState(0)
   let [totalthread, setTotalThread] = useState(0)
   let [totalthreadshow, setTotalThreadShow] = useState(0)
   let [totalthreadus, setTotalThreadUs] = useState(0)
   let [totalthreadusshow, setTotalThreadUsShow] = useState(0)
+  let [totalthreadkr, setTotalThreadKr] = useState(0)
+  let [totalthreadkrshow, setTotalThreadKrShow] = useState(0)
   let [totalvn, setTotalVn] = useState(0)
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
   let [totalUsshow, setTotalUsShow] = useState(0)
   let [totalKr, setTotalKr] = useState(0)
   let [totalKrshow, setTotalKrShow] = useState(0)
-  let [threadrandvn, setthreadrandvn] = useState(0)
-  let [threadrandus, setthreadrandus] = useState(0)
+
 
   let [useEff, setuseEff] = useState(0)
   const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
@@ -98,19 +107,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       (useSelector<RootState>(({orders}) => orders.groups, shallowEqual) as Group[]) || []
   const currentGroup: Group =
       (useSelector<RootState>(({orders}) => orders.currentGroup, shallowEqual) as Group) || undefined
-  let sumtime=0;
-  let sumtimeus=0;
-  let sumorder=0;
-  let summoney=0;
-  let summoneyUS=0;
-  let sumthreadset=0;
-  let sumthread=0;
-  let sumthreadusset=0;
-  let sumthreadus=0;
-  let sumvn=0;
-  let sumus=0;
-  let sumkr=0;
-  let sumtimedone=0;
+
   const arr:string[]=[]
   const [list_user,setList_User]=useState([{
     id:"0000000000",
@@ -120,40 +117,6 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     id:0,
     videoid:"",
   },])
-  orders.forEach(item=>{
-    sumthreadset=sumthreadset +item.maxthreads;
-    sumthread=sumthread+item.total;
-    sumtime=sumtime+item.viewtotal;
-    sumorder=sumorder+1;
-    summoney=summoney+item.price
-    sumtimedone=sumtimedone+Math.round(Number(item.viewtotal==null?0:item.viewtotal))
-    if(item.service>600){
-      sumvn=sumvn+1;
-    }else {
-      sumtimeus=sumtimeus+item.viewtotal;
-      sumthreadusset=sumthreadusset+item.maxthreads;
-      summoneyUS=summoneyUS+item.price
-      sumus=sumus+1;
-      sumthreadus=sumthreadus+item.total
-    }
-  })
-
-  async function getThreadRand() {
-    let  requestUrl = API_URL+'videoview/countThreadRand';
-    const response = await fetch(requestUrl, {
-      method: 'get',
-      headers: new Headers({
-        'Authorization': '1',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      })
-    });
-    const responseJson = await response.json();
-    const {vn} = responseJson;
-    const {us} = responseJson;
-    setthreadrandvn(vn)
-    setthreadrandus(us)
-
-  }
 
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
@@ -202,17 +165,27 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaltimeorderus=0
     setTotalTimeOrderUs(0)
 
+    totaltimeorderkrshow=totaltimeorderkr
+    setTotalTimeOrderKrShow(totaltimeorderkrshow)
+    totaltimeorderkr=0
+    setTotalTimeOrderKr(0)
+
     totalmoneyshow=totalmoney
     setTotalMoneyShow(totalmoneyshow)
     setTotalMoney(0)
 
     totalthreadsetshow=totalthreadset
     setTotalThreadSetShow(totalthreadsetshow)
+    console.log("Thread SET "+totalthreadsetshow)
     setTotalThreadSet(0)
 
     totalthreadsetusshow=totalthreadusset
     setTotalThreadSetUsShow(totalthreadsetusshow)
     setTotalThreadUsSet(0)
+
+    totalthreadsetkrshow=totalthreadkrset
+    setTotalThreadSetKrShow(totalthreadsetkrshow)
+    setTotalThreadKrSet(0)
 
     totalthreadshow=totalthread
     setTotalThreadShow(totalthreadshow)
@@ -222,6 +195,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalThreadUsShow(totalthreadusshow)
     setTotalThreadUs(0)
 
+    totalthreadkrshow=totalthreadkr
+    setTotalThreadKrShow(totalthreadkrshow)
+    setTotalThreadKr(0)
+
     totalVnshow=totalvn
     setTotalVnShow(totalVnshow)
     setTotalVn(0)
@@ -230,9 +207,17 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalUsShow(totalUsshow)
     setTotalUs(0)
 
+    totalKrshow=totalKr
+    setTotalKrShow(totalKrshow)
+    setTotalKr(0)
+
     totalmoneyUSshow=totalmoneyUS
     setTotalMoneyUSShow(totalmoneyUSshow)
     setTotalMoneyUS(0)
+
+    totalmoneyKRshow=totalmoneyKR
+    setTotalMoneyKRShow(totalmoneyKRshow)
+    setTotalMoneyKR(0)
 
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
@@ -243,6 +228,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalTimeBuffedOrderUsShow(totaltimebuffedorderusshow)
     totaltimebuffedorderus=0
     setTotalTimeBuffedOrderUs(0)
+
+    totaltimebuffedorderkrshow=totaltimebuffedorderkr
+    setTotalTimeBuffedOrderKrShow(totaltimebuffedorderkrshow)
+    totaltimebuffedorderkr=0
+    setTotalTimeBuffedOrderKr(0)
 
     if(useEff<=1){
       getcounttimeorder();
@@ -303,21 +293,43 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
              <div className="col-lg-7 col-sm-12 c-order__header">
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
-                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?("Đang chạy " +totaldordershow):"Total Order"} <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((useEff<=1?sumvn:totalUsshow))}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?("Đang chạy " +totaldordershow):"Total Order"} <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totalUsshow))}</span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totalKrshow))}</span></span>
                 </span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalmoneyshow-totalmoneyUSshow-totalmoneyKRshow).toFixed(0)}$ </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(totalmoneyUSshow.toFixed(0))}$</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(totalmoneyKRshow.toFixed(0))}$</span>
+                  </span>
                 </p>
                 <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng cấp "+ ((useEff<=1?sumthreadset:totalthreadsetshow)>=1000?(format1((useEff<=1?sumthreadset/1000:totalthreadsetshow/1000))+"K"):(format1((useEff<=1?sumthreadset/1000:totalthreadsetshow/1000))))):"Set"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalthreadsetshow-totalthreadsetusshow)<1000?format1((totalthreadsetshow-totalthreadsetusshow)):(format1((totalthreadsetshow-totalthreadsetusshow)/1000)+"K")}</span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadsetusshow<1000?format1((totalthreadsetusshow)):(format1((totalthreadsetusshow/1000))+"K")}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng chạy " +((useEff<=1?sumthread:totalthreadshow)>=1000?(format1((useEff<=1?sumthread/1000:totalthreadshow/1000))+"K"):(format1((useEff<=1?sumthread:totalthreadshow))))):"Run"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totalthreadshow-totalthreadusshow<1000?format1((totalthreadshow-totalthreadusshow)):(format1((totalthreadshow-totalthreadusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadusshow<1000?format1((totalthreadusshow)):(format1((totalthreadusshow/1000))+"K")}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng đặt "+ ((useEff<=1?sumtime:totaltimeordershow)>=1000?(format1((useEff<=1?sumtime/1000:totaltimeordershow/1000))+"K"):(format1((useEff<=1?sumtime:totaltimeordershow))))):"Quantity"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimeordershow-totaltimeorderusshow<1000?format1((totaltimeordershow-totaltimeorderusshow)):(format1((totaltimeordershow-totaltimeorderusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow<1000?format1((totaltimeorderusshow)):(format1((totaltimeorderusshow/1000))+"K")}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng cấp " + ((totalthreadsetshow>=1000?(format1((totalthreadsetshow/1000))+"K "):(format1((totalthreadsetshow)))))):"Set"}
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)<1000?format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)):(format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)/1000)+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadsetusshow<1000?format1((totalthreadsetusshow)):(format1((totalthreadsetusshow/1000))+"K")}</span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totalthreadsetkrshow<1000?format1((totalthreadsetkrshow)):(format1((totalthreadsetkrshow/1000))+"K")}</span>
+                  </span>
+
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng chạy " +((totalthreadshow)>=1000?(format1((totalthreadshow/1000))+"K "):(format1((totalthreadshow))))):"Run"}
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totalthreadshow-totalthreadusshow-totalthreadkrshow<1000?format1((totalthreadshow-totalthreadusshow-totalthreadkrshow)):(format1((totalthreadshow-totalthreadusshow-totalthreadkrshow)/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadusshow<1000?format1((totalthreadusshow)):(format1((totalthreadusshow/1000))+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totalthreadkrshow<1000?format1((totalthreadkrshow)):(format1((totalthreadkrshow/1000))+"K")}</span>
+                  </span>
+
                   </span>
                 </p>
                 <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1' >
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Đã chạy "+ ((useEff<=1?sumtimedone:totaltimebuffedordershow)>=1000?(format1((useEff<=1?sumtimedone/1000:totaltimebuffedordershow/1000))+"K"):(format1((useEff<=1?sumtimedone:totaltimebuffedordershow))))):"Done"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimebuffedordershow-totaltimebuffedorderusshow<1000?format1((totaltimebuffedordershow-totaltimebuffedorderusshow)):(format1((totaltimebuffedordershow-totaltimebuffedorderusshow)/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimebuffedorderusshow<1000?format1((totaltimebuffedorderusshow)):(format1((totaltimebuffedorderusshow/1000))+"K")}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695CFF",marginLeft:5,marginTop:3}}>{isMobile==false?("Còn tồn "+ (((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))>=1000?(format1(((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow))/1000)+"K"):(format1(((useEff<=1?sumtime:totaltimeordershow)-(useEff<=1?sumtimedone:totaltimebuffedordershow)))))):"Remains"} <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))<1000?format1(((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))):(format1(((totaltimeordershow-totaltimeorderusshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow))/1000)+"K")} </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow-totaltimebuffedorderusshow<1000?format1((totaltimeorderusshow-totaltimebuffedorderusshow)):(format1((totaltimeorderusshow-totaltimebuffedorderusshow)/1000)+"K")}</span></span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(useEff<=1?summoney.toFixed(0):totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{useEff<=1?(summoney-summoneyUS).toFixed(0):(totalmoneyshow-totalmoneyUSshow).toFixed(0)}$ </span><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(useEff<=1?summoneyUS.toFixed(0):totalmoneyUSshow.toFixed(0))}$</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng đặt "+ ((totaltimeordershow)>=1000?(format1((totaltimeordershow/1000))+"K "):(format1((totaltimeordershow))))):"Quantity"}
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow<1000?format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)):(format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow<1000?format1((totaltimeorderusshow)):(format1((totaltimeorderusshow/1000))+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totaltimeorderkrshow<1000?format1((totaltimeorderkrshow)):(format1((totaltimeorderkrshow/1000))+"K")}</span>
+                  </span>
+
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Còn tồn "+ (((totaltimeordershow)-(totaltimebuffedordershow))>=1000?(format1(((totaltimeordershow)-(totaltimebuffedordershow))/1000)+"K "):(format1(((totaltimeordershow)-(totaltimebuffedordershow)))))):"Remains"}
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))<1000?format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))):(format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow-totaltimebuffedorderusshow<1000?format1((totaltimeorderusshow-totaltimebuffedorderusshow)):(format1((totaltimeorderusshow-totaltimebuffedorderusshow)/1000)+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totaltimeorderkrshow-totaltimebuffedorderkrshow<1000?format1((totaltimeorderkrshow-totaltimebuffedorderkrshow)):(format1((totaltimeorderkrshow-totaltimebuffedorderkrshow)/1000)+"K")}</span>
+                  </span>
                   </span>
                 </p>
               </div>
@@ -587,15 +599,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -604,15 +623,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -637,15 +663,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -654,15 +687,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -687,15 +727,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -704,15 +751,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -729,7 +783,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 ||  order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                    }else if((key.indexOf(order.videoid)>=0 || key.indexOf(order.geo)>=0  ||  order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -737,15 +791,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -754,15 +815,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -779,7 +847,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 ||  order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 ||  order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -787,15 +855,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -804,15 +879,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -837,15 +919,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -854,15 +943,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -880,7 +976,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -888,15 +984,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -905,15 +1008,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -930,7 +1040,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -938,15 +1048,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=order.total
                         totalmoney=order.price
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
                           totalthreadus=order.total
                           totalthreadusset=order.maxthreads
                           totaltimeorderus=order.vieworder
                           totaltimebuffedorderus=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
+                          totalthreadkr=order.total
+                          totalthreadkrset=order.maxthreads
+                          totaltimeorderkr=order.vieworder
+                          totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -955,15 +1072,22 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         totalthread=totalthread+order.total
                         totaltimeorder=order.vieworder+totaltimeorder
                         totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=totalmoneyUS+order.price
                           totalUs=1+totalUs
                           totalthreadus=totalthreadus+order.total
                           totalthreadusset=totalthreadusset+order.maxthreads
                           totaltimeorderus=totaltimeorderus+order.vieworder
                           totaltimebuffedorderus=totaltimebuffedorderus+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=totalmoneyKR+order.price
+                          totalKr=1+totalKr
+                          totalthreadkr=totalthreadkr+order.total
+                          totalthreadkrset=totalthreadkrset+order.maxthreads
+                          totaltimeorderkr=totaltimeorderkr+order.vieworder
+                          totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {

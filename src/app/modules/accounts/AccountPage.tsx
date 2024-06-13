@@ -36,6 +36,7 @@ const AccountPage: React.FC = () => {
           {
               currentAccount&&<EditModal key={currentAccount?.vps} item={currentAccount} />
           }
+          
         </div>
       </>
   )

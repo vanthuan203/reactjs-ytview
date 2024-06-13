@@ -30,7 +30,7 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
             </td>
             <td>
                 <span style={{fontSize:11,backgroundColor:"#c0e1ce",color:"black",}} className='badge badge-danger'>
-                    {item.totalport==1?0:item.totalport}
+                    {item.option_setting.toUpperCase()}
                 </span>
             </td>
             <td>
@@ -45,18 +45,6 @@ const ComputerItem: React.FC<Props> = ({ item, index }) => {
                 <span style={{fontSize:11,margin:5,backgroundColor:"#9ca1a0",color:"white",}} className='badge badge-danger'>
                     {item.numcheck==0?'':item.numcheck}{item.numcheck==0?'':'m'}
                 </span>
-            </td>
-            <td>
-                <span >
-                    {item.ipv4.indexOf('net')<0?<img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
-                        <img style={{width:20,height:20,borderImage:"-moz-initial"}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
-                </span>
-
-            </td>
-            <td>
-                {item.typeproxy.indexOf("null")<0&&<span style={{fontSize:11,backgroundColor:"#6d7773",color:"white",}} className='badge badge-danger'>
-                    {item.typeproxy.toUpperCase()}
-                </span>}
             </td>
 
         </tr>

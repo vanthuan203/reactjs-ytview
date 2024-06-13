@@ -209,9 +209,9 @@ export function* saga() {
     yield put(actions.fulfillAccounts(accounts.accounts))
   })
   yield takeLatest(actionTypes.RequestUpdate, function* updateUserRequested(param: any) {
-    //console.log("------update account param-----",param.payload.account)
+    console.log("------update account param-----",param.payload.account)
     const {data: account} = yield updateAccount(param.payload.account)
-    //console.log("------update account res-----",account.account)
+    console.log("------update account res-----",account.account)
     yield put(actions.updateSuccess(account.account))
   })
   yield takeLatest(actionTypes.DeleteVpsRequest, function* DeleteVpsRequest(param: any) {

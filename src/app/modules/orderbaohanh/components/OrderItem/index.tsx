@@ -108,7 +108,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
                 <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e"}} className='badge badge-success'>
-                  {round((Date.now()-item.timestart)/1000/60)>60?(round((Date.now()-item.timestart)/1000/60)/60).toFixed(2)+'H':round((Date.now()-item.timestart)/1000/60)+'m'}</span>
+                  {((Date.now()-item.timestart)/1000/60/60)>=24?((((Date.now()-item.timestart)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.timestart)/1000/60/60)>=1?((Date.now()-item.timestart)/1000/60/60).toFixed(2)+'H':((Date.now()-item.timestart)/1000/60).toFixed(0)+'m'}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.timestart).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timestart).toLocaleTimeString('vn-VN')}</span>
                 }

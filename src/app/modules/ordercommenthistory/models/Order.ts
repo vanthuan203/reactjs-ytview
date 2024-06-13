@@ -36,6 +36,8 @@ export interface OrderModel {
   optionbuff:number,
   user:string,
   price:number,
+  lc_code:string,
+  geo:string,
   checked?:boolean
 }
 export interface OrderModelChecked {

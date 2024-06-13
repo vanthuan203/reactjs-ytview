@@ -54,7 +54,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [startDate, setStartDate] = useState(today);
   let [endDate, setEndDate] = useState(today);
 
-
+  const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true)
   const API_URL = process.env.REACT_APP_API_URL
   const [showAdd, setShowAdd] = useState(false)
@@ -81,12 +81,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalmoneyshow, setTotalMoneyShow] = useState(0)
   let [totalmoneyUS, setTotalMoneyUS] = useState(0)
   let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
+  let [totalmoneyKR, setTotalMoneyKR] = useState(0)
+  let [totalmoneyKRshow, setTotalMoneyKRShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
 
   let [totalvn, setTotalVn] = useState(0)
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
   let [totalUsshow, setTotalUsShow] = useState(0)
+  let [totalKr, setTotalKr] = useState(0)
+  let [totalKrshow, setTotalKrShow] = useState(0)
 
   let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
@@ -99,24 +103,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       (useSelector<RootState>(({orders}) => orders.groups, shallowEqual) as Group[]) || []
   const currentGroup: Group =
       (useSelector<RootState>(({orders}) => orders.currentGroup, shallowEqual) as Group) || undefined
-  let sumtimedone=0;
-  let sumorder=0;
-  let summoney=0;
-  let summoneyUS=0;
-  let sumvn=0;
-  let sumus=0;
 
-  orders.forEach(item=>{
-    sumtimedone=sumtimedone+Math.round(Number(item.viewtotal==null?0:item.viewtotal))
-    sumorder=sumorder+1;
-    summoney=summoney+item.price
-    if(item.service>600){
-      sumvn=sumvn+1;
-    }else{
-      summoneyUS=summoneyUS+item.price
-      sumus=sumus+1;
-    }
-  })
   const [list_user,setList_User]=useState([{
     id:"0000000000",
     user:"All User"
@@ -125,6 +112,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     id:0,
     orderid:0,
   },])
+  const handleWindowResize = () => {
+    setIsMobile(window.innerWidth <= 800);
+  };
   async function getcounttimeorder() {
     let  requestUrl = API_URL+'auth/getalluser';
     const response = await fetch(requestUrl, {
@@ -190,9 +180,17 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalUsShow(totalUsshow)
     setTotalUs(0)
 
+    totalKrshow=totalKr
+    setTotalKrShow(totalKrshow)
+    setTotalKr(0)
+
     totalmoneyUSshow=totalmoneyUS
     setTotalMoneyUSShow(totalmoneyUSshow)
     setTotalMoneyUS(0)
+
+    totalmoneyKRshow=totalmoneyKR
+    setTotalMoneyKRShow(totalmoneyKRshow)
+    setTotalMoneyKR(0)
 
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
@@ -200,6 +198,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if(useEff<=1){
       getcounttimeorder();
     }
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
 
   }, [keyusertrue,keydate,startDate,endDate,keydatestart,keydateend,keytrue,keyuser,key,orders.length,,])
 
@@ -240,9 +240,17 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
           <div className="page-header__content">
             <div className="align-items-center row" style={{margin:10}}>
               <div className="col-lg-5 col-sm-12 c-order__header">
-                <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Đã xong {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((useEff<=1?sumvn:totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((useEff<=1?sumvn:totalUsshow))}</span> </span>
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
-                  <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng chạy {format1(useEff<=1?sumtimedone:totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {useEff<=1?summoney.toFixed(3):totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{(useEff<=1?(summoney-summoneyUS).toFixed(3):(totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(useEff<=1?summoneyUS.toFixed(3):totalmoneyUSshow.toFixed(3))}$</span></span>
+                <span  className='fw-bolder fs-3 mb-1'>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?("Hoàn thành " +totaldordershow):"Total Done"} <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totalUsshow))}</span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totalKrshow))}</span></span>
+                </span>
+                </p>
+                <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalmoneyshow-totalmoneyUSshow-totalmoneyKRshow).toFixed(0)}$ </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(totalmoneyUSshow.toFixed(0))}$</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(totalmoneyKRshow.toFixed(0))}$</span>
+                  </span>
                 </p>
               </div>
               <div className="col-lg-7 col-sm-12 c-order__header">
@@ -379,22 +387,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -427,22 +441,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -476,22 +496,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -524,22 +550,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -575,22 +607,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -626,22 +664,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -676,22 +720,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {
@@ -726,22 +776,28 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       if(index===0){
                         totaldorder=1
                         totalmoney=order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalmoneyUS=order.price
                           totalUs=1
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalmoneyKR=order.price
+                          totalKr=1
                         }
                       }else{
                         totaldorder=totaldorder+1
                         totalmoney=totalmoney+order.price
-                        totaltimebuffedorder=Math.round(Number(order.commenttotal==null?0:order.commenttotal))+totaltimebuffedorder
-                        if(order.service>600){
+                        totaltimebuffedorder=Math.round(Number(order.viewtotal==null?0:order.viewtotal))+totaltimebuffedorder
+                        if(order.geo.indexOf("vn")>=0){
                           totalvn=1+totalvn
-                        }else{
+                        }else if(order.geo.indexOf("us")>=0){
                           totalUs=1+totalUs
                           totalmoneyUS=totalmoneyUS+order.price
+                        }else if(order.geo.indexOf("kr")>=0){
+                          totalKr=1+totalKr
+                          totalmoneyKR=totalmoneyKR+order.price
                         }
                       }
                       let orderitem = {

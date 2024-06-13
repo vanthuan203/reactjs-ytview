@@ -38,7 +38,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     note:"",
     service:0
   }])
-
+  const [isMobile, setIsMobile] = useState(false);
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const API_URL = process.env.REACT_APP_API_URL
@@ -75,6 +75,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaladdkrshow, setTotalAddKRShow] = useState(0)
   let [totalsub, setTotalSub] = useState(0)
   let [totalsubshow, setTotalSubShow] = useState(0)
+  let [totalsubvn, setTotalSubVN] = useState(0)
+  let [totalsubkr, setTotalSubKR] = useState(0)
+  let [totalsubvnshow, setTotalSubVNShow] = useState(0)
+  let [totalsubkrshow, setTotalSubKRShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
   const role: string =
     (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
@@ -84,12 +88,6 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     (useSelector<RootState>(({orders}) => orders.groups, shallowEqual) as Group[]) || []
   const currentGroup: Group =
     (useSelector<RootState>(({orders}) => orders.currentGroup, shallowEqual) as Group) || undefined
-  let sumtimedone=0;
-  let sumorder=0;
-  orders.forEach(item=>{
-    //sumtimedone=sumtimedone+Math.round(Number(item.timebuffhtotal==null?0:item.timebuffhtotal)/3600)
-    sumorder=sumorder+1;
-  })
   const [list_user,setList_User]=useState([{
     id:"0000000000",
     user:"All User"
@@ -116,7 +114,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       list_user.push(orderitem)
     }
   }
-
+  const handleWindowResize = () => {
+    setIsMobile(window.innerWidth <= 800);
+  };
   useEffect(() => {
     setLoading(true)
     if(orders.length!=0 || list_orderhistory.length>0){
@@ -142,6 +142,14 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaladdkrshow=totaladdkr
     setTotalAddKRShow(totaladdkrshow)
     setTotalAddKR(0)
+
+    totalsubvnshow=totalsubvn
+    setTotalSubVNShow(totalsubvnshow)
+    setTotalSubVN(0)
+
+    totalsubkrshow=totalsubkr
+    setTotalSubKRShow(totalsubkrshow)
+    setTotalSubKR(0)
 
 
     if(startDate==null || endDate==null){
@@ -176,6 +184,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     if(useEff<=1){
       getcounttimeorder()
     }
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
 
   }, [keydate,keydatestart,keydateend,startDate,endDate,keyuser,orders.length,,])
 
@@ -197,15 +207,30 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
       <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
-            <div className="col-lg-5 col-sm-12 c-order__header">
-              <span   className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>{useEff<=1?sumorder:totaldordershow} giao dịch</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{totaldorderVnshow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totaldordershow-totaldorderVnshow-totaldorderKrshow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{totaldorderKrshow}</span></span>
+            <div className="col-lg-12 col-sm-12 c-order__header">
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
-                <span className='fw-bolder fs-3 mb-1'  >
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tiền vào {totaladdshow.toFixed(3)}$</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tiền chi {(-totalsubshow.toFixed(3))}$</span>  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{-totaladdvnshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(-totalsubshow+totaladdvnshow+totaladdkrshow).toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)"}}>{-totaladdkrshow.toFixed(3)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>{totaladdshow>=(-totalsubshow)?"Tăng ":"Giảm "} {totaladdshow>=(-totalsubshow)?(totaladdshow-(-totalsubshow)).toFixed(3):(-totalsubshow-totaladdshow).toFixed(3)}$</span>
+                <span  className='fw-bolder fs-3 mb-1'>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?( "Giao dịch "+totaldordershow ):"Total"}  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totaldordershow-totaldorderVnshow-totaldorderKrshow))}</span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderKrshow))}</span></span>
                 </span>
+                <span  className='fw-bolder fs-3 mb-1'>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)",marginLeft:5}}>{isMobile==false?"Doanh thu ":"Revenue "}
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgba(255,255,255,0.97)",marginLeft:2,padding:3}}>{(-totalsubshow-totaladdshow).toFixed(-totalsubshow-totaladdshow==0?0:2)}$</span></span>
+                </span>
+
               </p>
-            </div>
-            <div className="col-lg-7 col-sm-12 c-order__header">
+              <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
+                <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(252,251,251,0.68)",marginLeft:5,marginTop:3}}>{isMobile==false?"Tổng chi ":""}<span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(129,207,253,0.66)",marginLeft:2,padding:3}}>{(-totalsubshow).toFixed(totalsubshow==0?0:2)}$</span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(-totalsubvnshow).toFixed(totalsubvnshow==0?0:2)}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((-totalsubshow+totalsubvnshow+totalsubkrshow).toFixed((-totalsubshow+totalsubvnshow+totalsubkrshow)==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(-totalsubkrshow.toFixed(totalsubkrshow==0?0:2))}</span>
+                  </span>
+                <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(248,248,248,0.97)",marginLeft:5,marginTop:3}}>{isMobile==false?"Tổng hoàn ":""}<span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(250,185,103,0.97)",marginLeft:2,padding:3}}>{(totaladdshow).toFixed(totaladdshow==0?0:2)}$</span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totaladdvnshow).toFixed(totaladdvnshow==0?0:2)}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((totaladdshow-totaladdvnshow-totaladdkrshow).toFixed((totaladdshow-totaladdvnshow-totaladdkrshow)==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(totaladdkrshow.toFixed(totaladdkrshow==0?0:2))}</span>
+                  </span>
+              </p>
             </div>
           </div>
         </div>
@@ -299,28 +324,44 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totaldorder=1
                       if(order.balance>0){
                         totaladd=order.balance
-                      }else{
-                        totalsub=order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1
                           totaladdkr=order.balance
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
                         }
                       }
                     }else{
                       totaldorder=totaldorder+1
                       if(order.balance>0){
                         totaladd=totaladd+order.balance
-                      }else{
-                        totalsub=totalsub+order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1+totaldorderkr
                           totaladdkr=order.balance+totaladdkr
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        console.log(totalsubvn)
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
                         }
                       }
                     }
@@ -348,28 +389,43 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totaldorder=1
                       if(order.balance>0){
                         totaladd=order.balance
-                      }else{
-                        totalsub=order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1
                           totaladdkr=order.balance
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
                         }
                       }
                     }else{
                       totaldorder=totaldorder+1
                       if(order.balance>0){
                         totaladd=totaladd+order.balance
-                      }else{
-                        totalsub=totalsub+order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1+totaldorderkr
                           totaladdkr=order.balance+totaladdkr
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
                         }
                       }
                     }
@@ -397,28 +453,43 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totaldorder=1
                       if(order.balance>0){
                         totaladd=order.balance
-                      }else{
-                        totalsub=order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1
                           totaladdkr=order.balance
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
                         }
                       }
                     }else{
                       totaldorder=totaldorder+1
                       if(order.balance>0){
                         totaladd=totaladd+order.balance
-                      }else{
-                        totalsub=totalsub+order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1+totaldorderkr
                           totaladdkr=order.balance+totaladdkr
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
                         }
                       }
                     }
@@ -449,28 +520,43 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                       totaldorder=1
                       if(order.balance>0){
                         totaladd=order.balance
-                      }else{
-                        totalsub=order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1
                           totaladdkr=order.balance
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
                         }
                       }
                     }else{
                       totaldorder=totaldorder+1
                       if(order.balance>0){
                         totaladd=totaladd+order.balance
-                      }else{
-                        totalsub=totalsub+order.balance
-                        if(order.service>=1000){
+                        if(order.geo.indexOf("kr")>=0){
                           totaldorderkr=1+totaldorderkr
                           totaladdkr=order.balance+totaladdkr
-                        }else if(order.service>=600){
+                        }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
                         }
                       }
                     }

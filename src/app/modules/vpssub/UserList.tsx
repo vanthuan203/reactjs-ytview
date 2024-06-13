@@ -141,7 +141,6 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     if(accounts.length!=0){
       setLoading(false)
     }
-    console.log(list_vps)
     setList_VPS([])
     useEff=useEff+1
     setuseEff(useEff)
@@ -301,7 +300,6 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
             <tbody>
               {
                   accounts&&accounts?.map((item: AccountModel,index:number) => {
-                    console.log(keystatustrue,keytrue)
                     if (keystatustrue==0&&keytrue==0) {
                       if(index===0){
                         totalvps=1

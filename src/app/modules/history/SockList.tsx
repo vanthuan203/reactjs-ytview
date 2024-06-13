@@ -198,12 +198,6 @@ const SockList: React.FC<Props> = ({ className }) => {
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>TimeUpdate</span>
                 </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4_Old</span>
-                </th>
               </tr>
             </thead>
             {/* end::Table head */}

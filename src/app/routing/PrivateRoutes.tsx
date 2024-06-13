@@ -5,6 +5,7 @@ import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
 export function PrivateRoutes() {
   const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
   const AccountPagevpssub = lazy(() => import('../modules/vpssub/AccountPage'))
+  const VpsTiktok = lazy(() => import('../modules/vpstiktok/AccountPage'))
   const AccountPage1 = lazy(() => import('../modules/users/AccountPage'))
   const AccountPage2 = lazy(() => import('../modules/setting/AccountPage'))
   const AccountPage3 = lazy(() => import('../modules/services/AccountPage'))
@@ -23,6 +24,7 @@ export function PrivateRoutes() {
   const ComputerList = lazy(() => import('../modules/history/ComputerList'))
   const ComputerListSub = lazy(() => import('../modules/history/ComputerListSub'))
   const OrderFollowerTiktok = lazy(() => import('../modules/orderfollowertiktok/OrdersPage'))
+  const OrderFollowerTiktokHistory = lazy(() => import('../modules/orderfollowertiktokhistory/OrdersPage'))
   const AuthenList = lazy(() => import('../modules/history/AuthenList'))
   const SockList = lazy(() => import('../modules/history/SockList'))
 
@@ -37,12 +39,14 @@ export function PrivateRoutes() {
         <Route path='/crafted/ordercomments' component={WidgetsPage3} />
         <Route path='/crafted/ordertraffic' component={WidgetsPage5} />
         <Route path='/crafted/orderfollowertiktok' component={OrderFollowerTiktok} />
+        <Route path='/crafted/orderfollowerstiktokhistory' component={OrderFollowerTiktokHistory} />
         <Route path='/crafted/ordertraffiwebhistory' component={WidgetsPage6} />
         <Route path='/crafted/orderhistory' component={WidgetsPageHis} />
         <Route path='/crafted/ordercommenthistory' component={WidgetsPageHis1} />
         <Route path='/crafted/orderfindhistory' component={WidgetsPageHis2} />
         <Route path='/crafted/vps' component={AccountPage} />
         <Route path='/crafted/listvpssub' component={AccountPagevpssub} />
+        <Route path='/crafted/listvpstiktok' component={VpsTiktok} />
         <Route path='/crafted/user' component={AccountPage1} />
         <Route path='/crafted/threads' component={AccountPage4} />
         <Route path='/crafted/proxyview' component={ComputerList} />

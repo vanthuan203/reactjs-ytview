@@ -41,16 +41,15 @@ export interface OrderModel {
   checked?:boolean
 }
 export interface OrderModelChecked {
-  videoid: string,
   id:number,
-  timebuff:number,
-  viewstart:number,
-  viewend:number,
+  orderid:number,
+  link: string,
+  keywords:string,
+  trafficorder:number,
+  traffictotal:number,
   insertdate: string,
   enddate: string,
   cancel:number,
-  viewtotal:number,
-  timebuffhtotal: number,
   user:string,
   note:string,
 }

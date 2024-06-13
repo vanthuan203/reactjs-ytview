@@ -75,7 +75,6 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.trafficorder}</span></span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(96,92,92,0.68)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#ffffff"}}>{item.keywords}</span></span>
                                 <span style={{ color:'white',fontSize:11,backgroundColor:"rgba(34,126,231,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>24h <span style={{color:"#fdfdfd"}}>{item.traffic24h==null?0:item.traffic24h}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.traffictotal==null?0:item.traffictotal}</span></span>
                     {(item.maxthreads>0||item.traffictotal>0)&&<span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.traffictotal==null?0:item.traffictotal))/item.trafficorder*100))+'%'}</span></span>}
@@ -83,8 +82,11 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                         Pending</span>
                     }
                     <br/>
-                     <span style={{fontSize:9}}>
-                        {item.link}</span>
+                     <span style={{fontSize:10}}>
+                        🔗 {item.link}</span>
+                    <br/>
+                     <span style={{fontSize:10,color:"#620909",fontWeight:"bold"}}>
+                        Keywords: {item.keywords}</span>
                 </span>
 
             </td>
@@ -113,7 +115,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
                 <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                  {round((Date.now()-item.timestart)/1000/60)>60?(round((Date.now()-item.timestart)/1000/60)/60).toFixed(2)+'H':round((Date.now()-item.timestart)/1000/60)+'m'}</span>
+                  {((Date.now()-item.timestart)/1000/60/60)>=24?((((Date.now()-item.timestart)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.timestart)/1000/60/60)>=1?((Date.now()-item.timestart)/1000/60/60).toFixed(2)+'H':((Date.now()-item.timestart)/1000/60).toFixed(2)+'m'}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.timestart).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timestart).toLocaleTimeString('vn-VN')}</span>
                 }

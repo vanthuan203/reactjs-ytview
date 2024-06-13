@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import { OrderList } from './OrderList'
 import { OrderListCmt } from './OrderListCmt'
+import { OrderListFollowerTikTok } from './OrderListFollowerTikTok'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import { OrderModel,OrderModelCmt } from './models/Order'
+import { OrderModel,OrderModelCmt ,OrderModelFollower} from './models/Order'
 import { RootState } from 'setup'
 import { actions } from './redux/OrdersRedux'
 import {FormGroup, Input, Label} from "reactstrap";
@@ -19,8 +20,10 @@ const WidgetsPage: React.FC = () => {
   const [option, setOption] = useState("view")
   const orders: OrderModel[] = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.orders, shallowEqual) as OrderModel[] || []
   const orderscmt: OrderModelCmt[] = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.ordersCmt, shallowEqual) as OrderModelCmt[] || []
+  const ordersfollowertiktok: OrderModelFollower[] = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.ordersFollowerTiktok, shallowEqual) as OrderModelFollower[] || []
   const currentOrder: OrderModel = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.currentOrder, shallowEqual) as OrderModel || undefined
   const currentOrderCmt: OrderModelCmt = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.currentOrderCmt, shallowEqual) as OrderModelCmt || undefined
+  const currentOrderFollowerTikTok: OrderModelFollower = useSelector<RootState>(({ orderhistoryfind }) => orderhistoryfind.currentOrderFollowerTiktok, shallowEqual) as OrderModelFollower || undefined
   let role: string =
       (useSelector<RootState>(({auth}) => auth.user?.role, shallowEqual) as string) || ''
   if(role==="ROLE_SUPPORT"){
@@ -35,10 +38,17 @@ const WidgetsPage: React.FC = () => {
     if(Array.isArray(orderscmt)){
       orderscmt.splice(0,orderscmt.length);
     }
+    if(Array.isArray(ordersfollowertiktok)){
+      ordersfollowertiktok.splice(0,orderscmt.length);
+    }
     if(key.length!=0&& keycheck==1){
       if(option.indexOf("view")>=0){
         dispatch(actions.requestOrders(key.trim()))
-      }else{
+      }else if(option.indexOf("cmt")>=0){
+        dispatch(actions.requestOrderCmt(key.trim()))
+      }else if(option.indexOf("follower")>=0){
+        dispatch(actions.requestOrderFollowerTiktok(key.trim()))
+      }else if(option.indexOf("traffic")>=0){
         dispatch(actions.requestOrderCmt(key.trim()))
       }
     }
@@ -74,7 +84,7 @@ const WidgetsPage: React.FC = () => {
                  id="note"
                  name="note"
                  value={key}
-                 placeholder="Nhập videoId or orderId (Phân cách nhau dấu phẩy)"
+                 placeholder="Nhập phân cách nhau dấu phẩy"
                  onChange={(e) => setKey(e.target.value)}
                  type="text"
           />
@@ -85,7 +95,7 @@ const WidgetsPage: React.FC = () => {
           >
             Fetching
           </button>
-          {<Input style={{marginLeft:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"left"}}
+          {<Input style={{marginLeft:10,width:"auto",maxWidth:120,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"left"}}
               //onChange={(e) => setKeyRate(parseInt(e.target.value))}
                                        onChange={(e) => {
                                          setOption(e.target.value)
@@ -94,11 +104,14 @@ const WidgetsPage: React.FC = () => {
                                        type="select"
                                        value={option}
           >
-
-                    <option key={"view"} value={"view"}>
-                      VIEW</option>)
-                    <option key={"cmt"} value={"cmt"}>
-                      CMT</option>)
+            <option key={"view"} value={"view"}>
+              VIEW</option>)
+            <option key={"cmt"} value={"cmt"}>
+              CMT</option>
+            <option key={"follower"} value={"follower"}>
+              FOLLOWER</option>)
+            <option key={"traffic"} value={"traffic"}>
+              TRAFFIC</option>)
 
           </Input>}
         </div>
@@ -106,10 +119,9 @@ const WidgetsPage: React.FC = () => {
         <div className='col-xl-12'>
           {option.indexOf("view")>=0&&<OrderList done={1} orders={orders} className='card-xxl-stretch mb-5 mb-xl-12' />}
           {option.indexOf("cmt")>=0&&<OrderListCmt done={1} orders={orderscmt} className='card-xxl-stretch mb-5 mb-xl-12' />}
+          {option.indexOf("follower")>=0&&<OrderListFollowerTikTok done={1} orders={ordersfollowertiktok} className='card-xxl-stretch mb-5 mb-xl-12' />}
         </div>
       </div>
-      {option.indexOf("view")>=0&&currentOrder && <EditModal key={currentOrder?.orderid} item={currentOrder}  />}
-      {option.indexOf("cmt")>=0&&currentOrderCmt && <EditModalCmt key={currentOrderCmt?.orderid} item={currentOrderCmt}  />}
     </>
   )
 }

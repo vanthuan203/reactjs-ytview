@@ -119,6 +119,23 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
       alert('Thay tài khoản thất bại!')
     }
   }
+  async function changer_kr(){
+    const requestUrl = API_URL+'vps/changer_kr';
+    const response= await fetch(requestUrl,{
+      method: 'get',
+      headers: new Headers({
+        'Authorization': '1',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
+    const responseJson= await  response.json();
+    const {status}=responseJson;
+    if(parseInt(status)>0){
+      alert('Thay thành công '+status+' tài khoản mới!')
+    }else{
+      alert('Thay tài khoản thất bại!')
+    }
+  }
   async function changer_us(){
     const requestUrl = API_URL+'vps/changer_us';
     const response= await fetch(requestUrl,{
@@ -165,6 +182,11 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
       await changer_us()
     }
   }
+  const clickResetAllKR = async () => {
+    if (window.confirm("Bạn chắc chắn muốn thay acc KR?") == true) {
+      await changer_kr()
+    }
+  }
 
   const clickDeleteHandler = () => {
     const arr:string[]=[]
@@ -206,7 +228,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                         }}
                         className='btn btn-success'
                 >
-                  Change VN accounts
+                  Change VN
                 </button>}
               {
                 <button style={{margin:5,backgroundColor:"rgba(34,126,231,0.97)"}}
@@ -215,8 +237,18 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
                     }}
                     className='btn btn-success'
                 >
-                  Change US accounts
+                  Change US
                 </button>}
+              {
+                <button style={{margin:5,backgroundColor:"rgba(3,37,80,0.97)"}}
+                        onClick={() => {
+                          clickResetAllKR()
+                        }}
+                        className='btn btn-success'
+                >
+                  Change KR
+                </button>}
+
             </div>
           </div>
         </div>

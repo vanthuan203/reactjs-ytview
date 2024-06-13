@@ -36,7 +36,7 @@ const ComputerListSub: React.FC<Props> = ({ className }) => {
     setKeyTrue(0)
   }, [status])
   async function delipv4(ipv4:string) {
-    let  requestUrl = API_URL+'proxy/delipv4?ipv4='+ipv4;
+    let  requestUrl = API_URL+'proxysub/delipv4?ipv4='+ipv4;
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({
@@ -219,19 +219,13 @@ const ComputerListSub: React.FC<Props> = ({ className }) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4</span>
                 </th>
                 <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Port</span>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Option Setting</span>
                 </th>
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
                 </th>
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>State</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Geo</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>TypeProxy</span>
                 </th>
               </tr>
             </thead>

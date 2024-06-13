@@ -8,7 +8,8 @@ import EditModal  from './modals/EditModal'
 import {Input} from "reactstrap";
 const AccountPage: React.FC = () => {
   const dispatch = useDispatch()
-  const [vpstype, setvpstype] = useState('')
+  const [option, setOption] = useState("view")
+
   const accounts: AccountModel[] = useSelector<RootState>(({services}) => services.accounts, shallowEqual) as AccountModel[] || []
   const currentAccount: AccountModel = useSelector<RootState>(({services}) => services.currentAccount, shallowEqual) as AccountModel || undefined
   const [refresh, setRefresh] = useState(true)
@@ -21,6 +22,7 @@ const AccountPage: React.FC = () => {
 
   return (
     <>
+
       <div className='row gy-5 gx-xl-12'>
         <div className='col-xl-12' style={{margin:0}}>
           <a style={{float:"right"}} href='#' onClick={() => {

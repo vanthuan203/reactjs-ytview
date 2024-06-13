@@ -71,7 +71,7 @@ const AddModal: React.FC<Props> = ({ show, close }) => {
     let arrlist =user.split(',');
     for(var i=0;i<arrlist.length;i++){
       let orderitem = {
-        id: arrlist[i].split('|')[0],
+        id: arrlist[i].split('|')[0].trim(),
         user: arrlist[i]
       }
       setList_Service([...list_service, orderitem])

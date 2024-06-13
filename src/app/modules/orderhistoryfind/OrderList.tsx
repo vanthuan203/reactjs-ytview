@@ -275,6 +275,24 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setChecked(false)
     dispatch(actions.checkedAllChange(false))
   }
+
+  const clickRefundNoCheckTime = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
+
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("WARRING!!! " +
+        "Bạn chắc chắn muốn refund "+arr.length+" đơn(No check time)!") == true) {
+      dispatch(actions.requestUpdate(orderarr,1,0))
+    }
+    setChecked(false)
+    dispatch(actions.checkedAllChange(false))
+  }
   let  clickCopy = () => {
     const arr:string[]=[]
     copy=""
@@ -311,7 +329,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-7 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tìm thấy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((totalUsshow))}</span> </span>
+              <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#ffffff",backgroundColor:"rgb(9,9,9)"}}>Views Video Youtube</span> <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tìm thấy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((totalUsshow))}</span> </span>
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng chạy {format1(totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{((totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totalmoneyUSshow.toFixed(3))}$</span></span>
               </p>
@@ -325,6 +343,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           className='btn btn-google'
                   >
                     Refunds
+                  </button>
+              )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button style={{marginRight:5,backgroundColor:"rgba(20,122,178,0.66)"}}
+                          onClick={() => {
+                            clickRefundNoCheckTime()
+                          }}
+                          className='btn btn-google'
+                  >
+                    Refunds No Check
                   </button>
               )}
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
@@ -348,11 +376,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   </button>
               )}
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
-                  <button style={{backgroundColor:"rgba(20,122,178,0.66)"}}
-                      onClick={() => {
-                        clickRefund50()
-                      }}
-                      className='btn btn-google'
+                  <button style={{marginRight:5,backgroundColor:"rgba(16,85,159,0.66)"}}
+                          onClick={() => {
+                            clickRefund50()
+                          }}
+                          className='btn btn-google'
                   >
                     R50%
                   </button>

@@ -37,15 +37,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             dispatch(actions.requestUpdateCmt(item.orderid.toString()))
         }
     }
-    const clickDeleteHandler = () => {
-        if (window.confirm("bạn có chắc chắn muốn xóa đơn : "+item.videoid!) == true) {
-            dispatch(actions.deleteOrderRequest(item.videoid))
-        }
-    }
 
 
-    //const subNeedRun = item.view_need - (item.current_view - item.start_view)
-    //const increase = item.current_view - item.start_view
     return (
         <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td  className='w-25px'>
@@ -117,10 +110,16 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
             </td>
             {
-                role === "ROLE_ADMIN"&&item.price!=0&&<td >
+                item.status==null&&role === "ROLE_ADMIN"&&item.price!=0&&<td >
                     <a href='#' onClick={clickUpdateHandler} style={{color:'white',backgroundColor:'rgba(220,13,13,0.97)'}} className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm mr-5'>
                         R
                     </a>
+                </td>
+            }
+            {item.status!=null&&
+                role === "ROLE_ADMIN"&&<td >
+                    <span style={{color:'white',fontSize:11,backgroundColor:item.status.includes("Đã")?"#03d96e":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                    {item.status}</span>
                 </td>
             }
         </tr>

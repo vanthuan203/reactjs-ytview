@@ -85,7 +85,7 @@ const EditModal: React.FC<Props> = ({ item}) => {
             suggestrate,
             timebuff,
             optionbuff,
-            user
+            user,
         }))
      
     }

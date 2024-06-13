@@ -17,6 +17,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { DateRangePicker } from 'rsuite';
 import DatePicker from "react-date-picker";
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 
 type Props = {
@@ -62,6 +63,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
   const [showAddManual, setShowAddManual] = useState(false)
   const [showEditMulti, setShowEditMulti] = useState(false)
   const [keyuser, setKeyUser] = useState("")
+  let[copy,setCopy] =useState("")
   let [keydatestart, setKeyDateStart] = useState(startDate!=null?((startDate.getTime())):0);
   let [keydate, setKeyDate] = useState(1)
   const [keydatestarttrue, setKeyDateStartTrue] = useState(0)
@@ -210,7 +212,12 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
     }
     return false
   })
-
+  const isShowCopy = orders.find((item) => {
+    if (item.status!=null) {
+      return true
+    }
+    return false
+  })
   const clickRefund = () => {
     const arr:string[]=[]
     orders.forEach(item=>{
@@ -228,13 +235,26 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
     dispatch(actions.checkedAllChange(false))
   }
 
+  let  clickCopy = () => {
+    const arr:string[]=[]
+    copy=""
+    setCopy("")
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.status.length>0){
+        copy=copy+item.orderid.toString()+" | "+item.status+"\n"
+      }
+      setCopy(copy)
+    })
+  }
+
   return (
     <div className={`card ${className}`}>
       <div className="page-header" style={{backgroundColor:'#c0e1ce'}}>
         <div className="page-header__content">
           <div className="align-items-center row" style={{margin:10}}>
             <div className="col-lg-7 col-sm-12 c-order__header">
-              <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tìm thấy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((totalUsshow))}</span> </span>
+              <span  className='fw-bolder fs-3 mb-1'><span className='badge badge-success 1' style={{fontSize:12,color:"#ffffff",backgroundColor:"rgb(9,9,9)"}}>Comments Video Youtube</span> <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tìm thấy {totaldordershow}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{format1((totalVnshow))} </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{format1((totalUsshow))}</span> </span>
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1' ><span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)"}}>Tổng chạy {format1(totaltimebuffedordershow)}</span> <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)"}}>Tổng tiền {totalmoneyshow.toFixed(3)}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)"}}>{((totalmoneyshow-totalmoneyUSshow).toFixed(3))}$ </span> <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)"}}>{(totalmoneyUSshow.toFixed(3))}$</span></span>
               </p>
@@ -249,6 +269,14 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                   >
                     Refunds
                   </button>
+              )}
+              { isShowCopy && role === "ROLE_ADMIN"&&(
+                  <CopyToClipboard
+                      text={copy}
+                      onCopy={() => {clickCopy()}}>
+                    <span className='btn btn-google' style={{backgroundColor:"white",color:"black"}}>{copy==""?"Copy Text":"Copied"}</span>
+                  </CopyToClipboard>
+
               )}
             </div>
           </div>
@@ -337,7 +365,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
                   <div style={{marginLeft:5}} className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                         onChange={(evt) => {
-                          dispatch(actions.checkedAllChange(evt.target.checked))
+                          dispatch(actions.checkedAllChangeCmt(evt.target.checked))
                           setChecked(evt.target.checked)
                         }}
                         checked={Checked}

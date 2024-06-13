@@ -49,10 +49,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             dispatch(actions.deleteOrderRequest(item.videoid))
         }
     }
-
-
-    //const subNeedRun = item.view_need - (item.current_view - item.start_view)
-    //const increase = item.current_view - item.start_view
+    
     return (
         <tr style={{margin:100,backgroundColor:item.checked==true?"rgba(252,226,207,0.62)":""}}>
             <td  className='w-25px'>
@@ -129,7 +126,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 }
                 <br/>
                 {
-                    item.info.length>0&&<span className='badge badge-success' style={{color:'rgba(9,9,9,0.58)',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{parseFloat(item.info.split(',')[8])!=0?(new Date(parseFloat(item.info.split(',')[8])).toLocaleDateString('vn-VN').replace("/2023","") +" "+ new Date(parseFloat(item.info.split(',')[8])).toLocaleTimeString('vn-VN')):""}</span>
+                    item.info.length>0&&<span className='badge badge-success' style={{color:'rgba(9,9,9,0.58)',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{parseFloat(item.info.split(',')[8])!=0?(new Date(parseFloat(item.info.split(',')[8])).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(parseFloat(item.info.split(',')[8])).toLocaleTimeString('vn-VN')):""}</span>
                 }
             </td>
             <td>

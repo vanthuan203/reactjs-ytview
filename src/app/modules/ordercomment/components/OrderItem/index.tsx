@@ -72,7 +72,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
             </td>
             <td>
 
-                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5,color:"white",}} href={'https://www.youtube.com/watch?v=' + item.videoid} className='badge badge-danger'>
+                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5,color:"white",}} href={'https://www.youtube.com/watch?v=' + item.videoid+(item.lc_code!=''?('&lc='+item.lc_code):"")} className='badge badge-danger'>
                     {item.videoid}
                 </a>
                 <span>

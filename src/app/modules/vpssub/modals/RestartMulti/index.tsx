@@ -152,23 +152,20 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                     <p style={{fontWeight:'bold'}}>Có Restart VPS?</p>
                     <div className="input-group mb-5">
                         <Input
-                            onChange={(e) => setvpsoption(e.target.value)}
+                            onChange={(e) => setvpsreset(parseInt(e.target.value))}
                             className="form-control form-control-solid"
                             type="select"
                             style={{fontWeight:'bold'}}
-                            value={vpsoption}
+                            value={vpsreset}
                         >
-                            <option key={0} value={"Sub_Pending"}>
-                                {"PENDING"}
+                            <option key={0} value={0}>
+                                {"Không"}
                             </option>
-                            <option key={1} value={"sub"}>
-                                {"SUB"}
+                            <option key={1} value={1}>
+                                {"Restart"}
                             </option>
-                            <option key={2} value={"like"}>
-                                {"LIKE"}
-                            </option>
-                            <option key={3} value={"like_sub"}>
-                                {"LIKE_SUB"}
+                            <option key={2} value={2}>
+                                {"Restart & DelAcc"}
                             </option>
                         </Input>
                     </div>

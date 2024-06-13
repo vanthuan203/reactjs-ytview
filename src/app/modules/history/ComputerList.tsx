@@ -171,6 +171,12 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                 <option key={4} value={"traffic"}>
                   {"PROXY TRAFFIC"}
                 </option>
+                <option key={5} value={"content"}>
+                  {"PROXY CONTENT"}
+                </option>
+                <option key={6} value={"domain"}>
+                  {"PROXY DOMAIN"}
+                </option>
               </Input>
               {addtrue==0&&<button style={{maxWidth:120,color:"white",height:40,marginTop:10,float:"right",marginBottom:20}}
                         onClick={() => {
@@ -247,19 +253,13 @@ const ComputerList: React.FC<Props> = ({ className }) => {
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Ipv4</span>
                 </th>
                 <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Port</span>
+                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Option Setting</span>
                 </th>
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Time</span>
                 </th>
                 <th className='min-w-50px'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>State</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>Geo</span>
-                </th>
-                <th className='min-w-50px'>
-                  <span style={{fontSize:12,color:"black"}} className='text-sm'>TypeProxy</span>
                 </th>
               </tr>
             </thead>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { OrderModel } from 'app/modules/orderhistory/models/Order'
+import { OrderModel } from 'app/modules/ordercommenthistory/models/Order'
 import { actions } from '../../redux/OrdersRedux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {

@@ -16,6 +16,8 @@ export interface OrderModel {
   price:number,
   service:number,
   commentorder:number,
+  geo:string,
+  lc_code:string,
   checked?:boolean
 }
 

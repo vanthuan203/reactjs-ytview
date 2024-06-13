@@ -20,13 +20,32 @@ export interface AccountModel {
   refill:number,
   thread:number,
   type:string,
+  platform:string,
   live:number,
   checktime:number
-  checked?:boolean
+  checked?:boolean,
+  niche:number,
+  playlists:number,
+  expired:number,
+  click_ads:number,
+  click_web:number,
+  keyniche:string
+
+
 }
 export interface OrderModelChecked {
-  username: string,
-  id:number
+  id: number,
+  service:number,
+  platform:string,
+  category:string,
+  type:string,
+  quantity:string,
+  name:string,
+  source:string,
+  geo:string,
+  rate: number,
+  guarantee:string,
+  retention:string
 }
 
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link,useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as auth from '../redux/AuthRedux'
 import { login } from '../redux/AuthCRUD'
@@ -62,7 +62,6 @@ export function Login() {
       }, 1000)
     },
   })
-
   return (
     <form
       className='form w-100'
@@ -78,8 +77,8 @@ export function Login() {
           <Link to='/auth/registration' className='link-primary fw-bolder'>
             Tạo mới tài khoản
           </Link>
-        </div>
-        */}
+        </div>*/}
+
       </div>
       {/* begin::Heading */}
 
@@ -122,13 +121,13 @@ export function Login() {
             <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
             {/* end::Label */}
             {/* begin::Link */}
-            <Link
+            {/*<Link
               to='/auth/forgot-password'
               className='link-primary fs-6 fw-bolder'
               style={{ marginLeft: '5px' }}
             >
               Forgot Password ?
-            </Link>
+            </Link>*/}
             {/* end::Link */}
           </div>
         </div>

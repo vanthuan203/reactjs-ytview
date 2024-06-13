@@ -64,7 +64,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#000000"}}>{item.viewtotal==null?0:item.viewtotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.viewtotal==null?0:item.viewtotal))/item.vieworder*100))+'%'}</span></span>
                     <span style={{color:'white',fontSize:11,backgroundColor:item.timestart!=0?"#03d96e":"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                        {item.timestart!=0?(round((item.enddate-item.timestart)/1000/60)>60?(round((item.enddate-item.timestart)/1000/60)/60).toFixed(2)+'H':round((item.enddate-item.timestart)/1000/60)+'m'):'C'}</span>
+                        {item.timestart!=0?(((item.enddate-item.timestart)/1000/60/60)>=24?((((item.enddate-item.timestart)/1000/60/60/24)).toFixed(2)+'D'):((item.enddate-item.timestart)/1000/60/60)>=1?((item.enddate-item.timestart)/1000/60/60).toFixed(2)+'H':((item.enddate-item.timestart)/1000/60).toFixed(2)+'m'):'C'}</span>
                     <br/>
                 </span>
                 </span>

@@ -31,19 +31,8 @@ const SockItem: React.FC<Props> = ({ item, index }) => {
             <td>
                 <span style={{color:'black',fontWeight:"bold",fontSize:11}}>
                     {new Date(item.timeupdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timeupdate).toLocaleTimeString('vn-VN')}
-                    <span style={{fontSize:11,marginLeft:5,backgroundColor:"#090909",color:"white",}} className='badge badge-danger'>
-                    {item.timeupdate==0?'-':round((Date.now()-item.timeupdate)/1000/60)}m
-                </span>
-                </span>
-            </td>
-            <td>
-                <span style={{fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
-                    {item.ipv4}
-                </span>
-            </td>
-            <td>
-                <span style={{fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
-                    {item.ipv4_old}
+                    <span style={{fontSize:11,marginLeft:5,backgroundColor:"rgba(20,122,178,0.66)",color:"white",}} className='badge badge-danger'>
+                    {((Date.now()-item.timeupdate)/1000/60/60)>=24?((((Date.now()-item.timeupdate)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.timeupdate)/1000/60/60)>=1?((Date.now()-item.timeupdate)/1000/60/60).toFixed(2)+'H':((Date.now()-item.timeupdate)/1000/60).toFixed(0)+'m'}</span>
                 </span>
             </td>
 

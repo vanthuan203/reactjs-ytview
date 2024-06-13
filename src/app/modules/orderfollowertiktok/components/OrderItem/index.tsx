@@ -37,7 +37,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
     const clickDeleteHandler = () => {
         if (window.confirm("bạn có chắc chắn muốn xóa đơn : "+item.orderid!
     ) == true) {
-            dispatch(actions.deleteOrderRequest(item.orderid.toString(),1))
+            dispatch(actions.deleteOrderRequest(item.tiktok_id.toString().trim(),1))
         }
     }
     //const subNeedRun = item.view_need - (item.current_view - item.start_view)
@@ -77,6 +77,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"rgba(241,133,133,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"rgb(9,9,9)"}}>{item.price==null?0:item.price.toPrecision()}</span>$</span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.follower_order}</span></span>
+                    <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.follower_start}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.follower_total==null?0:item.follower_total}</span></span>
                     {(item.max_threads>0||item.follower_total>0)&&<span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.follower_total==null?0:item.follower_total))/item.follower_order*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.follower_total==null?0:item.follower_total))/item.follower_order*100))+'%'}</span></span>}
                     {item.max_threads<=0&&<span style={{color:'white',fontSize:11,backgroundColor:"rgba(20,122,178,0.66)",marginRight:5,marginBottom:5}} className='badge badge-success'>
@@ -108,7 +109,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
                 <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                  {round((Date.now()-item.time_start)/1000/60)>60?(round((Date.now()-item.time_start)/1000/60)/60).toFixed(2)+'H':round((Date.now()-item.time_start)/1000/60)+'m'}</span>
+                  {((Date.now()-item.time_start)/1000/60/60)>=24?((((Date.now()-item.time_start)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.time_start)/1000/60/60)>=1?((Date.now()-item.time_start)/1000/60/60).toFixed(2)+'H':((Date.now()-item.time_start)/1000/60).toFixed(2)+'m'}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.time_start).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.time_start).toLocaleTimeString('vn-VN')}</span>
                 }

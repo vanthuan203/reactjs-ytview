@@ -37,6 +37,28 @@ export interface OrderModel {
   checked?:boolean
 }
 
+export interface OrderModelFollower {
+  orderid:number,
+  tiktok_id:string,
+  price:number,
+  follower_order:number,
+  follower_start:number,
+  follower_total:number,
+  follower_end:number,
+  insert_date:number,
+  end_date:number,
+  cancel:number,
+  service:number
+  note:string,
+  user:string,
+  time_check_refill:number,
+  time_start:number
+  status:string
+  info:string,
+  checked?:boolean
+}
+
+
 export interface OrderModelCmt {
   vieworder:number,
   service:number,
@@ -75,6 +97,7 @@ export interface OrderModelCmt {
   optionbuff:number,
   user:string,
   price:number,
+  status:string,
   checked?:boolean
 }
 export interface OrderModelChecked {

@@ -21,7 +21,8 @@ export interface ProxyModel {
   state:number,
   geo:string,
   numcheck:number,
-  typeproxy:string
+  typeproxy:string,
+  option_setting:string,
   checked?:boolean
 }
 
@@ -29,6 +30,7 @@ export interface AuthenModel {
   ipv4: string,
   timecheck: number,
   lockmode:number,
+  host:string,
   checked?:boolean
 }
 

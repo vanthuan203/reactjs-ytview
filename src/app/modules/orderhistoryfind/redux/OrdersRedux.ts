@@ -3,19 +3,20 @@ import { App } from 'app/App'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { put, takeLatest } from 'redux-saga/effects'
-import { OrderModel,OrderModelCmt, OrderPost,OrderFormManual, OrderForm, Group, OrderUpdateForm } from '../models/Order'
+import { OrderModel,OrderModelCmt,OrderModelFollower, OrderPost,OrderFormManual, OrderForm, Group, OrderUpdateForm } from '../models/Order'
 import {
   getListOrderCmt,
   getListOrder,
   getOrderFilter,
   updateOrder,
   updateOrderCmt,
+  updateOrderFollwer,
   addOrder,
   addGroup,
   addOrderManual,
   updateSetting,
   deleteChannel,
-  addOrderMulti,
+  addOrderMulti, getListOrderFollowerTiktok,
 } from './OrdersCRUD'
 const sleep = (milliseconds: number) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -28,8 +29,10 @@ export const actionTypes = {
   ShowOrdersFilter:'[OrderhistoryFind] Filter',
   RequestOrders: '[OrderhistoryFind] Requested',
   RequestOrderCmt: '[OrderhistoryFind] Requested Cmt',
+  RequestOrderFollowerTiktok: '[OrderhistoryFind] Requested Follower Tiktok',
   OrdersLoadedSuccess: '[OrderhistoryFind] Loaded succcess',
   OrdersLoadedCmtSuccess: '[OrderhistoryFind] Loaded Cmt succcess',
+  OrdersLoadedFollowerTiktokSuccess: '[OrderhistoryFind] Loaded Follower Tiktok succcess',
   OrdersLoadedFail: '[OrderhistoryFind] load fail',
   AddOrderRequest: '[OrderhistoryFind] Add Order Request',
   AddOrderManualRequest: '[OrderhistoryFind] Add Order Manual Request',
@@ -40,10 +43,12 @@ export const actionTypes = {
   ShowcurrentOrderCmt: '[OrderhistoryFind] Show Order Cmt',
   RequestUpdate: '[OrderhistoryFind] Requested Update',
   RequestUpdateCmt: '[OrderhistoryFind] Requested Cmt Update',
+  RequestUpdateFollower: '[OrderhistoryFind] Requested Follower Update',
   UpdateMultiOrderRequest: '[OrderhistoryFind] Update Multi Order Request',
   UpdateSuccess: '[OrderhistoryFind] Update Success',
   UpdateMultiSuccess: '[OrderhistoryFind] Update Multi Success',
   UpdateMultiCmtSuccess: '[OrderhistoryFind] Update  Multi Cmt Success',
+  UpdateMultiFollowerSuccess: '[OrderhistoryFind] Update  Multi Follower Success',
   UpdateFail: '[OrderhistoryFind] Update Fail',
   ClearSelected: '[OrderhistoryFind] Clear selected account',
   GroupLoadedRequest: '[OrderhistoryFind] Group Loaded Request',
@@ -59,18 +64,22 @@ export const actionTypes = {
   DeleteOrderSuccess: '[OrderhistoryFind] Delete Order Success',
   CheckedChange: '[OrderhistoryFind] Checked Change',
   CheckedChangeCmt: '[OrderhistoryFind] Checked Change Cmt',
+  CheckedChangeFollower: '[OrderhistoryFind] Checked Change Follower',
   CheckedAllChange: '[OrderhistoryFind] Checked All Change',
   CheckedAllChangeCmt: '[OrderhistoryFind] Checked All Change Cmt',
+  CheckedAllChangeFollower: '[OrderhistoryFind] Checked All Change Follower',
 }
 
 const initialorderstate: Iorderstate = {
   orders: [],
   ordersCmt: [],
+  ordersFollowerTiktok: [],
   loading: false,
   adding: false,
   groups: [],
   currentOrder: undefined,
   currentOrderCmt: undefined,
+  currentOrderFollowerTiktok: undefined,
   currentGroup: undefined,
   channel_prior: 0,
   
@@ -79,10 +88,12 @@ const initialorderstate: Iorderstate = {
 export interface Iorderstate {
   orders: OrderModel[]
   ordersCmt: OrderModelCmt[]
+  ordersFollowerTiktok: OrderModelFollower[]
   loading: boolean
   adding: boolean
   currentOrder?: OrderModel
   currentOrderCmt?: OrderModelCmt
+  currentOrderFollowerTiktok?: OrderModelFollower
   groups: Group[]
   currentGroup?: Group
   channel_prior: number
@@ -105,6 +116,13 @@ export const reducer = persistReducer(
           loading: true
         }
       }
+      case actionTypes.RequestOrderFollowerTiktok: {
+        return {
+          ...state,
+          ordersFollowerTiktok: [],
+          loading: true
+        }
+      }
       case actionTypes.ShowOrdersFilter: {
         return {
           ...state,
@@ -124,6 +142,13 @@ export const reducer = persistReducer(
         return {
           ...state,
           ordersCmt: action.payload?.orders || [],
+          loading: false
+        }
+      }
+      case actionTypes.OrdersLoadedFollowerTiktokSuccess: {
+        return {
+          ...state,
+          ordersFollowerTiktok: action.payload?.orders || [],
           loading: false
         }
       }
@@ -176,6 +201,12 @@ export const reducer = persistReducer(
         }
       }
       case actionTypes.RequestUpdateCmt: {
+        return {
+          ...state,
+          loading: true
+        }
+      }
+      case actionTypes.RequestUpdateFollower: {
         return {
           ...state,
           loading: true
@@ -243,6 +274,27 @@ export const reducer = persistReducer(
           loading: false,
           adding: false,
           currentOrderCmt: undefined
+        }
+      }
+      case actionTypes.UpdateMultiFollowerSuccess: {
+        const remaporders = state.ordersFollowerTiktok.map((item: OrderModelFollower) => {
+          const findItem = action.payload?.channel_tiktok.find((_item:OrderModelFollower)=>{
+            if(_item.orderid==item.orderid){
+              return true
+            }
+            return false
+          })
+          if(findItem){
+            return findItem
+          }
+          return item
+        })
+        return {
+          ...state,
+          ordersFollowerTiktok: remaporders,
+          loading: false,
+          adding: false,
+          currentOrderFollowerTiktok: undefined
         }
       }
       case actionTypes.UpdateFail: {
@@ -337,6 +389,20 @@ export const reducer = persistReducer(
           })
         }
       }
+      case actionTypes.CheckedChangeFollower: {
+        return {
+          ...state,
+          ordersFollowerTiktok:  state.ordersFollowerTiktok.map(item=>{
+            if(item.orderid===action.payload?.data?.orderid){
+              return {
+                ...item,
+                checked:action?.payload?.data?.checked
+              }
+            }
+            return item
+          })
+        }
+      }
       case actionTypes.CheckedAllChange: {
         return {
           ...state,
@@ -359,6 +425,17 @@ export const reducer = persistReducer(
           })
         }
       }
+      case actionTypes.CheckedAllChangeFollower: {
+        return {
+          ...state,
+          ordersFollowerTiktok:  state.ordersFollowerTiktok.map(item=>{
+            return {
+              ...item,
+              checked:action?.payload?.checked
+            }
+          })
+        }
+      }
       
       
 
@@ -371,9 +448,11 @@ export const reducer = persistReducer(
 export const actions = {
   requestOrders: (user:string) => ({ type: actionTypes.RequestOrders ,payload:{user}}),
   requestOrderCmt: (user:string) => ({ type: actionTypes.RequestOrderCmt ,payload:{user}}),
+  requestOrderFollowerTiktok: (user:string) => ({ type: actionTypes.RequestOrderFollowerTiktok ,payload:{user}}),
   showordersfilter: (key: string,user:string) => ({ type: actionTypes.ShowOrdersFilter ,payload: { key,user }} ),
   fulfillorders: (orders: OrderModel[]) => ({ type: actionTypes.OrdersLoadedSuccess, payload: { orders } }),
   fulfillorderCmt: (orders: OrderModelCmt[]) => ({ type: actionTypes.OrdersLoadedCmtSuccess, payload: { orders } }),
+  fulfillorderFollowerTiktok: (orders: OrderModelFollower[]) => ({ type: actionTypes.OrdersLoadedFollowerTiktokSuccess, payload: { orders } }),
   loadordersFail: (message: string) => ({ type: actionTypes.OrdersLoadedFail, payload: { message } }),
   addOrderRequest: (data: OrderForm) => ({ type: actionTypes.AddOrderRequest, payload: { data } }),
   addOrderManualRequest: (data: OrderFormManual) => ({ type: actionTypes.AddOrderManualRequest, payload: { data } }),
@@ -383,9 +462,11 @@ export const actions = {
   addOrderFail: (message: string) => ({ type: actionTypes.AddOrderFail, payload: { message } }),
   requestUpdate: (orderid: string,mode:number,check:number) => ({ type: actionTypes.RequestUpdate, payload: { orderid,mode,check } }),
   requestUpdateCmt: (orderid: string) => ({ type: actionTypes.RequestUpdateCmt, payload: { orderid } }),
+  requestUpdateFollower: (orderid: string) => ({ type: actionTypes.RequestUpdateFollower, payload: { orderid } }),
   updateSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videoview } }),
   updateMultiSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videoview } }),
   updateMultiCmtSuccess: (videocomment: OrderModelCmt[]) => ({ type: actionTypes.UpdateMultiCmtSuccess, payload: { videocomment } }),
+  updateMultiFollowerSuccess: (channel_tiktok: OrderModelFollower[]) => ({ type: actionTypes.UpdateMultiFollowerSuccess, payload: { channel_tiktok } }),
   updateFail: (message: string) => ({ type: actionTypes.UpdateFail, payload: { message } }),
   showcurrentOrder: (currentOrder: OrderModel) => ({ type: actionTypes.ShowcurrentOrder, payload: { currentOrder } }),
   showcurrentOrderCmt: (currentOrderCmt: OrderModelCmt) => ({ type: actionTypes.ShowcurrentOrderCmt, payload: { currentOrderCmt } }),
@@ -401,8 +482,11 @@ export const actions = {
   deleteOrderSuccess: (videoid: string) => ({ type: actionTypes.DeleteOrderSuccess, payload: { videoid } }),
   checkedChange: (data:{orderid:number,checked:boolean}) => ({ type: actionTypes.CheckedChange, payload: { data } }),
   checkedChangeCmt: (data:{orderid:number,checked:boolean}) => ({ type: actionTypes.CheckedChangeCmt, payload: { data } }),
+  checkedChangeFollower: (data:{orderid:number,checked:boolean}) => ({ type: actionTypes.CheckedChangeFollower, payload: { data } }),
   checkedAllChange: (checked:boolean) => ({ type: actionTypes.CheckedAllChange, payload: { checked } }),
   checkedAllChangeCmt: (checked:boolean) => ({ type: actionTypes.CheckedAllChangeCmt, payload: { checked } }),
+  checkedAllChangeFollower: (checked:boolean) => ({ type: actionTypes.CheckedAllChangeFollower, payload: { checked } }),
+
 }
 
 export function* saga() {
@@ -410,11 +494,25 @@ export function* saga() {
     const payload = param.payload.user
     const { data: orders } = yield getListOrder(payload)
     yield put(actions.fulfillorders(orders.videoview))
+    if(orders.videoview==null){
+      alert("Không tìm thấy thông tin đơn!")
+    }
   })
   yield takeLatest(actionTypes.RequestOrderCmt, function* userRequestedcmt(param: any) {
     const payload = param.payload.user
     const { data: orders } = yield getListOrderCmt(payload)
     yield put(actions.fulfillorderCmt(orders.videocomment))
+    if(orders.videocomment==null){
+      alert("Không tìm thấy thông tin đơn!")
+    }
+  })
+  yield takeLatest(actionTypes.RequestOrderFollowerTiktok, function* userRequestedcmt(param: any) {
+    const payload = param.payload.user
+    const { data: orders } = yield getListOrderFollowerTiktok(payload)
+    yield put(actions.fulfillorderFollowerTiktok(orders.channel_tiktok))
+    if(orders.channel_tiktok==null){
+      alert("Không tìm thấy thông tin đơn!")
+    }
   })
   yield takeLatest(actionTypes.ShowOrdersFilter, function* userRequestedd(param: any) {
     const payload = param.payload
@@ -438,13 +536,22 @@ export function* saga() {
     const { data: result } = yield updateOrderCmt(param.payload.orderid)
     if (result && result.videocomment) {
       yield put(actions.updateMultiCmtSuccess(result.videocomment))
-      console.log(actions.updateMultiCmtSuccess(result.videocomment))
     } else {
       yield put(actions.updateFail(result.message))
     }
 
   })
-  
+
+  yield takeLatest(actionTypes.RequestUpdateFollower, function* updateUserRequestedFollower(param: any) {
+    const { data: result } = yield updateOrderFollwer(param.payload.orderid)
+    if (result && result.channel_tiktok) {
+      yield put(actions.updateMultiFollowerSuccess(result.channel_tiktok))
+    } else {
+      yield put(actions.updateFail(result.message))
+    }
+
+  })
+
   yield takeLatest(actionTypes.AddOrderManualRequest, function* addOrderRequest(param: any) {
     const payload = param.payload.data
     try {
@@ -465,7 +572,6 @@ export function* saga() {
         const { data: result } = yield addOrder(payload)
         if (result && (result.channel||result.channels)) {
           if(payload.channel_id.includes("\n")){
-            console.log("------channels------",result.channels)
             yield put(actions.addOrdersSuccess(result.channels))
           }else{
             yield put(actions.addOrderSuccess(result.channel))

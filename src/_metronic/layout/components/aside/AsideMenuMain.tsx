@@ -60,18 +60,18 @@ export function AsideMenuMain() {
             fontIcon='bi-app-indicator'
         />
         {/*danh sach*/}
-        <button style={{backgroundColor:"rgba(175,202,234,0.97)"}}  onClick={toggleVPS} className={isActive ? "header-cus__active" : ""}> <div className="header-cus__menu-item ">
+        {role === "ROLE_ADMIN" &&<button style={{backgroundColor:"rgba(175,202,234,0.97)"}}  onClick={toggleVPS} className={isActive ? "header-cus__active" : ""}> <div className="header-cus__menu-item ">
             <div className="header-cus__menu-link header-cus__without-sub"  style={{textDecorationLine: 'none', fontWeight: 'bold',marginLeft:9}}>
                       <span className="header-cus__menu-icon">
-                         <span className="svg-icon svg-icon-2">
-                                <KTSVG path="/media/icons/duotune/ecommerce/ecm009.svg" className='svg-icon-2' />
+                         <span style={{fill:"red"}} className="svg-icon svg-icon-2">
+                                <KTSVG  path="/media/icons/duotune/ecommerce/ecm009.svg" className='svg-icon-2' />
                          </span>
                       </span>
                 <span className="header-cus__menu-title">Danh Sách VPS</span>
                 <span className="header-cus__down">⇑</span>
             </div>
         </div>
-        </button>
+        </button>}
         { isVPS && (
             <div>
                 {
@@ -90,11 +90,19 @@ export function AsideMenuMain() {
                         fontIcon='bi-person'
                     />
                 }
+                {
+                    role === "ROLE_ADMIN" && <AsideMenuItem
+                        to='/crafted/listvpstiktok'
+                        title='Danh sách VPS TikTok'
+                        icon='/media/icons/duotune/ecommerce/ecm009.svg'
+                        fontIcon='bi-person'
+                    />
+                }
             </div>
 
         ) }
 
-        <button style={{backgroundColor:"rgba(198,240,246,0.84)"}}  onClick={toggleProxy} className={isActiveProxy ? "header-cus__active" : ""}>
+        {role === "ROLE_ADMIN" &&<button style={{backgroundColor:"rgba(198,240,246,0.84)"}}  onClick={toggleProxy} className={isActiveProxy ? "header-cus__active" : ""}>
             <div className="header-cus__menu-item">
                 <div className="header-cus__menu-link header-cus__without-sub"  style={{textDecorationLine: 'none', fontWeight: 'bold',marginLeft:9}}>
                       <span className="header-cus__menu-icon">
@@ -106,7 +114,7 @@ export function AsideMenuMain() {
                     <span className="header-cus__down">⇑</span>
                 </div>
             </div>
-        </button>
+        </button>}
         { isProxy && (
             <div>
                 {
@@ -169,14 +177,14 @@ export function AsideMenuMain() {
                     children={AsideMenuMain}
                     to='/crafted/orderpending'
                     title='Đơn Views Pending'
-                    icon='/media/icons/duotune/general/gen012.svg'
+                    icon='/media/icons/duotune/social/soc007.svg'
                     fontIcon='bi-app-indicator'
                 />
                 {
                     (role === "ROLE_ADMIN" || role==="ROLE_SUPPORT") &&  <AsideMenuItem
                         to='/crafted/ordercheck'
                         title='Đơn Views duyệt hủy'
-                        icon='/media/icons/duotune/general/gen042.svg'
+                        icon='/media/icons/duotune/social/soc007.svg'
                         fontIcon='bi-app-indicator'
                     />
                 }
@@ -185,14 +193,14 @@ export function AsideMenuMain() {
                     (role === "ROLE_ADMIN" || role==="ROLE_SUPPORT") &&  <AsideMenuItem
                         to='/crafted/orderbaohanh'
                         title='Bảo hành & Hoàn Tiền'
-                        icon='/media/icons/duotune/general/gen026.svg'
+                        icon='/media/icons/duotune/social/soc007.svg'
                         fontIcon='bi-app-indicator'
                     />
                 }
                 <AsideMenuItem
                     to='/crafted/orderhistory'
                     title='Lịch sử Views'
-                    icon='/media/icons/duotune/graphs/gra011.svg'
+                    icon='/media/icons/duotune/social/soc007.svg'
                     fontIcon='bi-app-indicator'
                 />
             </div>
@@ -221,7 +229,7 @@ export function AsideMenuMain() {
                 <AsideMenuItem
                     to='/crafted/ordercommenthistory'
                     title='Lịch sử Comments'
-                    icon='/media/icons/duotune/graphs/gra011.svg'
+                    icon='/media/icons/duotune/communication/com003.svg'
                     fontIcon='bi-app-indicator'
                 />
             </div>
@@ -251,7 +259,7 @@ export function AsideMenuMain() {
                 <AsideMenuItem
                     to='/crafted/ordertraffiwebhistory'
                     title='Lịch sử Traffic Website'
-                    icon='/media/icons/duotune/graphs/gra011.svg'
+                    icon='/media/icons/duotune/graphs/gra005.svg'
                     fontIcon='bi-app-indicator'
                 />
             </div>
@@ -275,6 +283,12 @@ export function AsideMenuMain() {
                 <AsideMenuItem
                     to='/crafted/orderfollowertiktok'
                     title='Đơn Follower TikTok'
+                    icon='/media/icons/duotune/social/soc008.svg'
+                    fontIcon='bi-app-indicator'
+                />
+                <AsideMenuItem
+                    to='/crafted/orderfollowerstiktokhistory'
+                    title='Lịch sử Follower Tiktok'
                     icon='/media/icons/duotune/social/soc008.svg'
                     fontIcon='bi-app-indicator'
                 />

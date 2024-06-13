@@ -13,6 +13,11 @@ export async function getListOrderCmt(videoid:string) {
   return res
 }
 
+export async function getListOrderFollowerTiktok(tiktok_id:string) {
+  const res:any = await getFunciton("channel_tiktok/findorder?tiktok_id="+tiktok_id)
+  return res
+}
+
 export async function getOrderFilter(key:string,user:string) {
   const res:any = await getFunciton("videobuffh/getorderfilterbuffhhistory?key="+key+'&user='+user)
   return res
@@ -29,7 +34,7 @@ export async function updateOrder(orderid:string,mode:number,check:number) {
     const res:any = await getFunciton("videoview/updateRefundHis?orderid="+orderid+"&checkview="+check)
     return res
   }else{
-    const res:any = await getFunciton("videoview/updateRefillHis?orderid="+orderid+"&checkview="+check)
+    const res:any = await getFunciton("videoview/updateRefillHis?orderid="+orderid+"&check_time="+check)
     return res
   }
 
@@ -37,6 +42,11 @@ export async function updateOrder(orderid:string,mode:number,check:number) {
 
 export async function updateOrderCmt(orderid:string) {
   const res:any = await getFunciton("videocomment/updateRefundHis?orderid="+orderid)
+  return res
+}
+
+export async function updateOrderFollwer(orderid:string) {
+  const res:any = await getFunciton("channel_tiktok/updateRefundHis?orderid="+orderid)
   return res
 }
 
