@@ -69,7 +69,7 @@ const UserItem : React.FC<Props> = ({ item ,index}) => {
                                     {((Date.now()-item.timegettask)/1000/60/60)>=24?((((Date.now()-item.timegettask)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.timegettask)/1000/60/60)>=1?((Date.now()-item.timegettask)/1000/60/60).toFixed(2)+'H':((Date.now()-item.timegettask)/1000/60).toFixed(0)+'m'}
                                 </text>
                             </span>}
-                            {item.acccount>0&&<button
+                            {<button
                                 onClick={()=>clickHandler()}
                                 className='btn btn-icon'
                             >

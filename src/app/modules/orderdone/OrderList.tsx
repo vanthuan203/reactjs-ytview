@@ -505,6 +505,33 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                   <option key={110} value={110}>
                     {"110"}
                   </option>
+                  <option key={120} value={120}>
+                    {"120"}
+                  </option>
+                  <option key={130} value={130}>
+                    {"130"}
+                  </option>
+                  <option key={140} value={140}>
+                    {"140"}
+                  </option>
+                  <option key={150} value={150}>
+                    {"150"}
+                  </option>
+                  <option key={160} value={160}>
+                    {"160"}
+                  </option>
+                  <option key={170} value={170}>
+                    {"170"}
+                  </option>
+                  <option key={180} value={180}>
+                    {"180"}
+                  </option>
+                  <option key={190} value={190}>
+                    {"190"}
+                  </option>
+                  <option key={200} value={200}>
+                    {"200"}
+                  </option>
                 </Input>
                 {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
                     //onChange={(e) => setKeyRate(parseInt(e.target.value))}

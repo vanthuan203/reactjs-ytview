@@ -140,7 +140,7 @@ const Topbar: FC = () => {
         {isMobile==false&&(user.role==='ROLE_ADMIN')&&<div className="align-items-top row" style={{marginRight:15}}>
             <div style={{width:"100%",display: "flex",alignItems:"center",justifyItems:"center"}}>
                 <div className="pl-0 text-left">
-                   <span  style={{textAlign:"center",fontWeight:"bold",fontFamily:"monospace"}}>{fluctuationsNow +" 🕐 𝐋𝐀𝐒𝐓 𝟓𝐌 +" +countPrice.toFixed(3)+ "$" }</span>
+                   <span  style={{textAlign:"center",fontWeight:"bold",fontFamily:"cursive"}}>{fluctuationsNow +" 🕐 𝐋𝐀𝐒𝐓 𝟓𝐌 "} <span style={{color:"#bb0707",fontFamily:"cursive",fontSize:15}}>{countPrice.toFixed(3)+"$"}</span></span>
                 </div>
             </div>
         </div>}

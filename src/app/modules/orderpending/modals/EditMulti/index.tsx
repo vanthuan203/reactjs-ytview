@@ -20,7 +20,10 @@ type Props = {
 }
 const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
     console.log(listvieoid);
-    const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    let role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
     const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
     const adding: boolean = useSelector<RootState>(({ orderpending }) => orderpending.adding, shallowEqual) as boolean || false
@@ -119,7 +122,7 @@ const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
             modalTransition={{ timeout: 500 }}>
             <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title">Sửa luồng</h5>
+                    <h5 className="modal-title">Ưu tiên</h5>
                     <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" aria-label="Close">
                         <span className="svg-icon svg-icon-2x"></span>
                     </div>
