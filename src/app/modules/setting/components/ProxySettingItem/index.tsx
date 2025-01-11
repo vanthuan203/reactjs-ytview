@@ -69,7 +69,7 @@ const ProxySettingItem : React.FC<Props> = ({ item ,index}) => {
             </td>
             <td >
                     <span style={{color:'black',fontWeight:"bold",fontSize:11}}>
-                        {new Date(item.timeupdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.timeupdate).toLocaleTimeString('vn-VN')}
+                        {new Date(item.timeupdate).toLocaleDateString('vn-VN').replace("//2025","") +" "+ new Date(item.timeupdate).toLocaleTimeString('vn-VN')}
                     </span>
             </td>
             <td>

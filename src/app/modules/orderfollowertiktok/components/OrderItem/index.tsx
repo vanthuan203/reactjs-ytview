@@ -100,7 +100,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {item.service}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insert_date).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insert_date).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insert_date).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insert_date).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>
@@ -111,7 +111,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {((Date.now()-item.time_start)/1000/60/60)>=24?((((Date.now()-item.time_start)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.time_start)/1000/60/60)>=1?((Date.now()-item.time_start)/1000/60/60).toFixed(2)+'H':((Date.now()-item.time_start)/1000/60).toFixed(2)+'m'}</span>
                 {
-                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.time_start).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.time_start).toLocaleTimeString('vn-VN')}</span>
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.time_start).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.time_start).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>

@@ -76,7 +76,7 @@ const UserList: React.FC<Props> = ({ className, accounts }) => {
     retention:""
   }])
   async function getOptionService() {
-    let  requestUrl = API_URL+'servive/getOptionService';
+    let  requestUrl = API_URL+'service/getOptionService';
     const response = await fetch(requestUrl, {
       method: 'get',
       headers: new Headers({

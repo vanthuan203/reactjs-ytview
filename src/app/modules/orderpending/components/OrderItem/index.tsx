@@ -94,7 +94,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5}} className='badge badge-success'>
                   {item.service}</span>
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>

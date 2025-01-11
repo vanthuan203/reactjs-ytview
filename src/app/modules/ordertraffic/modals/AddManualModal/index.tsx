@@ -57,7 +57,7 @@ const AddManualModal: React.FC<Props> = ({ show, close }) => {
 
 
     async function getcounttimeorder() {
-        let  requestUrl = API_URL+'servive/getallservicetraffic?role='+role;
+        let  requestUrl = API_URL+'service/getallservicetraffic?role='+role;
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({

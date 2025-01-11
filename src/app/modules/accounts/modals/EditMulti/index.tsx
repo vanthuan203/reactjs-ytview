@@ -43,7 +43,7 @@ const EditMulti: React.FC<Props> = ({list_vps, show,close }) => {
     },])
     let [useEff, setuseEff] = useState(0)
     async function getallgeo() {
-        let  requestUrl = API_URL+'servive/getallgeo';
+        let  requestUrl = API_URL+'service/getallgeo';
         const response = await fetch(requestUrl, {
             method: 'get',
             headers: new Headers({

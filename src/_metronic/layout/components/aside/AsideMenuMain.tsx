@@ -269,10 +269,10 @@ export function AsideMenuMain() {
                 <div className="header-cus__menu-link header-cus__without-sub"  style={{textDecorationLine: 'none', fontWeight: 'bold',marginLeft:9}}>
                       <span className="header-cus__menu-icon">
                          <span className="svg-icon svg-icon-2">
-                                <KTSVG path="/media/icons/duotune/social/soc008.svg" className='svg-icon-2' />
+                                <KTSVG path="/media/icons/duotune/general/gen026.svg" className='svg-icon-2' />
                          </span>
                       </span>
-                    <span className="header-cus__menu-title">Follower TikTok</span>
+                    <span className="header-cus__menu-title">SMM</span>
                     <span className="header-cus__down">⇑</span>
 
                 </div>
@@ -281,15 +281,27 @@ export function AsideMenuMain() {
         { isFollowerTiktok && (
             <div>
                 <AsideMenuItem
-                    to='/crafted/orderfollowertiktok'
-                    title='Đơn Follower TikTok'
-                    icon='/media/icons/duotune/social/soc008.svg'
+                    to='/crafted/ordersmmfindhistory'
+                    title='Quick search'
+                    icon='/media/icons/duotune/general/gen004.svg'
                     fontIcon='bi-app-indicator'
                 />
                 <AsideMenuItem
-                    to='/crafted/orderfollowerstiktokhistory'
-                    title='Lịch sử Follower Tiktok'
-                    icon='/media/icons/duotune/social/soc008.svg'
+                    to='/crafted/orderasmm'
+                    title='Orders Running'
+                    icon='/media/icons/duotune/general/gen026.svg'
+                    fontIcon='bi-app-indicator'
+                />
+                <AsideMenuItem
+                    to='/crafted/orderrefill'
+                    title='Orders Refill'
+                    icon='/media/icons/duotune/general/gen026.svg'
+                    fontIcon='bi-app-indicator'
+                />
+                <AsideMenuItem
+                    to='/crafted/ordersmmhistory'
+                    title='Orders History'
+                    icon='/media/icons/duotune/general/gen026.svg'
                     fontIcon='bi-app-indicator'
                 />
             </div>

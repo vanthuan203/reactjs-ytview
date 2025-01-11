@@ -70,12 +70,12 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'white',fontSize:11,backgroundColor:item.service<600?"rgba(34,126,231,0.97)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                     {item.service}</span>
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insert_date).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.insert_date).toLocaleTimeString('vn-VN')}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.insert_date).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insert_date).toLocaleTimeString('vn-VN')}</span>
                 }
             </td>
             <td >
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.time_start!=0?(new Date(item.time_start).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.time_start).toLocaleTimeString('vn-VN')):""}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.time_start!=0?(new Date(item.time_start).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.time_start).toLocaleTimeString('vn-VN')):""}</span>
                 }
             </td>
             <td>
@@ -86,7 +86,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
                 }
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.end_date).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.end_date).toLocaleTimeString('vn-VN')}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{new Date(item.end_date).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.end_date).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>
@@ -94,7 +94,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {(item.follower_end>-1&&item.follower_end!=null)&&<span  style={{color:'white',fontSize:11,backgroundColor:item.follower_end>=(item.follower_start+item.follower_order)?"rgba(16,128,201,0.66)":"#b7080f",marginRight:5,marginBottom:5}} className='badge badge-success'>
                     {item.follower_end}</span>}
                 {
-                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.time_check_refill>0?(new Date(item.time_check_refill).toLocaleDateString('vn-VN').replace("/2024","") +" "+ new Date(item.time_check_refill).toLocaleTimeString('vn-VN')):""}</span>
+                    <span className='badge badge-success' style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5,backgroundColor:"white"}} >{item.time_check_refill>0?(new Date(item.time_check_refill).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.time_check_refill).toLocaleTimeString('vn-VN')):""}</span>
                 }
             </td>
             {role!="ROLE_USER"&&<td>
