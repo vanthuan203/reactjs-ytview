@@ -33,6 +33,8 @@ export interface OrderModel {
   user:string,
   price:number,
   geo:string,
+  ai:number,
+  live:number,
   checked?:boolean
 }
 export interface OrderModelChecked {

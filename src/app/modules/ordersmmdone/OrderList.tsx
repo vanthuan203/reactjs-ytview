@@ -267,7 +267,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 </p>
               </div>
               <div className="col-lg-5 col-sm-12 text-right">
-                {isShowFixMulti && role === "ROLE_ADMIN"&&(
+                {isShowFixMulti &&(
                     <button style={{marginRight:5}}
                             onClick={() => {
                               clickDeleteHandler()
@@ -323,6 +323,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 >
                   Add Link
                 </button>
+                {role === "ROLE_ADMIN111"&&
                 <button style={{margin:5,backgroundColor:"#da6f6f"}}
                     onClick={() => {
                       setShowManual(true)
@@ -330,7 +331,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                     className='btn btn-success'
                 >
                   Add channel ID
-                </button>
+                </button>}
               </div>
 
             </div>
@@ -533,7 +534,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 <th className='min-w-50px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Mode</span>
                 </th>
-                <th className='min-w-200px text-sm'>
+                <th className='min-w-300px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Info</span>
                 </th>
                 {role!="ROLE_USER"&&<th className='min-w-60px text-sm'>

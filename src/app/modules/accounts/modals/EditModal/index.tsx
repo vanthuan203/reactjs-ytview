@@ -20,7 +20,7 @@ const EditModal: React.FC<Props> = ({ item }) => {
     const dispatch = useDispatch()
     const API_URL = process.env.REACT_APP_API_URL
     const [vpsoption, setvpsoption] = useState(item.vpsoption)
-    const [vpsreset, setvpsreset] = useState(0)
+    let [vpsreset, setvpsreset] = useState(0)
     const [get_account, setget_account] = useState(item.get_account)
     const [threads, setthreads] = useState(item.threads)
     const [ext, setext] = useState(item.ext)
@@ -69,6 +69,19 @@ const EditModal: React.FC<Props> = ({ item }) => {
         const {status} = responseJson;
         return status
     }
+    async function resetrunnin0gacc(vps:string) {
+        let  requestUrl = API_URL+'vps/resetrunningaccbyvps?vps='+vps;
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {status} = responseJson;
+        return status
+    }
     async function resetrunningacccmt(vps:string) {
         let  requestUrl = API_URL+'accview/dellAccCmtByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
@@ -86,6 +99,11 @@ const EditModal: React.FC<Props> = ({ item }) => {
         dispatch(actions.clearCurrentAccount())
     }
     const updateUser = () => {
+        if(vpsreset==-1){
+            resetrunnin0gacc(item.vps.trim())
+            vpsreset=0
+            setvpsreset(0)
+        }
         if(vpsreset==3){
             resetrunningacc(item.vps.trim())
         }
@@ -191,6 +209,9 @@ const EditModal: React.FC<Props> = ({ item }) => {
                         >
                             <option key={0} value={0}>
                                 {"Không"}
+                            </option>
+                            <option key={-1} value={-1}>
+                                {"Reset Running Acc"}
                             </option>
                             <option key={2} value={2}>
                                 {"Restart"}

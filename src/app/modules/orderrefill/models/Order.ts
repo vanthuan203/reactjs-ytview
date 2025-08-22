@@ -22,6 +22,8 @@ export interface OrderModel {
   bonus:number,
   priority:number,
   update_current_time:number
+  bonus_check:number,
+  total_check: number,
   
   checked?:boolean
 }

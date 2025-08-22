@@ -103,7 +103,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                         </span>
                     </span>}
                     <br/>
-                     <span style={{fontSize:10,color:"darkgray"}}>{item.order_link.trim()}</span>
+                     <span style={{wordBreak:"break-word",textAlign:"left",fontSize:10,color:"darkgray"}}>{item.order_link.trim()}</span>
                 </span>
 
             </td>

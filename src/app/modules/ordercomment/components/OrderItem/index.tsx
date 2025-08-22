@@ -66,7 +66,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span className='text-muted fw-bold text-muted d-block text-sm'>{index}</span>
             </td>
             <td>
-                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
+                <a  target="_blank" style={{textDecorationLine:'none',fontSize:11,backgroundColor:item.service>2000?"rgba(72,67,239,0.97)":item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f"),marginRight:5,marginBottom:5,color:"white",}} href={API_URL+'videoview/getinfo?orderid=' + item.orderid} className='badge badge-danger'>
                     {item.orderid}
                 </a>
             </td>
@@ -80,7 +80,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Order <span style={{color:"#ffffff"}}>{item.commentorder}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.commentstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.commenttotal==null?0:item.commenttotal}</span></span>
-                    <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Completed <span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span></span>
+                    <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span></span>
                     <br/>
                 </span>
 
@@ -96,10 +96,22 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {//{item.service<600?<img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
                     //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
                 }
-                <span style={{color:'white',fontSize:11,backgroundColor:item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f")}} className='badge badge-success'>
+                <span style={{color:'white',fontSize:11,backgroundColor:item.service>2000?"rgba(72,67,239,0.97)":item.service>1000?"rgba(3,37,80,0.97)":(item.service<600?"rgba(34,126,231,0.97)":"#b7080f")}} className='badge badge-success'>
                   {item.service}</span>
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
+                }
+                <span style={{color:'white',fontSize:11,backgroundColor:"#b7080f"}} className='badge badge-success'>{item.note}</span>
+
+            </td>
+            <td>
+                {//{item.service<600?<img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/united-states.svg')} alt='metronic' />:
+                    //    <img style={{width:20,height:20,marginRight:5,marginBottom:5,borderImage:"-moz-initial",float:"left",borderRadius:3}} src={toAbsoluteUrl('/media/flags/vietnam.svg')} alt='metronic' />}
+                }
+                <span style={{color:'white',fontSize:11,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                  {((Date.now()-item.insertdate)/1000/60/60)>=24?((((Date.now()-item.insertdate)/1000/60/60/24)).toFixed(2)+'D'):((Date.now()-item.insertdate)/1000/60/60)>=1?((Date.now()-item.insertdate)/1000/60/60).toFixed(2)+'H':((Date.now()-item.insertdate)/1000/60).toFixed(2)+'m'}</span>
+                {
+                    <span style={{color:'black',fontWeight:"bold",fontSize:11,marginRight:5,marginBottom:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
 
             </td>
@@ -107,7 +119,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.user.replace("@gmail.com","")}</span>
             </td>}
             <td>
-                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
+                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.live==1?"‍👁️‍🗨️️":""}{(item.ai==1?"🤖":item.ai==2?"🤖🤖":" ")}</span>
             </td>
 
             {

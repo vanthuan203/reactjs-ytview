@@ -62,6 +62,8 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.commentstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.commenttotal==null?0:item.commenttotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span></span>
+                    <span style={{color:'white',fontSize:11,backgroundColor:item.insertdate!=0?"#03d96e":"rgba(218,30,30,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                        {item.insertdate!=0?(((item.enddate-item.timestart)/1000/60/60)>=24?((((item.enddate-item.insertdate)/1000/60/60/24)).toFixed(2)+'D'):((item.enddate-item.insertdate)/1000/60/60)>=1?((item.enddate-item.insertdate)/1000/60/60).toFixed(2)+'H':((item.enddate-item.insertdate)/1000/60).toFixed(2)+'m'):'C'}</span>
                     <br/>
                 </span>
                 </span>
@@ -92,7 +94,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.user.replace("@gmail.com","")}</span>
             </td>}
             <td>
-                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.note}</span>
+                <span style={{color:'black',fontSize:11,fontWeight:'bold'}} >{item.live==1?"‍👁️‍🗨️️":""}{item.ai==1?"🤖":""+item.note}</span>
             </td>
         </tr>
     )

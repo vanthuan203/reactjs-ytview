@@ -30,8 +30,8 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
 
     const [vpsoption, setvpsoption] = useState('Pending')
     const [threads, setthreads] = useState(0)
-    const [get_account, setget_account] = useState(0)
-    const [vpsreset, setvpsreset] = useState(0)
+    const [get_account, setget_account] = useState(1)
+    let [vpsreset, setvpsreset] = useState(0)
     const [ext, setext] = useState(1)
     const [cmt, setcmt] = useState(1)
     const [proxy, setproxy] = useState(1)
@@ -81,6 +81,21 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
         const {status} = responseJson;
         return status
     }
+
+    async function resetrunnin0gacc(vps:string) {
+        let  requestUrl = API_URL+'vps/resetrunningaccbyvps?vps='+vps;
+        const response = await fetch(requestUrl, {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': '1',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            })
+        });
+        const responseJson = await response.json();
+        const {status} = responseJson;
+        return status
+    }
+
     async function resetrunningacccmt(vps:string) {
         let  requestUrl = API_URL+'accview/dellAccCmtByVPS?vps='+vps;
         const response = await fetch(requestUrl, {
@@ -102,6 +117,13 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                 arr.push(item.vps)
             }
         })
+        if(vpsreset==-1){
+            for(var i=0;i<arr.length;i++){
+                resetrunnin0gacc(arr[i].trim())
+            }
+            vpsreset=0
+            setvpsreset(0)
+        }
         if(vpsreset==3){
             for(var i=0;i<arr.length;i++){
                 resetrunningacc(arr[i].trim())
@@ -160,6 +182,9 @@ const RestartMulti: React.FC<Props> = ({list_vps, show,close }) => {
                         >
                             <option key={0} value={0}>
                                 {"Không"}
+                            </option>
+                            <option key={-1} value={-1}>
+                                {"Reset Running Acc"}
                             </option>
                             <option key={2} value={2}>
                                 {"Restart"}

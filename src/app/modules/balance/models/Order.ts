@@ -5,6 +5,8 @@ export interface OrderModel {
   totalbalance:number,
   user:string,
   service:number,
+  ai:number,
+  task:string,
   geo:string,
   note:string
 }

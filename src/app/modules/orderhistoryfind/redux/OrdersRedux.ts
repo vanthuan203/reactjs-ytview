@@ -10,6 +10,7 @@ import {
   getOrderFilter,
   updateOrder,
   updateOrderCmt,
+  updateOrderCmt100,
   updateOrderFollwer,
   addOrder,
   addGroup,
@@ -43,6 +44,7 @@ export const actionTypes = {
   ShowcurrentOrderCmt: '[OrderhistoryFind] Show Order Cmt',
   RequestUpdate: '[OrderhistoryFind] Requested Update',
   RequestUpdateCmt: '[OrderhistoryFind] Requested Cmt Update',
+  RequestUpdateCmt100: '[OrderhistoryFind] Requested Cmt 100 Update',
   RequestUpdateFollower: '[OrderhistoryFind] Requested Follower Update',
   UpdateMultiOrderRequest: '[OrderhistoryFind] Update Multi Order Request',
   UpdateSuccess: '[OrderhistoryFind] Update Success',
@@ -201,6 +203,12 @@ export const reducer = persistReducer(
         }
       }
       case actionTypes.RequestUpdateCmt: {
+        return {
+          ...state,
+          loading: true
+        }
+      }
+      case actionTypes.RequestUpdateCmt100: {
         return {
           ...state,
           loading: true
@@ -462,6 +470,7 @@ export const actions = {
   addOrderFail: (message: string) => ({ type: actionTypes.AddOrderFail, payload: { message } }),
   requestUpdate: (orderid: string,mode:number,check:number) => ({ type: actionTypes.RequestUpdate, payload: { orderid,mode,check } }),
   requestUpdateCmt: (orderid: string) => ({ type: actionTypes.RequestUpdateCmt, payload: { orderid } }),
+  requestUpdateCmt100: (orderid: string) => ({ type: actionTypes.RequestUpdateCmt100, payload: { orderid } }),
   requestUpdateFollower: (orderid: string) => ({ type: actionTypes.RequestUpdateFollower, payload: { orderid } }),
   updateSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateSuccess, payload: { videoview } }),
   updateMultiSuccess: (videoview: OrderModel[]) => ({ type: actionTypes.UpdateMultiSuccess, payload: { videoview } }),
@@ -534,6 +543,15 @@ export function* saga() {
 
   yield takeLatest(actionTypes.RequestUpdateCmt, function* updateUserRequestedCmt(param: any) {
     const { data: result } = yield updateOrderCmt(param.payload.orderid)
+    if (result && result.videocomment) {
+      yield put(actions.updateMultiCmtSuccess(result.videocomment))
+    } else {
+      yield put(actions.updateFail(result.message))
+    }
+
+  })
+  yield takeLatest(actionTypes.RequestUpdateCmt100, function* updateUserRequestedCmt(param: any) {
+    const { data: result } = yield updateOrderCmt100(param.payload.orderid)
     if (result && result.videocomment) {
       yield put(actions.updateMultiCmtSuccess(result.videocomment))
     } else {

@@ -19,6 +19,8 @@ export interface OrderModel {
   service:number,
   vieworder:number,
   geo:string,
+  ai:number,
+  live:number,
   checked?:boolean
 }
 

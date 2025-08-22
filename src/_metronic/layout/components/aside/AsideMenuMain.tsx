@@ -292,12 +292,15 @@ export function AsideMenuMain() {
                     icon='/media/icons/duotune/general/gen026.svg'
                     fontIcon='bi-app-indicator'
                 />
-                <AsideMenuItem
+                {
+                    (role === "ROLE_ADMIN" || role==="ROLE_SUPPORT") &&
+                    <AsideMenuItem
                     to='/crafted/orderrefill'
                     title='Orders Refill'
                     icon='/media/icons/duotune/general/gen026.svg'
                     fontIcon='bi-app-indicator'
                 />
+                }
                 <AsideMenuItem
                     to='/crafted/ordersmmhistory'
                     title='Orders History'
@@ -320,12 +323,15 @@ export function AsideMenuMain() {
                 fontIcon='bi-app-indicator'
             />
         }
-        <AsideMenuItem
+        {
+            (role === "ROLE_ADMIN" || role==="ROLE_SUPPORT") &&
+            <AsideMenuItem
             to='/crafted/service'
             title='Danh sách dịch vụ'
             icon='/media/icons/duotune/general/gen025.svg'
             fontIcon='bi-app-indicator'
         />
+        }
         {
             (role === "ROLE_ADMIN" || role==="ROLE_SUPPORT") && <AsideMenuItem
                 to='/crafted/user'

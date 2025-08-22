@@ -38,6 +38,8 @@ export interface OrderModel {
   price:number,
   lc_code:string,
   geo:string,
+  ai:number,
+  live:number,
   checked?:boolean
 }
 export interface OrderModelChecked {

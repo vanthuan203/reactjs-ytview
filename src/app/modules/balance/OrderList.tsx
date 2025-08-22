@@ -51,12 +51,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   const [endDate, setEndDate] = useState(today);
 
   const [keyuser, setKeyUser] = useState("")
+  const [keytask, setKeyTask] = useState("")
+  const [keyai, setKeyAi] = useState(-1)
   let [keydatestart, setKeyDateStart] = useState(startDate!=null?((startDate.getTime())+(startDate.getTimezoneOffset()*60*1000)):0);
   let [keydate, setKeyDate] = useState(1)
   const [keydatestarttrue, setKeyDateStartTrue] = useState(1)
   let [keydateend, setKeyDateEnd] = useState(endDate!=null?((endDate.getTime())+(endDate.getTimezoneOffset()*60*1000)):0);
   const [keydateendtrue, setKeyDateEndTrue] = useState(1)
   const [keyusertrue, setKeyUserTrue] = useState(0)
+  const [keyaitrue, setKeyAiTrue] = useState(0)
+  const [keytasktrue, setKeyTaskTrue] = useState(0)
   const [groupName, setGroupName] = useState('')
   const [nameExport, setNameExport] = useState('')
   let [totaltimebuffedorder, setTotalTimeBuffedOrder] = useState(0)
@@ -64,20 +68,26 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaldorder, setTotalOrder] = useState(0)
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totaldordervn, setTotalOrderVN] = useState(0)
+  let [totaldorderjp, setTotalOrderJP] = useState(0)
   let [totaldorderkr, setTotalOrderKR] = useState(0)
   let [totaldorderVnshow, setTotalOrderVNShow] = useState(0)
+  let [totaldorderJpshow, setTotalOrderJPShow] = useState(0)
   let [totaldorderKrshow, setTotalOrderKRShow] = useState(0)
   let [totaladd, setTotalAdd] = useState(0)
   let [totaladdshow, setTotalAddShow] = useState(0)
   let [totaladdvn, setTotalAddVN] = useState(0)
+  let [totaladdjp, setTotalAddJP] = useState(0)
   let [totaladdkr, setTotalAddKR] = useState(0)
   let [totaladdvnshow, setTotalAddVNShow] = useState(0)
+  let [totaladdjpshow, setTotalAddJPShow] = useState(0)
   let [totaladdkrshow, setTotalAddKRShow] = useState(0)
   let [totalsub, setTotalSub] = useState(0)
   let [totalsubshow, setTotalSubShow] = useState(0)
   let [totalsubvn, setTotalSubVN] = useState(0)
+  let [totalsubjp, setTotalSubJP] = useState(0)
   let [totalsubkr, setTotalSubKR] = useState(0)
   let [totalsubvnshow, setTotalSubVNShow] = useState(0)
+  let [totalsubjpshow, setTotalSubJPShow] = useState(0)
   let [totalsubkrshow, setTotalSubKRShow] = useState(0)
   let [useEff, setuseEff] = useState(0)
   const role: string =
@@ -139,6 +149,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalAddVNShow(totaladdvnshow)
     setTotalAddVN(0)
 
+    totaladdjpshow=totaladdjp
+    setTotalAddJPShow(totaladdjpshow)
+    setTotalAddJP(0)
+
     totaladdkrshow=totaladdkr
     setTotalAddKRShow(totaladdkrshow)
     setTotalAddKR(0)
@@ -146,6 +160,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totalsubvnshow=totalsubvn
     setTotalSubVNShow(totalsubvnshow)
     setTotalSubVN(0)
+
+    totalsubjpshow=totalsubjp
+    setTotalSubJPShow(totalsubjpshow)
+    setTotalSubJP(0)
 
     totalsubkrshow=totalsubkr
     setTotalSubKRShow(totalsubkrshow)
@@ -172,7 +190,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalOrderVNShow(totaldorderVnshow)
     totaldordervn=0
     totaldorderKrshow=totaldorderkr
+    totaldorderJpshow=totaldorderjp
     setTotalOrderKRShow(totaldorderKrshow)
+    setTotalOrderJPShow(totaldorderJpshow)
+    totaldorderjp=0
     totaldorderkr=0
     totaladdshow=totaladd
     setTotalAddShow(totaladdshow)
@@ -187,7 +208,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     handleWindowResize();
     window.addEventListener('resize', handleWindowResize);
 
-  }, [keydate,keydatestart,keydateend,startDate,endDate,keyuser,orders.length,,])
+  }, [keydate,keydatestart,keydateend,startDate,endDate,keyuser,keyai,keytask,orders.length,,])
 
   const selectGroup = (item: Group) => {
     dispatch(actions.selectGroup(item))
@@ -211,7 +232,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
                   <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?( "Giao dịch "+totaldordershow ):"Total"}  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totaldordershow-totaldorderVnshow-totaldorderKrshow))}</span>
-                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderKrshow))}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderKrshow))}</span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{format1((totaldorderJpshow))}</span>
+                  </span>
+
                 </span>
                 <span  className='fw-bolder fs-3 mb-1'>
                   <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(9,9,9,0.68)",marginLeft:5}}>{isMobile==false?"Doanh thu ":"Revenue "}
@@ -222,13 +245,15 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
               <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(252,251,251,0.68)",marginLeft:5,marginTop:3}}>{isMobile==false?"Tổng chi ":""}<span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(129,207,253,0.66)",marginLeft:2,padding:3}}>{(-totalsubshow).toFixed(totalsubshow==0?0:2)}$</span>
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(-totalsubvnshow).toFixed(totalsubvnshow==0?0:2)}</span>
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((-totalsubshow+totalsubvnshow+totalsubkrshow).toFixed((-totalsubshow+totalsubvnshow+totalsubkrshow)==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((-totalsubshow+totalsubvnshow+totalsubkrshow+totalsubjpshow).toFixed((-totalsubshow+totalsubvnshow+totalsubkrshow+totalsubjpshow)==0?0:2))}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(-totalsubkrshow.toFixed(totalsubkrshow==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{(-totalsubjpshow.toFixed(totalsubjpshow==0?0:2))}</span>
                   </span>
                 <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(248,248,248,0.97)",marginLeft:5,marginTop:3}}>{isMobile==false?"Tổng hoàn ":""}<span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgba(250,185,103,0.97)",marginLeft:2,padding:3}}>{(totaladdshow).toFixed(totaladdshow==0?0:2)}$</span>
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totaladdvnshow).toFixed(totaladdvnshow==0?0:2)}</span>
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((totaladdshow-totaladdvnshow-totaladdkrshow).toFixed((totaladdshow-totaladdvnshow-totaladdkrshow)==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{((totaladdshow-totaladdvnshow-totaladdkrshow-totaladdjpshow).toFixed((totaladdshow-totaladdvnshow-totaladdkrshow-totaladdjpshow)==0?0:2))}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(totaladdkrshow.toFixed(totaladdkrshow==0?0:2))}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{(totaladdjpshow.toFixed(totaladdjpshow==0?0:2))}</span>
                   </span>
               </p>
             </div>
@@ -236,7 +261,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
         </div>
         <div className="page-header__content">
           <div className="align-items-center row" style={{backgroundColor:"white",fontWeight:"bold",margin:10}}>
-            <div style={{width:"70%"}}>
+            <div style={{width:"50%"}}>
               <div style={{float:"left",marginRight:10}}>
                 <DatePicker
                     value={startDate}
@@ -253,14 +278,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 />
               </div>
             </div>
-            <div style={{width:"30%"}}>
-              <button style={{height:40,margin:10,float:"right"}}
-                      onClick={() => {Export(list_orderhistory,nameExport)
-                      }}
-                      className='btn btn-success'
-              >
-                Export
-              </button>
+            <div style={{width:"50%"}}>
               {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
                   //onChange={(e) => setKeyRate(parseInt(e.target.value))}
                      onChange={(e) => {
@@ -278,6 +296,56 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           {item.user}</option>)
                   })
                 }
+
+              </Input>}
+              {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
+                  //onChange={(e) => setKeyRate(parseInt(e.target.value))}
+                                           onChange={(e) => {
+                                             setKeyTask(e.target.value)
+                                             setKeyTaskTrue(1)
+                                           }}
+                                           className="form-control form-control-solid"
+                                           type="select"
+                                           value={keytask}
+              >
+                <option key={""} value={""}>
+                  {"Task"}
+                </option>
+                <option key={"view"} value={"view"}>
+                  {"View"}
+                </option>
+                <option key={"comment"} value={"comment"}>
+                  {"Comment"}
+                </option>
+                <option key={"live"} value={"live"}>
+                  {"Live"}
+                </option>
+                <option key={"chat"} value={"chat"}>
+                  {"Chat"}
+                </option>
+              </Input>}
+              {role==='ROLE_ADMIN'&&<Input style={{margin:10,width:"auto",maxWidth:100,height:40,fontSize:12,backgroundColor:'#c0e1ce',color:"black",textAlign:"center",float:"right"}}
+                  //onChange={(e) => setKeyRate(parseInt(e.target.value))}
+                                           onChange={(e) => {
+                                             setKeyAi(parseInt(e.target.value))
+                                             setKeyAiTrue(1)
+                                           }}
+                                           className="form-control form-control-solid"
+                                           type="select"
+                                           value={keyai}
+              >
+                <option key={-1} value={-1}>
+                  {"All"}
+                </option>
+                <option key={0} value={0}>
+                  {"AI 0"}
+                </option>
+                <option key={1} value={1}>
+                  {"AI 1"}
+                </option>
+                <option key={2} value={2}>
+                  {"AI 2"}
+                </option>
 
               </Input>}
             </div>
@@ -319,7 +387,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
             <tbody>
               {orders &&
                 orders.map((order: OrderModel, index: number) => {
-                  if (keyusertrue==0&&keydate==0) {
+                  if((keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)&&keyusertrue==0&&keydate==1&&keytasktrue==0&&keyaitrue==0){
                     if(index===0){
                       totaldorder=1
                       if(order.balance>0){
@@ -330,6 +398,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
                         }
 
                       }else{
@@ -340,6 +411,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
                         }
                       }
                     }else{
@@ -352,71 +426,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
-                        }
-                      }else{
-                        totalsub=totalsub+order.balance
-                        console.log(totalsubvn)
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1+totaldorderkr
-                          totalsubkr=order.balance+totalsubkr
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1+totaldordervn
-                          totalsubvn=order.balance+totalsubvn
-                        }
-                      }
-                    }
-                    let orderitem = {
-                      id: totaldorder,
-                      balance: order.balance,
-                      totalbalance:order.totalbalance,
-                      time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
-                      user:order.user,
-                      note:order.note,
-                      service:order.service
-
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.id+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if(order.user.indexOf(keyuser)>=0 &&keyusertrue==1&&keydate==0){
-                    if(index===0){
-                      totaldorder=1
-                      if(order.balance>0){
-                        totaladd=order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1
-                          totaladdkr=order.balance
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1
-                          totaladdvn=order.balance
-                        }
-
-                      }else{
-                        totalsub=order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1
-                          totalsubkr=order.balance
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1
-                          totalsubvn=order.balance
-                        }
-                      }
-                    }else{
-                      totaldorder=totaldorder+1
-                      if(order.balance>0){
-                        totaladd=totaladd+order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1+totaldorderkr
-                          totaladdkr=order.balance+totaladdkr
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1+totaldordervn
-                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
                         }
                       }else{
                         totalsub=totalsub+order.balance
@@ -426,94 +438,34 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
                         }
                       }
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      balance: order.balance,
-                      totalbalance:order.totalbalance,
-                      time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
-                      user:order.user,
-                      note:order.note,
-                      service:order.service
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
 
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.id+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }else if((keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)&&keyusertrue==0&&keydate==1){
-                    if(index===0){
-                      totaldorder=1
-                      if(order.balance>0){
-                        totaladd=order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1
-                          totaladdkr=order.balance
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1
-                          totaladdvn=order.balance
-                        }
-
-                      }else{
-                        totalsub=order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1
-                          totalsubkr=order.balance
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1
-                          totalsubvn=order.balance
-                        }
                       }
-                    }else{
-                      totaldorder=totaldorder+1
-                      if(order.balance>0){
-                        totaladd=totaladd+order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1+totaldorderkr
-                          totaladdkr=order.balance+totaladdkr
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1+totaldordervn
-                          totaladdvn=order.balance+totaladdvn
-                        }
-                      }else{
-                        totalsub=totalsub+order.balance
-                        if(order.geo.indexOf("kr")>=0){
-                          totaldorderkr=1+totaldorderkr
-                          totalsubkr=order.balance+totalsubkr
-                        }else if(order.geo.indexOf("vn")>=0){
-                          totaldordervn=1+totaldordervn
-                          totalsubvn=order.balance+totalsubvn
-                        }
-                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      balance: order.balance,
-                      totalbalance:order.totalbalance,
-                      time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
-                      user:order.user,
-                      note:order.note,
-                      service:order.service
-
-                    }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.id+index.toString()}
-                            item={order}
-                        />
-                    )
-                  }
-                  else if(order.user.indexOf(keyuser)>=0 &&keyusertrue==1&&keydate==1&&
+                  }else if((keyuser.length>0?order.user.indexOf(keyuser)>=0:true) &&keyusertrue==1&&keydate==1&&keyaitrue==0&&keytasktrue==0&&
                       (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
                   ){
                     if(index===0){
@@ -526,6 +478,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
                         }
 
                       }else{
@@ -536,6 +491,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1
                           totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
                         }
                       }
                     }else{
@@ -548,6 +506,9 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
                         }
                       }else{
                         totalsub=totalsub+order.balance
@@ -557,30 +518,521 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                         }else if(order.geo.indexOf("vn")>=0){
                           totaldordervn=1+totaldordervn
                           totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
                         }
                       }
                     }
-                    let orderitem = {
-                      id: totaldorder,
-                      balance: order.balance,
-                      totalbalance:order.totalbalance,
-                      time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
-                      user:order.user,
-                      note:order.note,
-                      service:order.service
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
 
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
                     }
-                    list_orderhistory.push(orderitem)
-                    return (
-                        <OrderItem
-                            index={index}
-                            showEdit={role === 'ROLE_ADMIN'}
-                            key={order.id+index.toString()}
-                            item={order}
-                        />
-                    )
+                  }else if((keyai!=-1?order.ai==keyai:true) &&keyusertrue==0&&keydate==1&&keyaitrue==1&&keytasktrue==0&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                  }else if(order.task!=null&&(keytask.length>0?order.task.indexOf(keytask)>=0:true) &&keyusertrue==0&&keydate==1&&keyaitrue==0&&keytasktrue==1&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
                   }
-                    return null
+                  else if(order.task!=null&&(keytask.length>0?order.task.indexOf(keytask)>=0:true)&&(keyuser.length>0?order.user.indexOf(keyuser)>=0:true)&&keyusertrue==1&&keydate==1&&keyaitrue==0&&keytasktrue==1&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                  }
+                  else if(order.task!=null&&(keytask.length>0?order.task.indexOf(keytask)>=0:true)&&(keyai!=-1?order.ai==keyai:true) &&keyusertrue==0&&keydate==1&&keyaitrue==1&&keytasktrue==1&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                  }
+                  else if((keyuser.length>0?order.user.indexOf(keyuser)>=0:true)&&(keyai!=-1?order.ai==keyai:true) &&keyusertrue==1&&keydate==1&&keyaitrue==1&&keytasktrue==0&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                  }
+                  else if(order.task!=null&&(keytask.length>0?order.task.indexOf(keytask)>=0:true)&&(keyuser.length>0?order.user.indexOf(keyuser)>=0:true)&&(keyai!=-1?order.ai==keyai:true) &&keyusertrue==1&&keydate==1&&keyaitrue==1&&keytasktrue==1&&
+                      (keydatestart<=order.time&&order.time<=keydateend+24*60*60*1000-1)
+                  ){
+                    if(index===0){
+                      totaldorder=1
+                      if(order.balance>0){
+                        totaladd=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totaladdkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totaladdvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totaladdjp=order.balance
+                        }
+
+                      }else{
+                        totalsub=order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1
+                          totalsubkr=order.balance
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1
+                          totalsubvn=order.balance
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1
+                          totalsubjp=order.balance
+                        }
+                      }
+                    }else{
+                      totaldorder=totaldorder+1
+                      if(order.balance>0){
+                        totaladd=totaladd+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totaladdkr=order.balance+totaladdkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totaladdvn=order.balance+totaladdvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totaladdjp=order.balance+totaladdjp
+                        }
+                      }else{
+                        totalsub=totalsub+order.balance
+                        if(order.geo.indexOf("kr")>=0){
+                          totaldorderkr=1+totaldorderkr
+                          totalsubkr=order.balance+totalsubkr
+                        }else if(order.geo.indexOf("vn")>=0){
+                          totaldordervn=1+totaldordervn
+                          totalsubvn=order.balance+totalsubvn
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totaldorderjp=1+totaldorderjp
+                          totalsubjp=order.balance+totalsubjp
+                        }
+                      }
+                    }
+                    if(index<0){
+                      let orderitem = {
+                        id: totaldorder,
+                        balance: order.balance,
+                        totalbalance:order.totalbalance,
+                        time: new Date(order.time).toLocaleDateString('vn-VN') +" "+ new Date(order.time).toLocaleTimeString('vn-VN'),
+                        user:order.user,
+                        note:order.note,
+                        service:order.service
+
+                      }
+                      list_orderhistory.push(orderitem)
+                      return (
+                          <OrderItem
+                              index={index}
+                              showEdit={role === 'ROLE_ADMIN'}
+                              key={order.id+index.toString()}
+                              item={order}
+                          />
+                      )
+                    }
+                  }
+
+
+                  return null
                 })}
             </tbody>
             {/* end::Table body */}

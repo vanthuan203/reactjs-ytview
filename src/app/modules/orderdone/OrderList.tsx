@@ -55,12 +55,16 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totaltimeorderusshow, setTotalTimeOrderUsShow] = useState(0)
   let [totaltimeorderkr, setTotalTimeOrderKr] = useState(0)
   let [totaltimeorderkrshow, setTotalTimeOrderKrShow] = useState(0)
+  let [totaltimeorderjp, setTotalTimeOrderJp] = useState(0)
+  let [totaltimeorderjpshow, setTotalTimeOrderJpShow] = useState(0)
   let [totaltimebuffedorder, setTotalTimeBuffedOrder] = useState(0)
   let [totaltimebuffedordershow, setTotalTimeBuffedOrderShow] = useState(0)
   let [totaltimebuffedorderus, setTotalTimeBuffedOrderUs] = useState(0)
   let [totaltimebuffedorderusshow, setTotalTimeBuffedOrderUsShow] = useState(0)
   let [totaltimebuffedorderkr, setTotalTimeBuffedOrderKr] = useState(0)
   let [totaltimebuffedorderkrshow, setTotalTimeBuffedOrderKrShow] = useState(0)
+  let [totaltimebuffedorderjp, setTotalTimeBuffedOrderJp] = useState(0)
+  let [totaltimebuffedorderjpshow, setTotalTimeBuffedOrderJpShow] = useState(0)
   let [totaldorder, setTotalOrder] = useState(0)
   let [totaldordershow, setTotalOrderShow] = useState(0)
   let [totalmoney, setTotalMoney] = useState(0)
@@ -69,6 +73,8 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalmoneyUSshow, setTotalMoneyUSShow] = useState(0)
   let [totalmoneyKR, setTotalMoneyKR] = useState(0)
   let [totalmoneyKRshow, setTotalMoneyKRShow] = useState(0)
+  let [totalmoneyJP, setTotalMoneyJP] = useState(0)
+  let [totalmoneyJPshow, setTotalMoneyJPShow] = useState(0)
 
   let [totalthreadset, setTotalThreadSet] = useState(0)
   let [totalthreadsetshow, setTotalThreadSetShow] = useState(0)
@@ -76,18 +82,24 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
   let [totalthreadsetusshow, setTotalThreadSetUsShow] = useState(0)
   let [totalthreadkrset, setTotalThreadKrSet] = useState(0)
   let [totalthreadsetkrshow, setTotalThreadSetKrShow] = useState(0)
+  let [totalthreadjpset, setTotalThreadJpSet] = useState(0)
+  let [totalthreadsetjpshow, setTotalThreadSetJpShow] = useState(0)
   let [totalthread, setTotalThread] = useState(0)
   let [totalthreadshow, setTotalThreadShow] = useState(0)
   let [totalthreadus, setTotalThreadUs] = useState(0)
   let [totalthreadusshow, setTotalThreadUsShow] = useState(0)
   let [totalthreadkr, setTotalThreadKr] = useState(0)
   let [totalthreadkrshow, setTotalThreadKrShow] = useState(0)
+  let [totalthreadjp, setTotalThreadJp] = useState(0)
+  let [totalthreadjpshow, setTotalThreadJpShow] = useState(0)
   let [totalvn, setTotalVn] = useState(0)
   let [totalVnshow, setTotalVnShow] = useState(0)
   let [totalUs, setTotalUs] = useState(0)
   let [totalUsshow, setTotalUsShow] = useState(0)
   let [totalKr, setTotalKr] = useState(0)
   let [totalKrshow, setTotalKrShow] = useState(0)
+  let [totalJp, setTotalJp] = useState(0)
+  let [totalJpshow, setTotalJpShow] = useState(0)
 
 
   let [useEff, setuseEff] = useState(0)
@@ -170,13 +182,17 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totaltimeorderkr=0
     setTotalTimeOrderKr(0)
 
+    totaltimeorderjpshow=totaltimeorderjp
+    setTotalTimeOrderJpShow(totaltimeorderjpshow)
+    totaltimeorderjp=0
+    setTotalTimeOrderJp(0)
+
     totalmoneyshow=totalmoney
     setTotalMoneyShow(totalmoneyshow)
     setTotalMoney(0)
 
     totalthreadsetshow=totalthreadset
     setTotalThreadSetShow(totalthreadsetshow)
-    console.log("Thread SET "+totalthreadsetshow)
     setTotalThreadSet(0)
 
     totalthreadsetusshow=totalthreadusset
@@ -186,6 +202,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totalthreadsetkrshow=totalthreadkrset
     setTotalThreadSetKrShow(totalthreadsetkrshow)
     setTotalThreadKrSet(0)
+
+    totalthreadsetjpshow=totalthreadjpset
+    setTotalThreadSetJpShow(totalthreadsetjpshow)
+    setTotalThreadJpSet(0)
 
     totalthreadshow=totalthread
     setTotalThreadShow(totalthreadshow)
@@ -199,6 +219,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalThreadKrShow(totalthreadkrshow)
     setTotalThreadKr(0)
 
+    totalthreadjpshow=totalthreadjp
+    setTotalThreadJpShow(totalthreadjpshow)
+    setTotalThreadJp(0)
+
     totalVnshow=totalvn
     setTotalVnShow(totalVnshow)
     setTotalVn(0)
@@ -211,6 +235,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalKrShow(totalKrshow)
     setTotalKr(0)
 
+    totalJpshow=totalJp
+    setTotalJpShow(totalJpshow)
+    setTotalJp(0)
+
     totalmoneyUSshow=totalmoneyUS
     setTotalMoneyUSShow(totalmoneyUSshow)
     setTotalMoneyUS(0)
@@ -218,6 +246,10 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     totalmoneyKRshow=totalmoneyKR
     setTotalMoneyKRShow(totalmoneyKRshow)
     setTotalMoneyKR(0)
+
+    totalmoneyJPshow=totalmoneyJP
+    setTotalMoneyJPShow(totalmoneyJPshow)
+    setTotalMoneyJP(0)
 
     totaltimebuffedordershow=totaltimebuffedorder
     setTotalTimeBuffedOrderShow(totaltimebuffedordershow)
@@ -233,6 +265,11 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
     setTotalTimeBuffedOrderKrShow(totaltimebuffedorderkrshow)
     totaltimebuffedorderkr=0
     setTotalTimeBuffedOrderKr(0)
+
+    totaltimebuffedorderjpshow=totaltimebuffedorderjp
+    setTotalTimeBuffedOrderJpShow(totaltimebuffedorderjpshow)
+    totaltimebuffedorderjp=0
+    setTotalTimeBuffedOrderJp(0)
 
     if(useEff<=1){
       getcounttimeorder();
@@ -294,25 +331,30 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 <p style={{fontSize:11,marginTop:5}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
                   <span className='badge badge-success 1' style={{fontSize:12,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5}}>{isMobile==false?("Đang chạy " +totaldordershow):"Total Order"} <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{format1((totalVnshow))} </span><span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{format1((totalUsshow))}</span>
-                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totalKrshow))}</span></span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{format1((totalKrshow))}</span>
+                  <span className='badge badge-success 1' style={{fontSize:12,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{format1((totalJpshow))}</span>
+                  </span>
                 </span>
-                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalmoneyshow-totalmoneyUSshow-totalmoneyKRshow).toFixed(0)}$ </span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng tiền " +(totalmoneyshow.toFixed(0))):""}$ <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalmoneyshow-totalmoneyUSshow-totalmoneyKRshow-totalmoneyJPshow).toFixed(0)}$ </span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{(totalmoneyUSshow.toFixed(0))}$</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{(totalmoneyKRshow.toFixed(0))}$</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{(totalmoneyJPshow.toFixed(0))}$</span>
                   </span>
                 </p>
                 <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span  className='fw-bolder fs-3 mb-1'>
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng cấp " + ((totalthreadsetshow>=1000?(format1((totalthreadsetshow/1000))+"K "):(format1((totalthreadsetshow)))))):"Set"}
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)<1000?format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)):(format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)/1000)+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{(totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow)<1000?format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow-totalthreadsetjpshow)):(format1((totalthreadsetshow-totalthreadsetusshow-totalthreadsetkrshow-totalthreadsetjpshow)/1000)+"K")}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadsetusshow<1000?format1((totalthreadsetusshow)):(format1((totalthreadsetusshow/1000))+"K")}</span>
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totalthreadsetkrshow<1000?format1((totalthreadsetkrshow)):(format1((totalthreadsetkrshow/1000))+"K")}</span>
+                  <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{totalthreadsetjpshow<1000?format1((totalthreadsetjpshow)):(format1((totalthreadsetjpshow/1000))+"K")}</span>
                   </span>
 
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Luồng chạy " +((totalthreadshow)>=1000?(format1((totalthreadshow/1000))+"K "):(format1((totalthreadshow))))):"Run"}
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totalthreadshow-totalthreadusshow-totalthreadkrshow<1000?format1((totalthreadshow-totalthreadusshow-totalthreadkrshow)):(format1((totalthreadshow-totalthreadusshow-totalthreadkrshow)/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totalthreadshow-totalthreadusshow-totalthreadkrshow<1000?format1((totalthreadshow-totalthreadusshow-totalthreadkrshow-totalthreadjpshow)):(format1((totalthreadshow-totalthreadusshow-totalthreadkrshow-totalthreadjpshow)/1000)+"K")} </span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totalthreadusshow<1000?format1((totalthreadusshow)):(format1((totalthreadusshow/1000))+"K")}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totalthreadkrshow<1000?format1((totalthreadkrshow)):(format1((totalthreadkrshow/1000))+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{totalthreadjpshow<1000?format1((totalthreadjpshow)):(format1((totalthreadjpshow/1000))+"K")}</span>
                   </span>
 
                   </span>
@@ -320,15 +362,17 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 <p style={{fontSize:11}} className="fw-bold c-order__list">
                 <span className='fw-bolder fs-3 mb-1' >
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#090909",backgroundColor:"rgb(255,255,255)",marginLeft:5,marginTop:3}}>{isMobile==false?("Tổng đặt "+ ((totaltimeordershow)>=1000?(format1((totaltimeordershow/1000))+"K "):(format1((totaltimeordershow))))):"Quantity"}
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow<1000?format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)):(format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow<1000?format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow)):(format1((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow)/1000)+"K")} </span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow<1000?format1((totaltimeorderusshow)):(format1((totaltimeorderusshow/1000))+"K")}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totaltimeorderkrshow<1000?format1((totaltimeorderkrshow)):(format1((totaltimeorderkrshow/1000))+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{totaltimeorderjpshow<1000?format1((totaltimeorderjpshow)):(format1((totaltimeorderjpshow/1000))+"K")}</span>
                   </span>
 
                   <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"#26695c",marginLeft:5,marginTop:3}}>{isMobile==false?("Còn tồn "+ (((totaltimeordershow)-(totaltimebuffedordershow))>=1000?(format1(((totaltimeordershow)-(totaltimebuffedordershow))/1000)+"K "):(format1(((totaltimeordershow)-(totaltimebuffedordershow)))))):"Remains"}
-                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))<1000?format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))):(format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow))/1000)+"K")} </span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",marginLeft:2,padding:3}}>{((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow-totaltimebuffedorderjpshow))<1000?format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow-totaltimebuffedorderjpshow))):(format1(((totaltimeordershow-totaltimeorderusshow-totaltimeorderkrshow-totaltimeorderjpshow)-(totaltimebuffedordershow-totaltimebuffedorderusshow-totaltimebuffedorderkrshow-totaltimebuffedorderjpshow))/1000)+"K")} </span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",marginLeft:2,padding:3}}>{totaltimeorderusshow-totaltimebuffedorderusshow<1000?format1((totaltimeorderusshow-totaltimebuffedorderusshow)):(format1((totaltimeorderusshow-totaltimebuffedorderusshow)/1000)+"K")}</span>
                     <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",marginLeft:2,padding:3}}>{totaltimeorderkrshow-totaltimebuffedorderkrshow<1000?format1((totaltimeorderkrshow-totaltimebuffedorderkrshow)):(format1((totaltimeorderkrshow-totaltimebuffedorderkrshow)/1000)+"K")}</span>
+                    <span className='badge badge-success 1' style={{fontSize:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",marginLeft:2,padding:3}}>{totaltimeorderjpshow-totaltimebuffedorderjpshow<1000?format1((totaltimeorderjpshow-totaltimebuffedorderjpshow)):(format1((totaltimeorderjpshow-totaltimebuffedorderjpshow)/1000)+"K")}</span>
                   </span>
                   </span>
                 </p>
@@ -642,6 +686,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -666,6 +717,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -706,6 +764,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -730,6 +795,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -770,6 +842,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -794,6 +873,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -810,7 +896,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || key.indexOf(order.geo)>=0  ||  order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
+                    }else if((key.indexOf(order.videoid)>=0 || key.indexOf(order.geo)>=0  ||  order.note.indexOf(key)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0)&&keytrue==1&&keyusertrue==0&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -834,6 +920,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -858,6 +951,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -874,7 +974,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 ||  order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 ||  order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0|| order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0)&& Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate) &&keytrue==1&&keyusertrue==0&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -898,6 +998,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -922,6 +1029,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -962,6 +1076,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -986,6 +1107,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -1003,7 +1131,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0) && order.user.indexOf(keyuser)>=0 )&&keytrue==1&&keyusertrue==1&&keyratetrue==0){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -1027,6 +1155,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -1051,6 +1186,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {
@@ -1067,7 +1209,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.maxthreads.toString().indexOf(key.indexOf('th')>=0?key.replace('th',''):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
+                    }else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0) && order.user.indexOf(keyuser)>=0 && Math.round((Math.round(Number(order.viewtotal==null?0:order.viewtotal))/order.vieworder*100))>=keyrate)&&keytrue==1&&keyusertrue==1&&keyratetrue==1){
                       if(index===0){
                         totaldorder=1
                         totaltimeorder=order.vieworder
@@ -1091,6 +1233,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=order.maxthreads
                           totaltimeorderkr=order.vieworder
                           totaltimebuffedorderkr=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=order.price
+                          totalJp=1
+                          totalthreadjp=order.total
+                          totalthreadjpset=order.maxthreads
+                          totaltimeorderjp=order.vieworder
+                          totaltimebuffedorderjp=Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }else{
                         totaldorder=totaldorder+1
@@ -1115,6 +1264,13 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           totalthreadkrset=totalthreadkrset+order.maxthreads
                           totaltimeorderkr=totaltimeorderkr+order.vieworder
                           totaltimebuffedorderkr=totaltimebuffedorderkr+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
+                        }else if(order.geo.indexOf("jp")>=0){
+                          totalmoneyJP=totalmoneyJP+order.price
+                          totalJp=1+totalJp
+                          totalthreadjp=totalthreadjp+order.total
+                          totalthreadjpset=totalthreadjpset+order.maxthreads
+                          totaltimeorderjp=totaltimeorderjp+order.vieworder
+                          totaltimebuffedorderjp=totaltimebuffedorderjp+Math.round(Number(order.viewtotal==null?0:order.viewtotal))
                         }
                       }
                       let orderitem = {

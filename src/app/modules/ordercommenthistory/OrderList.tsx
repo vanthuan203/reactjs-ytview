@@ -491,7 +491,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
+                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0)
                         &&keytrue==1&&keyusertrue==0&&keydate==0){
                       if(index===0){
                         totaldorder=1
@@ -657,7 +657,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                               item={order}
                           />
                       )
-                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0)
+                    }else if((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0)
                         &&keytrue==1&&keyusertrue==0&&keydate==1&&
                         (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)
                     ){
@@ -715,7 +715,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0 )
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0) && order.user.indexOf(keyuser)>=0 )
                         &&keytrue==1&&keyusertrue==1&&keydate==0) {
                       if(index===0){
                         totaldorder=1
@@ -770,7 +770,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                           />
                       )
                     }
-                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf("vn")>=0&&order.service>=600 || key.indexOf("us")>=0&&order.service<600 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done')>=0) && order.user.indexOf(keyuser)>=0)
+                    else if(((key.indexOf(order.videoid)>=0 || order.note.indexOf(key)>=0  || key.indexOf(order.geo)>=0 || key.indexOf(order.orderid.toString()) >=0 || order.service.toString().indexOf(key.indexOf('?')>=0?key.replace('?',''):'done' )>=0 || order.live.toString().indexOf(key.indexOf('#live')>=0?key.replace('#live','1'):'done')>=0) && order.user.indexOf(keyuser)>=0)
                         &&keytrue==1&&keyusertrue==1&&keydate==1&&
                         (keydatestart<=order.enddate&&order.enddate<=keydateend+24*60*60*1000-1)) {
                       if(index===0){

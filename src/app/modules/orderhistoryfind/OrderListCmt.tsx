@@ -235,6 +235,23 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
     dispatch(actions.checkedAllChange(false))
   }
 
+  const clickRefund100 = () => {
+    const arr:string[]=[]
+    orders.forEach(item=>{
+      const myElem = list_orderhistory.find(value => value.orderid===item.orderid)
+      if(myElem && item.checked){
+
+        arr.push(item.orderid.toString())
+      }
+    })
+    const orderarr=arr.join(',')
+    if (window.confirm("Bạn chắc chắn muốn refund 100% "+arr.length+" đơn!") == true) {
+      dispatch(actions.requestUpdateCmt100(orderarr))
+    }
+    setChecked(false)
+    dispatch(actions.checkedAllChange(false))
+  }
+
   let  clickCopy = () => {
     const arr:string[]=[]
     copy=""
@@ -261,13 +278,23 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
             </div>
             <div className="col-lg-5 col-sm-12 text-right">
               { isShowFixMulti && role === "ROLE_ADMIN"&&(
-                  <button style={{marginRight:5}}
+                  <button style={{color:"white",marginRight:5,backgroundColor:"rgb(222,127,5)"}}
                           onClick={() => {
                             clickRefund()
                           }}
-                          className='btn btn-google'
+                          className='btn'
                   >
                     Refunds
+                  </button>
+              )}
+              { isShowFixMulti && role === "ROLE_ADMIN"&&(
+                  <button style={{marginRight:5}}
+                          onClick={() => {
+                            clickRefund100()
+                          }}
+                          className='btn btn-google'
+                  >
+                    Refunds 100%
                   </button>
               )}
               { isShowCopy && role === "ROLE_ADMIN"&&(
@@ -279,6 +306,7 @@ const OrderListCmt: React.FC<Props> = ({done,className, orders}) => {
 
               )}
             </div>
+
           </div>
         </div>
         <div className="page-header__content">

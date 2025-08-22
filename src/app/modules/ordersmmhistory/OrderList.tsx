@@ -388,7 +388,7 @@ const OrderList: React.FC<Props> = ({done,className, orders}) => {
                 <th className='min-w-50px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Mode</span>
                 </th>
-                <th className='min-w-250px text-sm'>
+                <th className='min-w-300px text-sm'>
                   <span style={{fontSize:12,color:"black"}} className='text-sm'>Info</span>
                 </th>
                 <th className='min-w-100px text-sm'>

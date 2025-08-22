@@ -20,6 +20,8 @@ export interface OrderModel {
   platform: string,
   mode: string,
   bonus:number,
+  bonus_check:number,
+  total_check: number,
   priority:number,
   update_current_time:number
   

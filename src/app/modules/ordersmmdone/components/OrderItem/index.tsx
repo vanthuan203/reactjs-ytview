@@ -112,29 +112,28 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index ,mobile}) => {
                     <br/>
                     <span>
                        <span style={{fontWeight:"bold",color:"gray"}} >Total: <span style={{color:"#090909"
-                       }}>{item.total}/{item.quantity+Math.round(item.bonus*item.quantity/100)} </span></span>
+                       }}>{item.total}/{item.total_check} </span></span>
                         <span style={{color:'white',fontSize:10,padding:2,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                            {Math.round((item.total/(item.quantity+Math.round(item.bonus*item.quantity/100)))*100)}%
+                            {Math.round((item.total/(item.total_check)*100))}%
                         </span>
                     </span>
-                        <br/>
+                    {item.check_count==1&&<br/>}
                     {item.check_count==1&&item.update_current_time>0&&<span>
                        <span style={{fontWeight:"bold",color:"gray"}} >Realtime: <span style={{color:"#090909"
-                       }}>{item.current_count-item.start_count}/{item.quantity+Math.round(item.bonus*item.quantity/100)} </span></span>
-                        <span style={{color:'white',fontSize:10,padding:2,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
-                            {Math.round(((item.current_count-item.start_count)/(item.quantity+Math.round(item.bonus*item.quantity/100)))*100)}%
+                       }}>{item.current_count-item.start_count}/{item.total_check} </span></span>
+                                                  <span style={{color:'white',fontSize:10,padding:2,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
+                            {Math.round((item.current_count-item.start_count)/item.total_check*100)}%
                         </span>
                     </span>}
-                    {item.check_count==1&&item.update_current_time==0&&<br/>}
                     {item.check_count==1&&item.update_current_time==0&&<span>
                        <span style={{fontWeight:"bold",color:"gray"}} >Realtime: <span style={{color:"#090909"
-                       }}>0/{item.quantity+Math.round(item.bonus*item.quantity/100)} </span></span>
+                       }}>0/{item.total_check} </span></span>
                         <span style={{color:'white',fontSize:10,padding:2,backgroundColor:"#03d96e",marginRight:5,marginBottom:5}} className='badge badge-success'>
                             0%
                         </span>
                     </span>}
                     <br/>
-                     <span style={{fontSize:10,color:"darkgray"}}>{item.order_link.trim()}</span>
+                     <span style={{wordBreak:"break-word",textAlign:"left",fontSize:10,color:"darkgray"}}>{item.order_link.trim()}</span>
                 </span>
 
             </td>
@@ -203,14 +202,14 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index ,mobile}) => {
             <td>
                 <span className='badge badge-success' style={{whiteSpace:"normal",textAlign:"left",maxWidth:100,color:'black',fontSize:11,fontWeight:'normal',backgroundColor:"white"}} >{item.note}</span>
             </td>
-            {role!="ROLE_USER"&&<td>
+            <td>
                 <div className='d-flex justify-content-end flex-shrink-0'>
-                    <button
+                    {role!="ROLE_USER"&&<button
                         onClick={clickUpdateHandler}
                         className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
                     >
                         <KTSVG path='/media/icons/duotune/art/art005.svg' className='svg-icon-3' />
-                    </button>
+                    </button>}
                     <button
                         onClick={clickDeleteHandler}
                         className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
@@ -218,7 +217,7 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index ,mobile}) => {
                         <KTSVG path='/media/icons/duotune/general/gen027.svg' className='svg-icon-3' />
                     </button>
                 </div>
-            </td>}
+            </td>
 
 
         </tr>

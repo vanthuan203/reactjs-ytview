@@ -161,6 +161,8 @@ const Topbar: FC = () => {
                             <span style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(218,30,30,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[1]:(parseInt(total_user.split(",")[1]).toFixed(0))):""}</span>
                             <span  style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(34,126,231,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[2]:(parseInt(total_user.split(",")[2]).toFixed(0))):""}</span>
                             <span  style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(3,37,80,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[3]:(parseInt(total_user.split(",")[3]).toFixed(0))):""}</span>
+                            <span  style={{textAlign:"center",fontSize:isMobile==false?11:11,color:"#fcfcfc",backgroundColor:"rgba(72,67,239,0.97)",padding:4,paddingRight:isMobile==false?7:2,paddingLeft:isMobile==false?6:2,flex: 1,alignItems: 'center',borderRadius:10,marginLeft:3}}>{total_user!=""?(isMobile==false?total_user.split(",")[4]:(parseInt(total_user.split(",")[4]).toFixed(0))):""}</span>
+
                         </div>
                     </button>
                 </div>

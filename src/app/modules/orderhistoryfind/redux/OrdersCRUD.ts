@@ -44,6 +44,10 @@ export async function updateOrderCmt(orderid:string) {
   const res:any = await getFunciton("videocomment/updateRefundHis?orderid="+orderid)
   return res
 }
+export async function updateOrderCmt100(orderid:string) {
+  const res:any = await getFunciton("videocomment/updateRefund100His?orderid="+orderid)
+  return res
+}
 
 export async function updateOrderFollwer(orderid:string) {
   const res:any = await getFunciton("channel_tiktok/updateRefundHis?orderid="+orderid)
