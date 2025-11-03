@@ -19,15 +19,19 @@ type Props = {
     close: () => void
 }
 const EditMulti: React.FC<Props> = ({ listvieoid,show,close }) => {
-    const role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
+    let role: string = useSelector<RootState>(({ auth }) => auth.user?.role, shallowEqual) as string || ""
     const username: string = useSelector<RootState>(({ auth }) => auth.user?.username, shallowEqual) as string || ""
     const balance: number = useSelector<RootState>(({ auth }) => auth.user?.balance, shallowEqual) as number || 0
     const adding: boolean = useSelector<RootState>(({ ordercomment }) => ordercomment.adding, shallowEqual) as boolean || false
     const groups: Group[] = useSelector<RootState>(({ ordercomment }) => ordercomment.groups, shallowEqual) as Group[] || []
     const orders: OrderModel[] = useSelector<RootState>(({ ordercomment }) => ordercomment.orders, shallowEqual) as OrderModel[] || []
 
+    if(role==="ROLE_SUPPORT"){
+        role="ROLE_ADMIN"
+    }
+
     const dispatch = useDispatch()
-    const [maxthreads, setMaxthreads] = useState(5)
+    const [maxthreads, setMaxthreads] = useState(1)
     const [videoid, setVideoid] = useState("")
     //const [list_video, setList_video] = useState("")
     //

@@ -81,6 +81,9 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Start <span style={{color:"black"}}>{item.commentstart}</span></span>
                     <span style={{ color:'black',fontSize:11,backgroundColor:"#c0e1ce",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Total <span style={{color:"#000000"}}>{item.commenttotal==null?0:item.commenttotal}</span></span>
                     <span style={{ color:'white',fontSize:11,backgroundColor:Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))>=100?"rgba(234,100,100,0.97)":"#26695c",marginRight:5,marginBottom:5}} className='badge badge-success 1'><span style={{color:"#fafafa"}}>{Math.round((Math.round(Number(item.commenttotal==null?0:item.commenttotal))/item.commentorder*100))+'%'}</span></span>
+                    {item.comment24h!=-1&&<span style={{ color:'white',fontSize:11,backgroundColor:(((item.comment24h-item.commentstart)>=item.commenttotal)&&(item.comment24h>=0))?"rgba(208,21,21,0.97)":((item.comment24h-item.commentstart<=0)&&(item.comment24h>=0))?"rgb(46,47,46)":"rgba(34,126,231,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success 1'>Current <span style={{color:"white"}}>{item.comment24h==null?0:item.comment24h}</span></span>}
+                    {item.comment24h!=-1&&<span style={{color:'white',fontSize:11,backgroundColor:(((item.comment24h-item.commentstart)>=item.commenttotal)&&(item.comment24h>=0))?"rgba(208,21,21,0.97)":((item.comment24h-item.commentstart<=0)&&(item.comment24h>=0))?"rgb(46,47,46)":"rgba(34,126,231,0.97)",marginRight:5,marginBottom:5}} className='badge badge-success'>{item.note}</span>}
+                    {item.comment_risk!=null&&item.comment_risk==1&&<span style={{color:'white',fontSize:11,backgroundColor:"#2e2f2e",marginRight:5,marginBottom:5}} className='badge badge-success'>?</span>}
                     <br/>
                 </span>
 
@@ -101,7 +104,6 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
                 {
                     <span style={{color:'black',fontWeight:"bold",fontSize:11,margin:5}} >{new Date(item.insertdate).toLocaleDateString('vn-VN').replace("/2025","") +" "+ new Date(item.insertdate).toLocaleTimeString('vn-VN')}</span>
                 }
-                <span style={{color:'white',fontSize:11,backgroundColor:"#b7080f"}} className='badge badge-success'>{item.note}</span>
 
             </td>
             <td>
@@ -124,9 +126,6 @@ const OrderItem: React.FC<Props> = ({ item, showEdit, index }) => {
 
             {
                 <td >
-                    <a href='#' onClick={clickUpdateHandler} className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm mr-5'>
-                        <KTSVG path='/media/icons/duotune/art/art005.svg' className='svg-icon-3' />
-                    </a>
                     {role==='ROLE_ADMIN'&&<a href='#' onClick={clickDeleteHandler} className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'>
                         <KTSVG path='/media/icons/duotune/general/gen027.svg' className='svg-icon-3' />
                     </a>}

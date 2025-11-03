@@ -16,6 +16,8 @@ export interface OrderModel {
   price:number,
   service:number,
   commentorder:number,
+  comment24h:number,
+  comment_risk:number,
   geo:string,
   ai:number,
   live:number,
